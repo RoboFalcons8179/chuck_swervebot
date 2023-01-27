@@ -15,10 +15,10 @@ public final class Constants {
 
     public static final class Swerve {
         public static final int pigeonID = 1;
-        public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
+        public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
         public static final COTSFalconSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+            COTSFalconSwerveConstants.SWERVEX(COTSFalconSwerveConstants.driveGearRatios.SWERVEX_L2);
 
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot

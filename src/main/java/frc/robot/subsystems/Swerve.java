@@ -16,7 +16,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.WPILibVersion;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
@@ -29,15 +28,12 @@ public class Swerve extends SubsystemBase {
         try {
             System.out.println("--------------");
             gyro = new AHRS(SPI.Port.kMXP); 
-            System.out.println(gyro.isConnected());
-            System.out.println(gyro.getAltitude());
 
             System.out.println("NavX plugged in");
             System.out.println("--------------");
 
 
         } catch (RuntimeException ex ) {
-            System.out.println("--------------");
             System.out.println("NavX not plugged in");
             System.out.println("--------------");
         }
@@ -79,6 +75,9 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
+
+        System.out.println(getYaw());
+
     }    
 
     /* Used by SwerveControllerCommand in Auto */
