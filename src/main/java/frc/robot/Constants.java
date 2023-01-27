@@ -17,7 +17,8 @@ public final class Constants {
         public static final int pigeonID = 1;
         public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
-        public static final COTSFalconSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
+        //TODO: This must be tuned to specific robot - CHECK TURN PID
+        public static final COTSFalconSwerveConstants chosenModule =  
             COTSFalconSwerveConstants.SWERVEX(COTSFalconSwerveConstants.driveGearRatios.SWERVEX_L2);
 
         /* Drivetrain Constants */
