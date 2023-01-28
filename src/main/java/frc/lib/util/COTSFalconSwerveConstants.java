@@ -128,6 +128,8 @@ public class COTSFalconSwerveConstants {
         /** SDS MK4i - 6.12 : 1 */
         public static final double SDSMK4i_L3 = (6.12 / 1.0);
 
+
+        // SWERVE_X TRADITIONAL FALCON - BALANCED SPEED
         public static final double SWERVEX_L2 = (7.13 / 1.0);
     }
 
