@@ -131,6 +131,28 @@ public final class Constants {
         }
     }
 
+    public static final class CamConstants {
+
+        // CONSTANTS FOR SETTING UP MAPPING and TRIG
+        
+        public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(24);
+        public static final double TARGET_HEIGHT_METERS = Units.feetToMeters(5);
+        public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
+        
+        public static final double GOAL_RANGE_METERS = Units.feetToMeters(3);
+
+        // PID constants should be tuned per robot
+        // from Tim - You can't calculate the SDOF loop from the camera (maybe) so the cam can take the 
+        // loop control
+        public static final double LINEAR_P = 0.1;
+        public static final double LINEAR_D = 0.0;
+
+        public static final double ANGULAR_P = 0.1;
+        public static final double ANGULAR_D = 0.0;
+
+
+    }
+
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
