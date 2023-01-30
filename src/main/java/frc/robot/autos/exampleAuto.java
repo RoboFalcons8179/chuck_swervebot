@@ -17,6 +17,17 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
+
+/*TODO: ORGANIZE THE AUTON.
+
+- Make quton able to take arbatrary lists of points
+- Make auton able to auto move the bot on auton command
+
+
+
+*/ 
+
+
 public class exampleAuto extends SequentialCommandGroup {
     public exampleAuto(Swerve s_Swerve){
         TrajectoryConfig config =
