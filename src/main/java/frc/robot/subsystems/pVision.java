@@ -51,6 +51,7 @@ public class pVision extends SubsystemBase {
             // Then Get rot speed
             rotDif = result.getBestTarget().getYaw();
 
+
         } else {
 
             // no target
@@ -59,6 +60,8 @@ public class pVision extends SubsystemBase {
             rotDif = 0;
 
         }
+
+
 
 
         // Then need to calculate commands. TBD Either send as a auton translation or
