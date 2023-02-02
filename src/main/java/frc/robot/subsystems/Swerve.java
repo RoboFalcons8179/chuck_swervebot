@@ -61,8 +61,8 @@ public class Swerve extends SubsystemBase {
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         
-        // Filter our teleop inputs
-        
+        // Filter our teleop inputs before we get it. We want to be able to command speeds
+        // and positions directly into the function.        
         
         // Assign and update the swerve
         SwerveModuleState[] swerveModuleStates =
@@ -78,6 +78,7 @@ public class Swerve extends SubsystemBase {
                                     translation.getY(), 
                                     rotation)
                                 );
+
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
         for(SwerveModule mod : mSwerveMods){
@@ -152,6 +153,7 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Overall X", swerveOdometry.getPoseMeters().getX());
         SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
         SmartDashboard.putNumber("Overall Theta", gyro.getYaw());
+        SmartDashboard.putBoolean("Field Centric", fieldRel);
     }
 
 
