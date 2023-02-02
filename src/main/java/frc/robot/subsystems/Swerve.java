@@ -22,6 +22,9 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public AHRS gyro;
+
+    // this bool is changed by the fieldToggle function. Should usually be true.
+    public boolean fieldRel = true;
     
     public Swerve() {
 
@@ -57,9 +60,14 @@ public class Swerve extends SubsystemBase {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+        
+        // Filter our teleop inputs
+        
+        
+        // Assign and update the swerve
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                fieldRel ?      ChassisSpeeds.fromFieldRelativeSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation, 
@@ -125,14 +133,31 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void fieldToggle() {
+        fieldRel = !fieldRel;
+    }
+
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
+
+        fieldRel = true;
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
+
+        SmartDashboard.putNumber("Overall X", swerveOdometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("Overall Theta", gyro.getYaw());
+    }
+
+
+    public double filterInput(double in) {
+
+        return in*in*in;
+
     }
 }
