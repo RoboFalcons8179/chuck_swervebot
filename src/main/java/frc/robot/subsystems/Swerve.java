@@ -24,10 +24,12 @@ public class Swerve extends SubsystemBase {
     public AHRS gyro;
 
     // this bool is changed by the fieldToggle function. Should usually be true.
-    public boolean fieldRel = true;
+    public boolean fieldRel;
     
     public Swerve() {
 
+        fieldRel = false;
+        
         try {
             System.out.println("--------------");
             gyro = new AHRS(SPI.Port.kMXP); 
@@ -83,8 +85,8 @@ public class Swerve extends SubsystemBase {
 
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
+            
         }
-
     }    
 
     /* Used by SwerveControllerCommand in Auto */
@@ -154,6 +156,8 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
         SmartDashboard.putNumber("Overall Theta", gyro.getYaw());
         SmartDashboard.putBoolean("Field Centric", fieldRel);
+
+
     }
 
 
