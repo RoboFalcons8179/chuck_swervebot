@@ -23,6 +23,8 @@ public class TeleopSwerve extends CommandBase {
 
     // Troubleshooting
     private BooleanSupplier atSpeed;
+    private boolean robotCent;
+    private boolean robotCenticSupLast;
 
 
 
@@ -37,6 +39,7 @@ public class TeleopSwerve extends CommandBase {
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
         this.robotCentricSup = robotCentricSup;
+        robotCent = false;
         
         // Troubleshooting
         this.atSpeed = atSpeed;
@@ -46,18 +49,31 @@ public class TeleopSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        /* Get Values, Deadband*/
+        
+        
+        /* Filter the control values*/
         double translationVal = s_Swerve.filterInput(MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband));
         double strafeVal = s_Swerve.filterInput(MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband));
         double rotationVal = s_Swerve.filterInput(MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband));
 
         
+        // Toggling Field Relitive
+            // IF the last button does not equal this button, and the last mode was false
+            // aka when the button is pressed, do this
+        if(robotCentricSup.getAsBoolean() != robotCenticSupLast && robotCenticSupLast == false) {
+
+            robotCent = !robotCent;
+
+        }
+
+        robotCenticSupLast = robotCentricSup.getAsBoolean();
+
         // Initalize Drive Translation 2D values. These are the speeds fed to the controller.
         // These are scaled by the MAX_SPEED and maxAngleVelocity in constants.        
         
         Translation2d setDriveTranslate = new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed);
         Double setDriveRotation = rotationVal * Constants.Swerve.maxAngularVelocity;
-        boolean isOpenLoop = true;
+        boolean isOpenLoop = false;
 
         // go straight forward
         if (atSpeed.getAsBoolean()) {
@@ -80,7 +96,7 @@ public class TeleopSwerve extends CommandBase {
         s_Swerve.drive(
             setDriveTranslate,
             setDriveRotation,
-            !robotCentricSup.getAsBoolean(), 
+            !robotCent, 
             isOpenLoop
         );
     }

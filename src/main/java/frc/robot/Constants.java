@@ -57,7 +57,7 @@ public final class Constants {
         public static final int driveContinuousCurrentLimit = 35;
         public static final int drivePeakCurrentLimit = 60;
         public static final double drivePeakCurrentDuration = 0.1;
-        public static final boolean driveEnableCurrentLimit = true;
+        public static final boolean driveEnableCurrentLimit = false;
 
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
@@ -71,10 +71,10 @@ public final class Constants {
         public static final double angleKF = 0;
     
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.032627; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.16; //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
-        public static final double driveKD = 0.0;
-        public static final double driveKF = 0.1;
+        public static final double driveKD = 0.3;
+        public static final double driveKF = 0.5;
 
         /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
@@ -89,7 +89,7 @@ public final class Constants {
         public static final double maxAngularVelocity = 1.5; //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
-        public static final NeutralMode angleNeutralMode = NeutralMode.Brake;//break
+        public static final NeutralMode angleNeutralMode = NeutralMode.Coast;//break
         public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
 
         /* Module Specific Constants */
@@ -128,7 +128,7 @@ public final class Constants {
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 8;
             public static final int canCoderID = 13;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(165.234);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(60.029);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -138,8 +138,8 @@ public final class Constants {
 
         // CONSTANTS FOR SETTING UP MAPPING and TRIG
         
-        public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(24);
-        public static final double TARGET_HEIGHT_METERS = Units.feetToMeters(5);
+        public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(13);
+        public static final double TARGET_HEIGHT_METERS = Units.inchesToMeters(17.5);
         public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
         
         public static final double GOAL_RANGE_METERS = Units.feetToMeters(3);
@@ -149,12 +149,12 @@ public final class Constants {
         
         // PID constants should be tuned per robot
 
-        public static final double LINEAR_P = 0.1;
+        public static final double LINEAR_P = .1;
         public static final double LINEAR_D = 0.0;
         public static final double LINEAR_I = 0.0;
 
 
-        public static final double ANGULAR_P = 0.1;
+        public static final double ANGULAR_P = .03;
         public static final double ANGULAR_D = 0.0;
         public static final double ANGULAR_I = 0.0;
 

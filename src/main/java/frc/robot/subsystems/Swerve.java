@@ -24,11 +24,11 @@ public class Swerve extends SubsystemBase {
     public AHRS gyro;
 
     // this bool is changed by the fieldToggle function. Should usually be true.
-    public boolean fieldRel;
-    
+    // public boolean fieldRel;
+    private boolean fieldRel;
+
     public Swerve() {
 
-        fieldRel = false;
         
         try {
             System.out.println("--------------");
@@ -65,11 +65,11 @@ public class Swerve extends SubsystemBase {
         
         // Filter our teleop inputs before we get it. We want to be able to command speeds
         // and positions directly into the function.        
-        
+        fieldRel = fieldRelative;
         // Assign and update the swerve
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                fieldRel ?      ChassisSpeeds.fromFieldRelativeSpeeds(
+                fieldRelative ?      ChassisSpeeds.fromFieldRelativeSpeeds(
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation, 
@@ -82,6 +82,10 @@ public class Swerve extends SubsystemBase {
                                 );
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
+
+        SmartDashboard.putNumber("chassis forward", translation.getX());
+        SmartDashboard.putNumber("chassis strafe", translation.getY());
+        SmartDashboard.putNumber("chassis turn", rotation);
 
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
@@ -136,15 +140,10 @@ public class Swerve extends SubsystemBase {
         }
     }
 
-    public void fieldToggle() {
-        fieldRel = !fieldRel;
-    }
-
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
 
-        fieldRel = true;
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());

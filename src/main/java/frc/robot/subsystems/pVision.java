@@ -32,7 +32,7 @@ public class pVision extends SubsystemBase {
 
     public pVision() {
 
-        camera = new PhotonCamera("photonvision");
+        camera = new PhotonCamera("OV5647");
 
         // ADD IN DEFINING POSE TRANSLATION STUFF HERE
 

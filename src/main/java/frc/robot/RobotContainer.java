@@ -70,10 +70,9 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+        
         /* Driver Buttons */
-
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        robotCentric.onTrue(new InstantCommand(() -> s_Swerve.fieldToggle()));
 
 
 
