@@ -3,7 +3,10 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -140,15 +143,20 @@ public final class Constants {
         public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
         
         public static final double GOAL_RANGE_METERS = Units.feetToMeters(3);
-
+        public static final double GOAL_OFSET_METERS = Units.feetToMeters(0);
+        public static final double GOAL_ANGLE_RAD = Units.degreesToRadians(0);
+        
+        
         // PID constants should be tuned per robot
-        // from Tim - You can't calculate the SDOF loop from the camera (maybe) so the cam can take the 
-        // loop control
+
         public static final double LINEAR_P = 0.1;
         public static final double LINEAR_D = 0.0;
+        public static final double LINEAR_I = 0.0;
+
 
         public static final double ANGULAR_P = 0.1;
         public static final double ANGULAR_D = 0.0;
+        public static final double ANGULAR_I = 0.0;
 
 
     }

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -30,7 +30,9 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value);
-
+    
+    
+    private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -39,6 +41,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -46,10 +49,15 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> -driver.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean(),
-                () -> goSpeed.getAsBoolean()
-                
+                () -> goSpeed.getAsBoolean()                
             )
         );
+
+
+        // untested goto commands.
+        goToTag.whileTrue(new chaseTag(s_Swerve, vision));
+        
+
 
         // Configure the button bindings
         configureButtonBindings();
@@ -63,8 +71,11 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
+
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        robotCentric.toggleOnTrue(new InstantCommand(() -> s_Swerve.fieldToggle()));
+        robotCentric.onTrue(new InstantCommand(() -> s_Swerve.fieldToggle()));
+
+
 
     }
 
