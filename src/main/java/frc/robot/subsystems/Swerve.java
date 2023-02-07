@@ -162,7 +162,7 @@ public class Swerve extends SubsystemBase {
 
     public double filterInput(double in) {
 
-        return in*in*in;
+        return in*in*in*0.33;
 
     }
 

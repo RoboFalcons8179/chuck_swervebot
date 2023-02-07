@@ -71,10 +71,10 @@ public final class Constants {
         public static final double angleKF = 0;
     
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.16; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.005; //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
-        public static final double driveKD = 0.3;
-        public static final double driveKF = 0.5;
+        public static final double driveKD = 0.0;
+        public static final double driveKF = 0.067;
 
         /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
@@ -84,9 +84,9 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 1; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 1.5; //TODO: This must be tuned to specific robot
         /** Radians per Second */
-        public static final double maxAngularVelocity = 1.5; //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 3.0; //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;//break
@@ -162,14 +162,14 @@ public final class Constants {
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 1.5;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 2;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*2;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 2;
+        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 6;
+        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*4;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 4;
     
-        public static final double kPXController = 1;
-        public static final double kPYController = 1;
-        public static final double kPThetaController = 1;
+        public static final double kPXController = 1.2;
+        public static final double kPYController = 3.25;
+        public static final double kPThetaController = 2;
     
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

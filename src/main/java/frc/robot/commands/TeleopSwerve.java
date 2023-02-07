@@ -84,7 +84,7 @@ public class TeleopSwerve extends CommandBase {
             isOpenLoop = false;
 
             
-            setDriveTranslate = new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed);
+            setDriveTranslate = new Translation2d(translationVal, strafeVal);
             setDriveRotation = rotationVal * Constants.Swerve.maxAngularVelocity;
 
         }
