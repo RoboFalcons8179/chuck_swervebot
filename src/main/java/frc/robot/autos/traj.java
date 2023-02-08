@@ -19,11 +19,17 @@ import frc.robot.Constants;
  * otherwise it will bog down the robot loops for traj calculations  */
 public final class traj {
 
-
+        // This is the default config - Feel free to change it!!!!! Pass it on in place of the config 
+        // Variable in the Trajectory.
         public final static TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                     Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                .setKinematics(Constants.Swerve.swerveKinematics);
+
+
+        public final static TrajectoryConfig slowAndSteady = 
+            new TrajectoryConfig(2, 2)
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
         // not th real example. pulled from development ExampleAuto.

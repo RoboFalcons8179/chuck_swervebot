@@ -20,6 +20,7 @@ public class doTrajectory extends SequentialCommandGroup {
   public doTrajectory(Swerve s_Swerve, Trajectory traj) {
     // Use addRequirements() here to declare subsystem dependencies.
 
+    addRequirements(s_Swerve);
 
     var thetaController =
     new ProfiledPIDController(
