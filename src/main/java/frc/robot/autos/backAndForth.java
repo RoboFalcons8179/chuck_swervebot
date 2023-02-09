@@ -21,8 +21,7 @@ public class backAndForth extends SequentialCommandGroup {
       new doTrajectory(s_Swerve, traj.makeZ));
 
 
-      new doTrajectory(s_Swerve, traj.makeZFlipped);
-
+    addCommands( new doTrajectory(s_Swerve, traj.makeZFlipped));
 
   }
 }
