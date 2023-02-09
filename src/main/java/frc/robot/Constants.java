@@ -156,14 +156,22 @@ public final class Constants {
             
         // PID constants should be tuned per robot
 
-        public static final double LINEAR_P = 3.0;
+        public static final double LINEAR_P = 0.2;
         public static final double LINEAR_D = 0.0;
         public static final double LINEAR_I = 0.0;
 
 
-        public static final double ANGULAR_P = 3.0;
+        public static final double ANGULAR_P = 1.0;
         public static final double ANGULAR_D = 0.0;
         public static final double ANGULAR_I = 0.0;
+
+
+        public static final double kMaxSpeedMetersPerSecond = 2;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 2;
+
+        public static final double kMaxAngularSpeedRadiansPerSecond = 3;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 2;
+
 
 
     }
