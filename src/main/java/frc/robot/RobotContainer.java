@@ -55,7 +55,7 @@ public class RobotContainer {
 
 
         // untested goto commands.
-        goToTag.whileTrue(new chaseTag(s_Swerve, vision));
+        goToTag.whileTrue(new chaseTagV2(vision.camera, s_Swerve));
         
 
 

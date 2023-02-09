@@ -33,6 +33,7 @@ public class pVision extends SubsystemBase {
     public pVision() {
 
         camera = new PhotonCamera("OV5647");
+        camera.setPipelineIndex(1);
 
         // ADD IN DEFINING POSE TRANSLATION STUFF HERE
 
@@ -78,6 +79,8 @@ public class pVision extends SubsystemBase {
             
             rangeDif = 0;
             rotDif = 0;
+
+            currentRobotPose = new Pose2d(0,0, new Rotation2d(0));
 
         }
 

@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -145,16 +146,22 @@ public final class Constants {
         public static final double GOAL_RANGE_METERS = Units.feetToMeters(3);
         public static final double GOAL_OFSET_METERS = Units.feetToMeters(0);
         public static final double GOAL_ANGLE_RAD = Units.degreesToRadians(0);
-        
-        
+
+    /**
+         * Physical location of the apriltag camera on the robot, relative to the center of the robot.
+         */
+        public static final Transform3d CAMERA_TO_ROBOT =
+            new Transform3d(new Translation3d(Units.inchesToMeters(6), Units.inchesToMeters(4), CAMERA_HEIGHT_METERS), new Rotation3d());
+        public static final Transform3d ROBOT_TO_CAMERA = CAMERA_TO_ROBOT.inverse();        
+            
         // PID constants should be tuned per robot
 
-        public static final double LINEAR_P = .1;
+        public static final double LINEAR_P = 3.0;
         public static final double LINEAR_D = 0.0;
         public static final double LINEAR_I = 0.0;
 
 
-        public static final double ANGULAR_P = .03;
+        public static final double ANGULAR_P = 3.0;
         public static final double ANGULAR_D = 0.0;
         public static final double ANGULAR_I = 0.0;
 

@@ -100,7 +100,11 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
-    }    
+    } 
+    
+    public void stop() {
+        drive( new Translation2d(0,0),0,false,false);
+    }
 
     public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
