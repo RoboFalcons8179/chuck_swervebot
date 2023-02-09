@@ -24,9 +24,9 @@ import frc.robot.subsystems.Swerve;
 
 public class chaseTagV2 extends CommandBase {
   
-      private static final TrapezoidProfile.Constraints X_CONSTRAINTS = new TrapezoidProfile.Constraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
-      private static final TrapezoidProfile.Constraints Y_CONSTRAINTS = new TrapezoidProfile.Constraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
-      private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =   new TrapezoidProfile.Constraints(Constants.AutoConstants.kMaxAngularSpeedRadiansPerSecond, Constants.AutoConstants.kMaxAngularSpeedRadiansPerSecond);
+      private static final TrapezoidProfile.Constraints X_CONSTRAINTS = new TrapezoidProfile.Constraints(Constants.CamConstants.kMaxSpeedMetersPerSecond, Constants.CamConstants.kMaxAccelerationMetersPerSecondSquared);
+      private static final TrapezoidProfile.Constraints Y_CONSTRAINTS = new TrapezoidProfile.Constraints(Constants.CamConstants.kMaxSpeedMetersPerSecond, Constants.CamConstants.kMaxAccelerationMetersPerSecondSquared);
+      private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =   new TrapezoidProfile.Constraints(Constants.CamConstants.kMaxAngularSpeedRadiansPerSecond, Constants.CamConstants.kMaxAngularSpeedRadiansPerSecondSquared);
       
       private final ProfiledPIDController xController = new ProfiledPIDController(Constants.CamConstants.LINEAR_P, Constants.CamConstants.LINEAR_I, Constants.CamConstants.LINEAR_D, X_CONSTRAINTS);
       private final ProfiledPIDController yController = new ProfiledPIDController(Constants.CamConstants.LINEAR_P, Constants.CamConstants.LINEAR_I, Constants.CamConstants.LINEAR_D, Y_CONSTRAINTS);
