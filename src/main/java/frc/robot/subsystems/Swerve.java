@@ -156,13 +156,24 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Overall Theta", gyro.getYaw());
         SmartDashboard.putBoolean("Field Centric", fieldRel);
 
+        SmartDashboard.putNumber("GYRO X ACCEL", gyro.getRawAccelX());
+        SmartDashboard.putNumber("GYRO Y ACCEL", gyro.getRawAccelY());
+        SmartDashboard.putNumber("GYRO Z ACCEL", gyro.getRawAccelZ());
+
+        SmartDashboard.putNumber("AccelMag", Math.sqrt(
+            Math.pow(gyro.getRawAccelX(), 2) +
+            Math.pow(gyro.getRawAccelY(), 2) +
+            Math.pow(gyro.getRawAccelZ(), 2)));
+            
+        
+
 
     }
 
 
     public double filterInput(double in) {
 
-        return in*in*in*0.33;
+        return in*in*in;
 
     }
 
