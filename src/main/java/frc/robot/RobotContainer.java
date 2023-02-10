@@ -30,7 +30,7 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value);
-    
+    private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
 
@@ -73,7 +73,7 @@ public class RobotContainer {
         
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-
+        counterAccel.whileTrue(new balanceAuto(s_Swerve));
 
 
     }
