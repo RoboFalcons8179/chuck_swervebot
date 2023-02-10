@@ -150,37 +150,35 @@ public class RobotContainer {
       
     
 
-    
-
-
     public Command getAutonomousCommand() {
 
         // First, find the info that we need to choose the command.
 
-        int thisCmd = (int) autoCommand.getInteger(0);
+        String thisCmd =  autoCommand.getString("ALPHA");
         double thisDelay =     autoDelay.getDouble(0);
         boolean thisLock =  autoHold.getBoolean(false);
 
+        // Initalize the command
         Command cmd = new WaitCommand(thisDelay);
 
         // It may be worth making all the different traj's into their own command files.
         // otherwise, look into using the .andThen / .parrallel / .raceParallel cmd compositions.
 
-        switch (thisCmd) {
-            case 0:
+        switch (thisCmd.charAt(0)) {
+            case 'A':
                 // default trajectory
                 cmd.andThen(new backAndForth(s_Swerve));
 
-            case 1:
+            case 'B':
                 // secondary traj
 
                cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleLeft));
 
-            case 2:
+            case 'C':
                 // 3rd traj
                 cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleRight));
 
-            case 3:
+            case 'D':
                 // 4th traj
 
                 cmd.andThen(new doTrajectory(s_Swerve, traj.exampleTrajectory));
@@ -189,7 +187,10 @@ public class RobotContainer {
 
             default:
 
+                // Always have a backup plan. Don't rely on the shuffleboard.
+
                 new backAndForth(s_Swerve);
+
             break;
         }
 
@@ -199,7 +200,6 @@ public class RobotContainer {
         // In this case, we need to do testning to see if we should lock the wheels or continue to be in "balance" mode.
         // Would reccommend for auto balance, then lock. Do not move after. 
         // Another bot can ram into the side after we are already up and you will end up on top of it.
-
         // if another bot wants to get up there, it can get up and try to push us.
 
 
