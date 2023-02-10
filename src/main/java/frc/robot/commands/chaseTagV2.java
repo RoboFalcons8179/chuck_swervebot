@@ -36,7 +36,7 @@ public class chaseTagV2 extends CommandBase {
   private static int TAG_TO_CHASE;
   private static final Transform3d TAG_TO_GOAL = 
       new Transform3d(
-          new Translation3d(1.5, 0.0, 0.0),
+          new Translation3d(Constants.CamConstants.GOAL_RANGE_METERS, 0.0, 0.0),
           new Rotation3d(0.0, 0.0, Math.PI));
 
   private final PhotonCamera photonCamera;
@@ -48,6 +48,8 @@ public class chaseTagV2 extends CommandBase {
   public boolean xAtGoal;
   public boolean yAtGoal;
   public boolean rAtGoal;
+  public boolean lostTarget;
+
 
   public chaseTagV2(
         PhotonCamera photonCamera, 
@@ -127,6 +129,7 @@ public class chaseTagV2 extends CommandBase {
     if (lastTarget == null) {
       // No target has been visible
       drivetrainSubsystem.stop();
+      lostTarget = true;
     } else {
       // calculate
       var xSpeed = xController.calculate(robotPose.getX());
@@ -176,6 +179,13 @@ public class chaseTagV2 extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     drivetrainSubsystem.stop();
+  }
+
+  @Override
+  public boolean isFinished() {
+
+    return (xAtGoal && yAtGoal && rAtGoal) || lostTarget;
+
   }
 
 }
