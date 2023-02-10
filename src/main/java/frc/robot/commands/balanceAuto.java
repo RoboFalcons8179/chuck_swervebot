@@ -18,14 +18,26 @@ public class balanceAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new Balance(s_Swerve),
       
-      new WaitCommand(0.3),
+      new Balance(s_Swerve).withTimeout(0.3),
 
       new InstantCommand(() -> s_Swerve.stop()),
       
-      new WaitCommand(1)
-    );
+      new WaitCommand(10).until(() -> (s_Swerve.isRobotStill())) );
+
+
+      if (s_Swerve.isRobotLevel()) {
+
+        addCommands(new swerveLockPosition(s_Swerve, 0)); //need to take angle from going up the ramps
+
+        this.end(true); // <- Ends this entire sequential command.
+      }
+      
+
+      // From Tim: consider an add in a turn the wheels apart (or 90 degrees) 
+      // command to the Swerve system that would help prevent movement. 
+
+      // Also look at Swerve.driveManual and Swerve.driveExtraManual
   }
-  
+
 }

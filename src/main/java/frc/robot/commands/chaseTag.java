@@ -198,7 +198,7 @@ public class chaseTag extends CommandBase {
 
 
     // TroubleShooting
-
+    Shuffleboard.selectTab("TAG CHASE");
     SmartDashboard.putNumber("Robot range", difference.getX() );
     SmartDashboard.putNumber("ROBOT strafe",difference.getY());
     SmartDashboard.putNumber("ROBOT ANGLE", currentRobotPose.getRotation().getRadians());

@@ -1,11 +1,24 @@
 package frc.robot;
 
+import java.util.Map;
+
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.event.NetworkBooleanEvent;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
@@ -38,6 +51,13 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final pVision vision = new pVision();
 
+    /* Troubleshooting, Auto, and Shuffleboard */
+    private final SendableChooser<Command> commandChooser = new SendableChooser<>();
+    private GenericEntry autoCommand;
+    private GenericEntry autoDelay;
+    private GenericEntry autoHold;
+    
+
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -55,12 +75,17 @@ public class RobotContainer {
 
 
         // untested goto commands.
-        goToTag.whileTrue(new chaseTagV2(vision.camera, s_Swerve));
         
 
 
         // Configure the button bindings
         configureButtonBindings();
+
+        // run shuffleboard essentials
+        runShuffleboardGetInfo();
+
+        // run the shuffleboard
+        runTroubleshooting();
     }
 
     /**
@@ -73,18 +98,120 @@ public class RobotContainer {
         
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        counterAccel.whileTrue(new balanceAuto(s_Swerve));
+
+        goToTag.whileTrue(new chaseTagV2(vision.camera, s_Swerve));
+
+        counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
 
 
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
+    // Runs a ton of smart dashboard commands. Lets you track status of commands.
+    private void runTroubleshooting() {
+
+        Shuffleboard.selectTab("MAIN");
+        SmartDashboard.putData(s_Swerve);
+        SmartDashboard.putData(vision);
+
+        // // This section will send commands to the shuffleboard. 
+        // We will probably need to disable the bandwidth limitations.
+
+        // commandChooser.setDefaultOption("Foo", new fooCommand());
+        // commandChooser.addOption("Bar", new BarCommand());
+        commandChooser.addOption("Lock Wheels", new swerveLockPosition(s_Swerve, 0.0));
+
+
+    }
+
+
+    private void runShuffleboardGetInfo() {
+        
+        autoCommand = Shuffleboard.getTab("MAIN")
+        .addPersistent("AUTON COMMAND", "ALPHA")
+        .withWidget(BuiltInWidgets.kComboBoxChooser)
+        .getEntry();
+
+        autoDelay = Shuffleboard.getTab("MAIN")
+        .addPersistent("AUTON DELAY", 0)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min", 0, "max", 3))
+        .getEntry();
+      
+        autoHold = Shuffleboard.getTab("MAIN")
+        .addPersistent("AUTON LOCK WHEELS", false)
+        .withWidget(BuiltInWidgets.kToggleSwitch)
+        .getEntry();
+      
+                
+
+  
+    }
+
+      
+    
+
+    
+
+
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-            return new backAndForth(s_Swerve);
+
+        // First, find the info that we need to choose the command.
+
+        int thisCmd = (int) autoCommand.getInteger(0);
+        double thisDelay =     autoDelay.getDouble(0);
+        boolean thisLock =  autoHold.getBoolean(false);
+
+        Command cmd = new WaitCommand(thisDelay);
+
+        // It may be worth making all the different traj's into their own command files.
+        // otherwise, look into using the .andThen / .parrallel / .raceParallel cmd compositions.
+
+        switch (thisCmd) {
+            case 0:
+                // default trajectory
+                cmd.andThen(new backAndForth(s_Swerve));
+
+            case 1:
+                // secondary traj
+
+               cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleLeft));
+
+            case 2:
+                // 3rd traj
+                cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleRight));
+
+            case 3:
+                // 4th traj
+
+                cmd.andThen(new doTrajectory(s_Swerve, traj.exampleTrajectory));
+
+            break;
+
+            default:
+
+                new backAndForth(s_Swerve);
+            break;
+        }
+
+        // and keep adding commands
+        // cmd.andThen(null)
+
+        // In this case, we need to do testning to see if we should lock the wheels or continue to be in "balance" mode.
+        // Would reccommend for auto balance, then lock. Do not move after. 
+        // Another bot can ram into the side after we are already up and you will end up on top of it.
+
+        // if another bot wants to get up there, it can get up and try to push us.
+
+
+
+        if (thisLock) {
+            cmd.andThen(new swerveLockPosition(s_Swerve,0));
+        }
+                
+
+        return cmd;
+
     }
+
+
 }

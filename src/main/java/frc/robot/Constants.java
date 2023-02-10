@@ -17,6 +17,7 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
+
     public static final class Swerve {
         public static final int pigeonID = 1;  
         public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
@@ -190,5 +191,24 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+
+    public static final class kBalance {
+
+        public static final double StillThreshold = 0.2; // in G's
+        public static final double BalanceAccelThreshold = 0.2; // In G's
+        public static final double power = 0.1; // Speed demanded to the wheels, relitive to MAX Speed.
+
+        // Averaging window for accels when determining if the robot is still. 
+        // total time of averaging ~= 0.02s * averageWindow.
+        // should absolutely be not be more than 30 (or 0.60 second averaging window).
+        // Note that this is not the witing time - this is the amount of time it must be still
+        // before it moves.
+        public static final int averageWindow = 10;
+
+
+
+
     }
 }

@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
@@ -32,7 +33,7 @@ public class chaseTagV2 extends CommandBase {
       private final ProfiledPIDController yController = new ProfiledPIDController(Constants.CamConstants.LINEAR_P, Constants.CamConstants.LINEAR_I, Constants.CamConstants.LINEAR_D, Y_CONSTRAINTS);
       private final ProfiledPIDController omegaController = new ProfiledPIDController(Constants.CamConstants.ANGULAR_P, Constants.CamConstants.ANGULAR_I, Constants.CamConstants.ANGULAR_D, OMEGA_CONSTRAINTS);
 
-  private static final int TAG_TO_CHASE = 2;
+  private static int TAG_TO_CHASE;
   private static final Transform3d TAG_TO_GOAL = 
       new Transform3d(
           new Translation3d(1.5, 0.0, 0.0),
@@ -43,6 +44,10 @@ public class chaseTagV2 extends CommandBase {
 
   
   private PhotonTrackedTarget lastTarget;
+
+  public boolean xAtGoal;
+  public boolean yAtGoal;
+  public boolean rAtGoal;
 
   public chaseTagV2(
         PhotonCamera photonCamera, 
@@ -56,6 +61,14 @@ public class chaseTagV2 extends CommandBase {
     omegaController.setTolerance(Units.degreesToRadians(3));
     omegaController.enableContinuousInput(-Math.PI, Math.PI);
 
+    var photonRes = photonCamera.getLatestResult();
+    if (photonRes.hasTargets()) {
+
+      TAG_TO_CHASE = photonRes.getBestTarget().getFiducialId();
+
+    } else{}
+
+
   }
 
   @Override
@@ -65,11 +78,14 @@ public class chaseTagV2 extends CommandBase {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
+
+
+
   }
 
   @Override
   public void execute() {
-    var robotPose2d = drivetrainSubsystem.getPose();
+    var robotPose2d = new Pose2d();
     var robotPose = 
         new Pose3d(
             robotPose2d.getX(),
@@ -78,6 +94,8 @@ public class chaseTagV2 extends CommandBase {
             new Rotation3d(0.0, 0.0, robotPose2d.getRotation().getRadians()));
     
     var photonRes = photonCamera.getLatestResult();
+
+    
     if (photonRes.hasTargets()) {
       // Find the tag we want to chase
       var targetOpt = photonRes.getTargets().stream()
@@ -110,24 +128,48 @@ public class chaseTagV2 extends CommandBase {
       // No target has been visible
       drivetrainSubsystem.stop();
     } else {
-      // Drive to the target
+      // calculate
       var xSpeed = xController.calculate(robotPose.getX());
-      if (xController.atGoal()) {
+      var ySpeed = yController.calculate(robotPose.getY());
+      var omegaSpeed = omegaController.calculate(robotPose2d.getRotation().getRadians());
+
+
+      if(xAtGoal) {
         xSpeed = 0;
       }
-
-      var ySpeed = yController.calculate(robotPose.getY());
-      if (yController.atGoal()) {
+      if(yAtGoal) {
         ySpeed = 0;
       }
-
-      var omegaSpeed = omegaController.calculate(robotPose2d.getRotation().getRadians());
-      if (omegaController.atGoal()) {
+      if(rAtGoal) {
         omegaSpeed = 0;
       }
 
       drivetrainSubsystem.drive(
          new Translation2d(xSpeed, ySpeed), omegaSpeed, false,true);
+
+
+
+      // Troubleshoot
+
+      
+      SmartDashboard.putNumber("Robot range", robotPose.getX() );
+      SmartDashboard.putNumber("ROBOT strafe",robotPose.getY());
+      SmartDashboard.putNumber("ROBOT ANGLE", robotPose2d.getRotation().getRadians());
+
+      SmartDashboard.putNumber("XSPEEDCMD", xSpeed);
+      SmartDashboard.putNumber("YSPEEDCMD", ySpeed);
+      SmartDashboard.putNumber("OMEGASPEEDCMD", omegaSpeed );
+
+      SmartDashboard.putBoolean("X_CONTROLLER_AT_GOAL", xAtGoal);
+      SmartDashboard.putBoolean("Y_CONTROLLER_AT_GOAL", yAtGoal);
+      SmartDashboard.putBoolean("R_CONTROLLER_AT_GOAL", rAtGoal);
+
+      SmartDashboard.putData(xController);
+      SmartDashboard.putData(yController);
+      SmartDashboard.putData(omegaController);
+
+
+      
     }
   }
 

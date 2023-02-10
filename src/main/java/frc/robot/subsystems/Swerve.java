@@ -9,12 +9,13 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,6 +27,19 @@ public class Swerve extends SubsystemBase {
     // this bool is changed by the fieldToggle function. Should usually be true.
     // public boolean fieldRel;
     private boolean fieldRel;
+
+
+    // Gyro readings. will pull 10 most recent world readings for X, Y, and Z. 
+    // Then does DSP magic (aka averaging) to pull out if the robot is truly still.
+
+    private LinearFilter xAccfilter = LinearFilter.movingAverage(Constants.kBalance.averageWindow);
+    private LinearFilter yAccfilter = LinearFilter.movingAverage(Constants.kBalance.averageWindow);
+    private LinearFilter zAccfilter = LinearFilter.movingAverage(Constants.kBalance.averageWindow);
+    
+    double xAcc;
+    double yAcc;
+    double zAcc;
+
 
     public Swerve() {
 
@@ -91,7 +105,37 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
             
         }
-    }    
+    }
+    
+    
+
+    public void drive_Manually(double speed, Rotation2d angle) {
+        // MANUAL MOVEMENT OF BOT. 
+
+        SwerveModuleState[] states = new SwerveModuleState[4];
+
+
+        for(SwerveModule mod : mSwerveMods){
+            
+            states[mod.moduleNumber] = new SwerveModuleState(speed, angle);
+            mod.setDesiredState(states[mod.moduleNumber], false);
+            
+        }
+
+
+    }
+
+
+    public void driveExtraManual(SwerveModuleState[] states) {
+        // probably shouldnt be using this.
+
+
+        for(SwerveModule mod : mSwerveMods){
+            mod.setDesiredState(states[mod.moduleNumber], false);
+        }
+
+    }
+
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -144,10 +188,50 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+
+    public boolean isRobotStill() {
+
+        boolean out = false;
+
+        if (
+            xAcc <= Constants.kBalance.StillThreshold &&
+            yAcc <= Constants.kBalance.StillThreshold && 
+            zAcc <= Constants.kBalance.StillThreshold) {
+            out = true;
+        }
+
+        return out;
+    }
+
+    public boolean isRobotLevel() {
+        // remember zAcc is filtered.
+        return zAcc <= Constants.kBalance.BalanceAccelThreshold; // ALL ACCELERATION IN G's
+    }
+
+    // From Zack's math. finds the angle between gravity and the plane of the Bot, then
+    // the angle or the swerve wheels are required to be to point it in the right direction for balencing.
+    // In RADs
+    public double pointingUpAngle() {
+
+            return Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2)));
+
+    }
+
+
+
+
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
 
+        // SWERVE GYRO FILTERING - USED FOR BALENCING
+        xAcc = xAccfilter.calculate(gyro.getWorldLinearAccelX());
+        yAcc = yAccfilter.calculate(gyro.getWorldLinearAccelY());
+        zAcc = zAccfilter.calculate(gyro.getWorldLinearAccelZ());
+
+
+        /// TROUBLESHOOTING
+        Shuffleboard.selectTab("SWERVE");
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
@@ -164,13 +248,20 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("GYRO Y ACCEL", gyro.getRawAccelY());
         SmartDashboard.putNumber("GYRO Z ACCEL", gyro.getRawAccelZ());
 
+        SmartDashboard.putNumber("GYRO X WORLD ACCEL", gyro.getWorldLinearAccelX());
+        SmartDashboard.putNumber("GYRO Y WORLD ACCEL", gyro.getWorldLinearAccelY());
+        SmartDashboard.putNumber("GYRO Z WORLD ACCEL", gyro.getWorldLinearAccelZ());
+
         SmartDashboard.putNumber("AccelMag", Math.sqrt(
             Math.pow(gyro.getRawAccelX(), 2) +
             Math.pow(gyro.getRawAccelY(), 2) +
             Math.pow(gyro.getRawAccelZ(), 2)));
-            
-        
+  
+        SmartDashboard.putNumber("GYRO X FILTER", xAcc);
+        SmartDashboard.putNumber("GYRO Y FILTER", yAcc);
+        SmartDashboard.putNumber("GYRO Z FILTER", zAcc);
 
+        SmartDashboard.putData(this);
 
     }
 

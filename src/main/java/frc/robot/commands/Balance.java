@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -35,18 +36,20 @@ public class Balance extends CommandBase {
   @Override
   public void initialize() {
 
-    s_Swerve.drive( 
-      new Translation2d(0.1, new Rotation2d(Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2))))),
-      0,
-      false,
-      false);
-    
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
+
+    s_Swerve.drive( 
+      new Translation2d(Constants.kBalance.power, new Rotation2d(s_Swerve.pointingUpAngle())),
+      0,
+      false,
+      false);
 
 
   }
@@ -55,12 +58,17 @@ public class Balance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
+    if (interrupted == false) { // This means that it thinks it is level
+
+    }
+
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isDone = 9.8 + gyro.getRawAccelZ() < 2;
+    boolean isDone = s_Swerve.isRobotLevel(); // ALL ACCELERATION IN G's
     return true;
   }
 }
