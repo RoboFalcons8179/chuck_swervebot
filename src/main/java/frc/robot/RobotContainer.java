@@ -39,6 +39,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final Joystick stick = new Joystick(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -52,7 +53,14 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton LeftS = new JoystickButton(driver, XboxController.Button.kA.value);
+    //private final JoystickButton LeftS = new JoystickButton(driver, XboxController.Button.kA.value);
+
+
+
+    // Stick buttons
+    private final JoystickButton LeftS = new JoystickButton(stick, 11);
+    private final JoystickButton CenterSP = new JoystickButton(stick, 12);
+
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -66,6 +74,8 @@ public class RobotContainer {
 
     PathPlannerTrajectory LeftSPPTraj = PathPlanner.loadPath("LEFTS", new PathConstraints(2, 2));
     PathPlannerTrajectory LeftBPPTraj = PathPlanner.loadPath("LEFTB", new PathConstraints(2, 2));
+    PathPlannerTrajectory CenterSPTraj = PathPlanner.loadPath("CENTERSP", new PathConstraints(2, 2));
+    PathPlannerTrajectory CenterPSTraj = PathPlanner.loadPath("CENTERPS", new PathConstraints(2, 2));
 
     
 
@@ -117,6 +127,8 @@ public class RobotContainer {
         holdBot.whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
 
         LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
+
+        CenterSP.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterSPTraj).andThen(new doPathTrajectory(s_Swerve, CenterPSTraj)));
     }
 
     // Runs a ton of smart dashboard commands. Lets you track status of commands.
