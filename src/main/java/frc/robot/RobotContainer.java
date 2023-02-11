@@ -205,7 +205,7 @@ public class RobotContainer {
 
 
         if (thisLock) {
-            cmd.andThen(new swerveLockPosition(s_Swerve,0));
+            cmd=cmd.andThen(new swerveLockPosition(s_Swerve,0));
         }
                 
 
