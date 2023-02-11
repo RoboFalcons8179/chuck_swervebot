@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "name": "/Shuffleboard/MAIN/AUTON COMMAND",
+    "type": "string",
+    "value": "ALPHA",
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/MAIN/AUTON DELAY",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/MAIN/AUTON LOCK WHEELS",
+    "type": "boolean",
+    "value": false,
+    "properties": {
+      "persistent": true
+    }
+  }
+]

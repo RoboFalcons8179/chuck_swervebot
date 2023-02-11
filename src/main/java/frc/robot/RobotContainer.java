@@ -131,18 +131,18 @@ public class RobotContainer {
     private void runShuffleboardGetInfo() {
         
         autoCommand = Shuffleboard.getTab("MAIN")
-        .addPersistent("AUTON COMMAND", "ALPHA")
+        .add("AUTON COMMAND", "ALPHA")
         .withWidget(BuiltInWidgets.kComboBoxChooser)
         .getEntry();
 
         autoDelay = Shuffleboard.getTab("MAIN")
-        .addPersistent("AUTON DELAY", 0)
+        .add("AUTON DELAY", 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min", 0, "max", 3))
         .getEntry();
       
         autoHold = Shuffleboard.getTab("MAIN")
-        .addPersistent("AUTON LOCK WHEELS", false)
+        .add("AUTON LOCK WHEELS", false)
         .withWidget(BuiltInWidgets.kToggleSwitch)
         .getEntry();
       

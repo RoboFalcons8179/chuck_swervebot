@@ -31,10 +31,11 @@ public class swerveLockPosition extends CommandBase {
   public swerveLockPosition(Swerve s_Swerve, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
 
+    addRequirements(s_Swerve);
+
     this.s_Swerve = s_Swerve;
     this.angle = angle;
 
-    addRequirements(s_Swerve);
 
 
 

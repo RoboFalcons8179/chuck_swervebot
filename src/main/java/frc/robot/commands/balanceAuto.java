@@ -17,6 +17,9 @@ public class balanceAuto extends SequentialCommandGroup {
   public balanceAuto(Swerve s_Swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    addRequirements(s_Swerve);
+
+
     addCommands(
       
       new Balance(s_Swerve).withTimeout(0.3),
