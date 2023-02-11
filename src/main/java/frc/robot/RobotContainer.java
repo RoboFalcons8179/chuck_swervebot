@@ -2,8 +2,13 @@ package frc.robot;
 
 import java.util.Map;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -47,7 +52,7 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
-    //private final JoystickButton LeftS = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton LeftS = new JoystickButton(driver, XboxController.Button.kA.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -58,6 +63,10 @@ public class RobotContainer {
     private GenericEntry autoCommand;
     private GenericEntry autoDelay;
     private GenericEntry autoHold;
+
+    PathPlannerTrajectory LeftSPPTraj = PathPlanner.loadPath("LEFTS", new PathConstraints(2, 2));
+    PathPlannerTrajectory LeftBPPTraj = PathPlanner.loadPath("LEFTB", new PathConstraints(2, 2));
+
     
 
 
@@ -95,7 +104,7 @@ public class RobotContainer {
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
+     **/
     private void configureButtonBindings() {
         
         /* Driver Buttons */
@@ -107,7 +116,7 @@ public class RobotContainer {
 
         holdBot.whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
 
-        //LeftS.whileTrue(new LEFTS(s_Swerve, rotationAxis));
+        LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
     }
 
     // Runs a ton of smart dashboard commands. Lets you track status of commands.
@@ -157,64 +166,66 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
 
-        // First, find the info that we need to choose the command.
+        // // First, find the info that we need to choose the command.
 
-        String thisCmd =  autoCommand.getString("ALPHA");
-        double thisDelay =     autoDelay.getDouble(0);
-        boolean thisLock =  autoHold.getBoolean(false);
+        // String thisCmd =  autoCommand.getString("ALPHA");
+        // double thisDelay =     autoDelay.getDouble(0);
+        // boolean thisLock =  autoHold.getBoolean(false);
 
-        // Initalize the command
-        Command cmd = new WaitCommand(thisDelay);
+        // // Initalize the command
+        // Command cmd = new WaitCommand(thisDelay);
 
-        // It may be worth making all the different traj's into their own command files.
-        // otherwise, look into using the .andThen / .parrallel / .raceParallel cmd compositions.
+        // // It may be worth making all the different traj's into their own command files.
+        // // otherwise, look into using the .andThen / .parrallel / .raceParallel cmd compositions.
 
-        switch (thisCmd.charAt(0)) {
-            case 'A':
-                // default trajectory
-                cmd=cmd.andThen(new backAndForth(s_Swerve));
+        // switch (thisCmd.charAt(0)) {
+        //     case 'A':
+        //         // default trajectory
+        //         cmd=cmd.andThen(new backAndForth(s_Swerve));
 
-            case 'B':
-                // secondary traj
+        //     case 'B':
+        //         // secondary traj
 
-               cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleLeft));
+        //        cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleLeft));
 
-            case 'C':
-                // 3rd traj
-                cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleRight));
+        //     case 'C':
+        //         // 3rd traj
+        //         cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleRight));
 
-            case 'D':
-                // 4th traj
+        //     case 'D':
+        //         // 4th traj
 
-                cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.exampleTrajectory));
+        //         cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.exampleTrajectory));
 
-            break;
+        //     break;
 
-            default:
+        //     default:
 
-                // Always have a backup plan. Don't rely on the shuffleboard.
+        //         // Always have a backup plan. Don't rely on the shuffleboard.
 
-                new backAndForth(s_Swerve);
+        //         new backAndForth(s_Swerve);
 
-            break;
-        }
+        //     break;
+        // }
 
-        // and keep adding commands
-        // cmd.andThen(null)
+        // // and keep adding commands
+        // // cmd.andThen(null)
 
-        // In this case, we need to do testning to see if we should lock the wheels or continue to be in "balance" mode.
-        // Would reccommend for auto balance, then lock. Do not move after. 
-        // Another bot can ram into the side after we are already up and you will end up on top of it.
-        // if another bot wants to get up there, it can get up and try to push us.
+        // // In this case, we need to do testning to see if we should lock the wheels or continue to be in "balance" mode.
+        // // Would reccommend for auto balance, then lock. Do not move after. 
+        // // Another bot can ram into the side after we are already up and you will end up on top of it.
+        // // if another bot wants to get up there, it can get up and try to push us.
 
 
 
-        if (thisLock) {
-            cmd=cmd.andThen(new swerveLockPosition(s_Swerve,0));
-        }
-                
+        // if (thisLock) {
+        //     cmd=cmd.andThen(new swerveLockPosition(s_Swerve,0));
+        // }
+                        
 
-        return cmd;
+            DriverStation.getAlliance();
+
+        return new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve,LeftBPPTraj));
 
     }
 
