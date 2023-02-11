@@ -1,6 +1,8 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -178,8 +180,8 @@ public final class Constants {
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 2;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 6;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*4;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 4;
     
@@ -210,5 +212,38 @@ public final class Constants {
 
 
 
+    }
+
+    public static final class kArm {
+
+        //CAN IDs//
+        public static final int kShoulderMotorIDRight = 20;
+        public static final int kShoulderMotorIDLeft = 21;
+        public static final int kElbowMotorIDRight = 22;
+        public static final int kElbowMotorIDLeft = 23;
+
+
+        public static final TalonFXInvertType shoulderMotorLeftInvert = TalonFXInvertType.Clockwise;
+        public static final TalonFXInvertType shoulderMotorRightInvert = TalonFXInvertType.Clockwise;
+        public static final boolean shoulderLeftPhase = false;
+        public static final boolean shoulderRightPhase = false;
+
+
+        public static final InvertType elbowMotorLeftInvert = InvertType.None;
+        public static final InvertType elbowMotorRightInvert = InvertType.None;
+        public static final boolean elbowLeftPhase = false;
+        public static final boolean elbowRightPhase = false;
+
+        //Shoulder PIDG//
+        public static double kShoulderP = 0;
+        public static double kShoulderI = 0;
+        public static double kShoulderD = 0;
+        public static double kShoulderG = 0;
+
+        //Elbow PIDG//
+        public static double kElbowP = 0;
+        public static double kElbowI = 0;
+        public static double kElbowD = 0;
+        public static double kElbowG = 0;
     }
 }
