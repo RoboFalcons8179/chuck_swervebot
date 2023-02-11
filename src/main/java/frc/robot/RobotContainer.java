@@ -167,21 +167,21 @@ public class RobotContainer {
         switch (thisCmd.charAt(0)) {
             case 'A':
                 // default trajectory
-                cmd.andThen(new backAndForth(s_Swerve));
+                cmd=cmd.andThen(new backAndForth(s_Swerve));
 
             case 'B':
                 // secondary traj
 
-               cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleLeft));
+               cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleLeft));
 
             case 'C':
                 // 3rd traj
-                cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleRight));
+                cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleRight));
 
             case 'D':
                 // 4th traj
 
-                cmd.andThen(new doTrajectory(s_Swerve, traj.exampleTrajectory));
+                cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.exampleTrajectory));
 
             break;
 
