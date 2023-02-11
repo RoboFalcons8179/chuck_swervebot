@@ -44,7 +44,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
-    
+    private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
 
     /* Subsystems */
@@ -102,6 +102,8 @@ public class RobotContainer {
         goToTag.whileTrue(new chaseTagV2(vision.camera, s_Swerve));
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
+
+        holdBot.whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
 
 
     }

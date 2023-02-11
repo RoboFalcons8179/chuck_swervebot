@@ -45,11 +45,13 @@ public class Balance extends CommandBase {
   public void execute() {
     
 
-    s_Swerve.drive( 
-      new Translation2d(Constants.kBalance.power, new Rotation2d(s_Swerve.pointingUpAngle())),
-      0,
-      false,
-      false);
+    s_Swerve.drive_Manually(Constants.kBalance.power, new Rotation2d(s_Swerve.pointingUpAngle()));
+
+    // s_Swerve.drive( 
+    //   new Translation2d(Constants.kBalance.power, new Rotation2d(s_Swerve.pointingUpAngle())),
+    //   0,
+    //   false,
+    //   false);
 
 
   }
