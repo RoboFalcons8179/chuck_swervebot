@@ -198,7 +198,7 @@ public final class Constants {
 
         public static final double StillThreshold = 0.2; // in G's
         public static final double BalanceAccelThreshold = 0.2; // In G's
-        public static final double power = 0.1; // Speed demanded to the wheels, relitive to MAX Speed.
+        public static final double power = 0.8; // Speed demanded to the wheels, relitive to MAX Speed.
 
         // Averaging window for accels when determining if the robot is still. 
         // total time of averaging ~= 0.02s * averageWindow.

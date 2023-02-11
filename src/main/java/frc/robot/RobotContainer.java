@@ -104,6 +104,7 @@ public class RobotContainer {
         goToTag.whileTrue(new chaseTagV2(vision.camera, s_Swerve));
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
+        counterAccel.whileTrue(new Balance(s_Swerve));
 
         holdBot.whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
 

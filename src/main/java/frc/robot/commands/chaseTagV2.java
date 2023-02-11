@@ -37,7 +37,7 @@ public class chaseTagV2 extends CommandBase {
   private static final Transform3d TAG_TO_GOAL = 
       new Transform3d(
           new Translation3d(Constants.CamConstants.GOAL_RANGE_METERS, 0.0, 0.0),
-          new Rotation3d(0.0, 0.0, Math.PI));
+          new Rotation3d(0.0, 0.0, 0));
 
   private final PhotonCamera photonCamera;
   private final Swerve drivetrainSubsystem;
@@ -48,15 +48,17 @@ public class chaseTagV2 extends CommandBase {
   public boolean xAtGoal;
   public boolean yAtGoal;
   public boolean rAtGoal;
-  public boolean lostTarget;
+  public boolean lostTarget = false;
 
 
   public chaseTagV2(
+
         PhotonCamera photonCamera, 
         Swerve drivetrainSubsystem) {
     this.photonCamera = photonCamera;
     this.drivetrainSubsystem = drivetrainSubsystem;
 
+    addRequirements(drivetrainSubsystem);
 
     xController.setTolerance(0.2);
     yController.setTolerance(0.2);
@@ -68,7 +70,10 @@ public class chaseTagV2 extends CommandBase {
 
       TAG_TO_CHASE = photonRes.getBestTarget().getFiducialId();
 
-    } else{}
+    } else{
+
+        lostTarget = true;
+    }
 
 
   }
@@ -101,7 +106,7 @@ public class chaseTagV2 extends CommandBase {
     if (photonRes.hasTargets()) {
       // Find the tag we want to chase
       var targetOpt = photonRes.getTargets().stream()
-          .filter(t -> t.getFiducialId() == TAG_TO_CHASE)
+          .filter(t -> t.getFiducialId() == 2)
           .filter(t -> !t.equals(lastTarget) && t.getPoseAmbiguity() <= .2 && t.getPoseAmbiguity() != -1)
           .findFirst();
       if (targetOpt.isPresent()) {
@@ -171,6 +176,8 @@ public class chaseTagV2 extends CommandBase {
       SmartDashboard.putData(yController);
       SmartDashboard.putData(omegaController);
 
+      SmartDashboard.putBoolean("SOTPPED", lostTarget);
+
 
       
     }
@@ -184,7 +191,7 @@ public class chaseTagV2 extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    return (xAtGoal && yAtGoal && rAtGoal) || lostTarget;
+    return false; //(xAtGoal && yAtGoal && rAtGoal) || lostTarget;
 
   }
 

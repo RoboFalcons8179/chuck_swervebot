@@ -33,9 +33,7 @@ public class pVision extends SubsystemBase {
     public pVision() {
 
         camera = new PhotonCamera("OV5647");
-        camera.setPipelineIndex(1);
-
-        // ADD IN DEFINING POSE TRANSLATION STUFF HERE
+        // camera.setPipelineIndex(1);
 
 
     }
