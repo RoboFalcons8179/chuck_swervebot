@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
@@ -18,6 +19,9 @@ public class swerveLockPosition extends CommandBase {
 
   Swerve s_Swerve;
   double angle;
+
+  SwerveModuleState[] states = new SwerveModuleState[4];
+
 
   /** Creates a new swerveLockPosition. */
 
@@ -46,23 +50,20 @@ public class swerveLockPosition extends CommandBase {
   @Override
   public void initialize() {
 
-    SwerveModuleState[] states = new SwerveModuleState[4];
 
     // remember that positive rotation goes counterclockwise while looking down at the robot.
 
     // front left
-    states[0] = new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(angle + 45.0)));
+    states[0] = new SwerveModuleState(0.00, new Rotation2d(Units.degreesToRadians(angle + 45.0)));
     
     // front right
-    states[1] = new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(angle - 45.0)));
-
+    states[1] = new SwerveModuleState(0.00, new Rotation2d(Units.degreesToRadians(angle - 45.0)));
     // rear left
-    states[2] = new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(angle - 45.0)));
+    states[2] = new SwerveModuleState(0.00, new Rotation2d(Units.degreesToRadians(angle - 45.0)));
     
     // rear right
-    states[3] =  new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(angle + 45.0)));
+    states[3] =  new SwerveModuleState(0.00, new Rotation2d(Units.degreesToRadians(angle + 45.0)));
 
-    s_Swerve.driveExtraManual(states);
 
     // Brake all the wheels
     for(SwerveModule mod:s_Swerve.mSwerveMods) {
@@ -70,14 +71,25 @@ public class swerveLockPosition extends CommandBase {
       mod.mAngleMotor.setNeutralMode(NeutralMode.Brake);
       mod.mDriveMotor.setNeutralMode(NeutralMode.Brake);
 
+
     }
+
+    for(SwerveModule mod : s_Swerve.mSwerveMods){
+      SmartDashboard.putNumber("LOCK Mod " + mod.moduleNumber + " SETSTATE", states[mod.moduleNumber].angle.getDegrees());
+      SmartDashboard.putNumber("LOCK Mod " + mod.moduleNumber + " ACTUAL", mod.getAngle().getDegrees());
+  }
+
 
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    s_Swerve.driveExtraManual(states);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -92,7 +104,7 @@ public class swerveLockPosition extends CommandBase {
 
 
     // This can probably be gotten rid of.
-    s_Swerve.resetModulesToAbsolute();
+    // s_Swerve.resetModulesToAbsolute();
 
   }
 

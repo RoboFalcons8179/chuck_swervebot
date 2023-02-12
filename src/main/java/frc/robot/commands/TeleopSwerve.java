@@ -87,7 +87,9 @@ public class TeleopSwerve extends CommandBase {
             setDriveTranslate = new Translation2d(translationVal, strafeVal);
             setDriveRotation = rotationVal * Constants.Swerve.maxAngularVelocity;
 
-        }
+            s_Swerve.drive_Manually(setDriveTranslate.getNorm(), setDriveTranslate.getAngle());
+
+        } else {
 
 
     
@@ -99,5 +101,6 @@ public class TeleopSwerve extends CommandBase {
             !robotCent, 
             isOpenLoop
         );
+        }
     }
 }

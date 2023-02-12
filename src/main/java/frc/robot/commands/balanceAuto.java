@@ -17,8 +17,6 @@ public class balanceAuto extends SequentialCommandGroup {
   public balanceAuto(Swerve s_Swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addRequirements(s_Swerve);
-
 
     addCommands(
       
@@ -31,7 +29,7 @@ public class balanceAuto extends SequentialCommandGroup {
 
       if (s_Swerve.isRobotLevel()) {
 
-        addCommands(new swerveLockPosition(s_Swerve, 0)); //need to take angle from going up the ramps
+        addCommands(new swerveLockPosition(s_Swerve, s_Swerve.pointingUpAngle())); //need to take angle from going up the ramps
 
         this.end(true); // <- Ends this entire sequential command.
       }

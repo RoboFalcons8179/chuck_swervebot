@@ -95,7 +95,6 @@ public class Swerve extends SubsystemBase {
                                     rotation)
                                 );
 
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
         SmartDashboard.putNumber("chassis forward", translation.getX());
         SmartDashboard.putNumber("chassis strafe", translation.getY());
@@ -113,7 +112,6 @@ public class Swerve extends SubsystemBase {
         // MANUAL MOVEMENT OF BOT. 
 
         SwerveModuleState[] states = new SwerveModuleState[4];
-
 
         for(SwerveModule mod : mSwerveMods){
             
@@ -147,7 +145,7 @@ public class Swerve extends SubsystemBase {
     } 
     
     public void stop() {
-        drive( new Translation2d(0,0),0,false,false);
+        drive( new Translation2d(0,0),0,false,true);
     }
 
     public Pose2d getPose() {

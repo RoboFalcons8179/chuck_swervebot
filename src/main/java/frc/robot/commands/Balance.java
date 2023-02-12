@@ -26,7 +26,7 @@ public class Balance extends CommandBase {
     this.s_Swerve = s_Swerve;
     gyro = s_Swerve.gyro;
     
-    addRequirements(s_Swerve);
+    // addRequirements(s_Swerve);
 
 
     
@@ -71,6 +71,6 @@ public class Balance extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean isDone = s_Swerve.isRobotLevel(); // ALL ACCELERATION IN G's
-    return true;
+    return false;
   }
 }
