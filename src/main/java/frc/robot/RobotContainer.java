@@ -122,12 +122,12 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        goToTag.whileTrue(new chaseTagV2(vision.camera, s_Swerve));
+        goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
 
-        counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
+        // counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
         counterAccel.whileTrue(new Balance(s_Swerve));
 
-        holdBot.whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
+        holdBot.debounce(0.04).whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
 
         LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
 
