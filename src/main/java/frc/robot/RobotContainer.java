@@ -99,7 +99,7 @@ public class RobotContainer {
             )
         );
 
-        
+
         // untested goto commands.
         
 
@@ -124,30 +124,35 @@ public class RobotContainer {
             Invalid,
         }
 
-        public static Alliance getAlliance() {
-            AllianceStationID allianceStationID = DriverStationJNI.getAllianceStation();
-            if (allianceStationID == null) {
-            return Alliance.Invalid;
-            }
-            
-            switch (allianceStationID) {
-                case Red1:
-                    return Alliance.Red1;
-                case Red2:
-                    return Alliance.Red2;
-                case Red3:
-                    return Alliance.Red3;
-            
-                case Blue1:
-                    return Alliance.Blue1;
-                case Blue2:
-                    return Alliance.Blue2;
-                case Blue3:
-                    return Alliance.Blue3;
-                  default:
-                    return Alliance.Invalid;
-                }
-              }
+        // public static Alliance getAlliance() {
+        //     AllianceStationID allianceStationID = DriverStationJNI.getAllianceStation();
+        //     if (allianceStationID == null) {
+        //     return Alliance.Invalid;
+        //     }
+        //     // numbers 1-3 are for red and numbers 4-6 are for blue
+        //     switch (allianceStationID) {
+        //         case Red1:
+        //             return Alliance.Red1;
+        //             int team=1;
+        //         case Red2:
+        //             return Alliance.Red2;
+        //             int team=2;
+        //         case Red3:
+        //             return Alliance.Red3;
+        //             int team=3;
+        //         case Blue1:
+        //             return Alliance.Blue1;
+        //             int team=4;
+        //         case Blue2:
+        //             return Alliance.Blue2;
+        //             int team=5;
+        //         case Blue3:
+        //             return Alliance.Blue3;
+        //             int team=6;
+        //           default:
+        //             return Alliance.Invalid;
+        //         }
+        //       }
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -278,8 +283,11 @@ public class RobotContainer {
         //     cmd=cmd.andThen(new swerveLockPosition(s_Swerve,0));
         // }
                         
-
-            DriverStation.getAlliance();
+        
+            // if(team=1){
+            //     LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
+            // }
+        
 
         return new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve,LeftBPPTraj));
 
