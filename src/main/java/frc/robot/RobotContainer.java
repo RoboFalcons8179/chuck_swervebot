@@ -6,12 +6,15 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.hal.AllianceStationID;
+import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.event.NetworkBooleanEvent;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -96,7 +99,7 @@ public class RobotContainer {
             )
         );
 
-
+        
         // untested goto commands.
         
 
@@ -110,7 +113,41 @@ public class RobotContainer {
         // run the shuffleboard
         runTroubleshooting();
     }
+        // attempt to read alliance color and number
+        public enum Alliance {
+            Red1,
+            Blue1,
+            Red2,
+            Blue2,
+            Red3,
+            Blue3,
+            Invalid,
+        }
 
+        public static Alliance getAlliance() {
+            AllianceStationID allianceStationID = DriverStationJNI.getAllianceStation();
+            if (allianceStationID == null) {
+            return Alliance.Invalid;
+            }
+            
+            switch (allianceStationID) {
+                case Red1:
+                    return Alliance.Red1;
+                case Red2:
+                    return Alliance.Red2;
+                case Red3:
+                    return Alliance.Red3;
+            
+                case Blue1:
+                    return Alliance.Blue1;
+                case Blue2:
+                    return Alliance.Blue2;
+                case Blue3:
+                    return Alliance.Blue3;
+                  default:
+                    return Alliance.Invalid;
+                }
+              }
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
