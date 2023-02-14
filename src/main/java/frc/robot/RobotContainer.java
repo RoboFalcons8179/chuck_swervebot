@@ -61,7 +61,7 @@ public class RobotContainer {
     private final JoystickButton LeftS = new JoystickButton(stick, 11);
     private final JoystickButton CenterSP = new JoystickButton(stick, 12);
     private final JoystickButton RightSB = new JoystickButton(stick, 10);
-
+    //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -79,7 +79,7 @@ public class RobotContainer {
     PathPlannerTrajectory CenterPSTraj = PathPlanner.loadPath("CENTERPS", new PathConstraints(2, 2));
     PathPlannerTrajectory RightS = PathPlanner.loadPath("RIGHTS", new PathConstraints(2, 2));
     PathPlannerTrajectory RightB = PathPlanner.loadPath("RIGHTB", new PathConstraints(2,2));
-    
+    //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -133,7 +133,9 @@ public class RobotContainer {
 
         CenterSP.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterSPTraj).andThen(new doPathTrajectory(s_Swerve, CenterPSTraj)));
 
-        RightSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterPSTraj));
+        //CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterB));
+
+        RightSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
     }
 
     // Runs a ton of smart dashboard commands. Lets you track status of commands.
@@ -151,7 +153,7 @@ public class RobotContainer {
         commandChooser.addOption("Lock Wheels", new swerveLockPosition(s_Swerve, 0.0));
 
         SmartDashboard.putData(CommandScheduler.getInstance());
-
+        
     }
 
 
