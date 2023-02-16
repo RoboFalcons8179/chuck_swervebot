@@ -56,7 +56,8 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
-    //private final JoystickButton LeftS = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton forwardShoulder = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton backwardShoulder = new JoystickButton(driver, XboxController.Button.kB.value);
 
 
 
@@ -178,9 +179,14 @@ public class RobotContainer {
         //CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterB));
 
         RightSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
-    }
 
-    // Runs a ton of smart dashboard commands. Lets you track status of commands.
+        //This Will Be Control Board//
+
+        forwardShoulder.debounce(0.04).whileTrue(new shoulderMove());
+
+        backwardShoulder.debounce(0.04).whileTrue(new shoulderMoveV2());
+        
+    }
     private void runTroubleshooting() {
 
         Shuffleboard.selectTab("MAIN");

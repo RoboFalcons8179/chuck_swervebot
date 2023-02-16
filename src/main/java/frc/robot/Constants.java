@@ -245,5 +245,9 @@ public final class Constants {
         public static double kElbowI = 0;
         public static double kElbowD = 0;
         public static double kElbowG = 0;
+
+        //Setting Shoulder Motor values//
+        public static double kShoulderForward = 0;
+        public static double kShoulderBackward = 0;
     }
 }
