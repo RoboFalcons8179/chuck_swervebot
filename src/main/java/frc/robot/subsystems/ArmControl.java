@@ -16,10 +16,10 @@ import frc.robot.Constants;
 public class ArmControl extends SubsystemBase {
   
   /** CAN IDs  */
-  public WPI_TalonFX shoulderMotorRight = new WPI_TalonFX (Constants.kArm.kShoulderMotorIDRight); 
-  public WPI_TalonFX shoulderMotorLeft = new WPI_TalonFX (Constants.kArm.kShoulderMotorIDLeft);
-  public WPI_TalonSRX elbowMotorRight = new WPI_TalonSRX (Constants.kArm.kElbowMotorIDRight);
-  public WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorIDLeft);
+  public static WPI_TalonFX shoulderMotorRight = new WPI_TalonFX (Constants.kArm.kShoulderMotorIDRight); 
+  public static WPI_TalonFX shoulderMotorLeft = new WPI_TalonFX (Constants.kArm.kShoulderMotorIDLeft);
+  public static WPI_TalonSRX elbowMotorRight = new WPI_TalonSRX (Constants.kArm.kElbowMotorIDRight);
+  public static WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorIDLeft);
   
   
   public ArmControl() {
