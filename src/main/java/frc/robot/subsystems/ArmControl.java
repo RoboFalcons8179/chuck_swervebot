@@ -20,18 +20,19 @@ public class ArmControl extends SubsystemBase {
   public static WPI_TalonFX shoulderMotorLeft = new WPI_TalonFX (Constants.kArm.kShoulderMotorIDLeft);
   public static WPI_TalonSRX elbowMotorRight = new WPI_TalonSRX (Constants.kArm.kElbowMotorIDRight);
   public static WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorIDLeft);
+  public static WPI_TalonFX grabberMotor = new WPI_TalonFX (Constants.kArm.kGrabberMotorID);
   
   
   public ArmControl() {
-    //Setting Shoulder inverted
+    //Setting Shoulder inverted//
     shoulderMotorLeft.setInverted(Constants.kArm.shoulderMotorLeftInvert);
     shoulderMotorRight.setInverted(Constants.kArm.shoulderMotorRightInvert);
 
-    //Setting Sensor phase for shoulder
+    //Setting Sensor phase for shoulder//
     shoulderMotorLeft.setSensorPhase(Constants.kArm.shoulderLeftPhase);
     shoulderMotorRight.setSensorPhase(Constants.kArm.shoulderRightPhase);
 
-    //Shoulder PIDG
+    //Shoulder PIDG//
     shoulderMotorLeft.config_kP(0, Constants.kArm.kShoulderP);
     shoulderMotorLeft.config_kI(0, Constants.kArm.kShoulderI);
     shoulderMotorLeft.config_kD(0, Constants.kArm.kShoulderD);
@@ -41,15 +42,15 @@ public class ArmControl extends SubsystemBase {
     shoulderMotorRight.config_kD(0, Constants.kArm.kShoulderD);
 
 
-    //Setting Elbow inverted
+    //Setting Elbow inverted//
     elbowMotorLeft.setInverted(Constants.kArm.elbowMotorLeftInvert);
     elbowMotorRight.setInverted(Constants.kArm.elbowMotorRightInvert);
     
-    //Setting Sensor phase for elbow
+    //Setting Sensor phase for elbow//
     elbowMotorLeft.setSensorPhase(Constants.kArm.elbowLeftPhase);
     elbowMotorRight.setSensorPhase(Constants.kArm.elbowRightPhase);
     
-    //Elbow PIDG
+    //Elbow PIDG//
     elbowMotorLeft.config_kP(0, Constants.kArm.kElbowP);
     elbowMotorLeft.config_kI(0, Constants.kArm.kElbowI);
     elbowMotorLeft.config_kD(0, Constants.kArm.kElbowD);
@@ -57,7 +58,17 @@ public class ArmControl extends SubsystemBase {
     elbowMotorRight.config_kP(0, Constants.kArm.kElbowP);
     elbowMotorRight.config_kI(0, Constants.kArm.kElbowI);
     elbowMotorRight.config_kD(0, Constants.kArm.kElbowD);
-    
+
+    //Setting Grabber Inverted//
+    grabberMotor.setInverted(Constants.kArm.grabberMotorInvert);
+
+    // Setting Grabber Sensor Phase//
+    grabberMotor.setSensorPhase(Constants.kArm.grabberMotorPhase);
+
+    // Grabber PID//
+    grabberMotor.config_kP(0, Constants.kArm.kGrabberP);
+    grabberMotor.config_kP(0, Constants.kArm.kGrabberI);
+    grabberMotor.config_kP(0, Constants.kArm.kGrabberD);
     
     elbowMotorRight.follow(elbowMotorLeft);
     shoulderMotorRight.follow(shoulderMotorLeft);

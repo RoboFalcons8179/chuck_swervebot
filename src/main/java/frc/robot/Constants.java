@@ -221,18 +221,15 @@ public final class Constants {
         public static final int kShoulderMotorIDLeft = 21;
         public static final int kElbowMotorIDRight = 22;
         public static final int kElbowMotorIDLeft = 23;
+        public static final int kGrabberMotorID = 24;
 
-
+        // Shoulder Invert//
         public static final TalonFXInvertType shoulderMotorLeftInvert = TalonFXInvertType.Clockwise;
         public static final TalonFXInvertType shoulderMotorRightInvert = TalonFXInvertType.Clockwise;
+
+        // Shoulder Phase//
         public static final boolean shoulderLeftPhase = false;
         public static final boolean shoulderRightPhase = false;
-
-
-        public static final InvertType elbowMotorLeftInvert = InvertType.None;
-        public static final InvertType elbowMotorRightInvert = InvertType.None;
-        public static final boolean elbowLeftPhase = false;
-        public static final boolean elbowRightPhase = false;
 
         //Shoulder PIDG//
         public static double kShoulderP = 0;
@@ -240,6 +237,25 @@ public final class Constants {
         public static double kShoulderD = 0;
         public static double kShoulderG = 0;
 
+        // Grabber Invert//
+        public static final TalonFXInvertType grabberMotorInvert = TalonFXInvertType.Clockwise;
+
+        // Grabber Phase//
+        public static final boolean grabberMotorPhase = false;
+
+        // Grabber PID//
+        public static final double kGrabberP = 0;
+        public static final double kGrabberI = 0;
+        public static final double kGrabberD = 0;
+
+        // Elbow Invert/
+        public static final InvertType elbowMotorLeftInvert = InvertType.None;
+        public static final InvertType elbowMotorRightInvert = InvertType.None;
+
+        // Elbow Phase//
+        public static final boolean elbowLeftPhase = false;
+        public static final boolean elbowRightPhase = false;
+    
         //Elbow PIDG//
         public static double kElbowP = 0;
         public static double kElbowI = 0;
