@@ -56,10 +56,11 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
+    // Control Board Stuff//
     private final JoystickButton forwardShoulder = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton backwardShoulder = new JoystickButton(driver, XboxController.Button.kB.value);
-
-
+    private final JoystickButton forwardElbow = new JoystickButton(driver, XboxController.Button.kRightStick.value);
+    private final JoystickButton backwardElbow = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
 
     // Stick buttons
     private final JoystickButton LeftS = new JoystickButton(stick, 11);
@@ -185,6 +186,10 @@ public class RobotContainer {
         forwardShoulder.debounce(0.04).whileTrue(new shoulderMove());
 
         backwardShoulder.debounce(0.04).whileTrue(new shoulderMoveV2());
+
+        forwardElbow.debounce(0.04).whileTrue(new elbowMove());
+
+        backwardElbow.debounce(0.04).whileTrue(new elbowMoveV2());
         
     }
     private void runTroubleshooting() {

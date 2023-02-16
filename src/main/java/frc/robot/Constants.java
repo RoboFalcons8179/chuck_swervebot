@@ -249,5 +249,11 @@ public final class Constants {
         //Setting Shoulder Motor values//
         public static double kShoulderForward = 0;
         public static double kShoulderBackward = 0;
+
+        //Setting Elbow Motor Values//
+        public static double kElbowForward = 0;
+        public static double kElbowBackward = 0;
     }
 }
+    
+
