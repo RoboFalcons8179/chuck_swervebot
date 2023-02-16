@@ -56,11 +56,12 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
-    //private final JoystickButton LeftS = new JoystickButton(driver, XboxController.Button.kA.value);
+
 
 
 
     // Stick buttons
+    private final JoystickButton LeftSPS = new JoystickButton(driver, 9);
     private final JoystickButton LeftS = new JoystickButton(stick, 11);
     private final JoystickButton CenterSP = new JoystickButton(stick, 12);
     private final JoystickButton RightSB = new JoystickButton(stick, 10);
@@ -75,13 +76,16 @@ public class RobotContainer {
     private GenericEntry autoCommand;
     private GenericEntry autoDelay;
     private GenericEntry autoHold;
-
+    // auton paths
     PathPlannerTrajectory LeftSPPTraj = PathPlanner.loadPath("LEFTS", new PathConstraints(2, 2));
     PathPlannerTrajectory LeftBPPTraj = PathPlanner.loadPath("LEFTB", new PathConstraints(2, 2));
     PathPlannerTrajectory CenterSPTraj = PathPlanner.loadPath("CENTERSP", new PathConstraints(2, 2));
     PathPlannerTrajectory CenterPSTraj = PathPlanner.loadPath("CENTERPS", new PathConstraints(2, 2));
     PathPlannerTrajectory RightS = PathPlanner.loadPath("RIGHTS", new PathConstraints(2, 2));
     PathPlannerTrajectory RightB = PathPlanner.loadPath("RIGHTB", new PathConstraints(2,2));
+    PathPlannerTrajectory LeftP = PathPlanner.loadPath("LEFTP", new PathConstraints(2, 2));
+    PathPlannerTrajectory LeftPS = PathPlanner.loadPath("LEFTPS", new PathConstraints(2, 2));
+
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
 
@@ -129,30 +133,32 @@ public class RobotContainer {
         //     if (allianceStationID == null) {
         //     return Alliance.Invalid;
         //     }
-        //     // numbers 1-3 are for red and numbers 4-6 are for blue
-        //     switch (allianceStationID) {
-        //         case Red1:
-        //             return Alliance.Red1;
-        //             int team=1;
-        //         case Red2:
-        //             return Alliance.Red2;
-        //             int team=2;
-        //         case Red3:
-        //             return Alliance.Red3;
-        //             int team=3;
-        //         case Blue1:
-        //             return Alliance.Blue1;
-        //             int team=4;
-        //         case Blue2:
-        //             return Alliance.Blue2;
-        //             int team=5;
-        //         case Blue3:
-        //             return Alliance.Blue3;
-        //             int team=6;
-        //           default:
-        //             return Alliance.Invalid;
-        //         }
-        //       }
+            // numbers 1-3 are for red and numbers 4-6 are for blue
+            // waiting for Tim
+            // switch (allianceStationID) {
+            //     int team = 1;
+            //     case Red1:
+            //         return Alliance.Red1;
+            //         team=team + 1;
+            //     case Red2:
+            //         return Alliance.Red2;
+            //         team=team + 2;
+            //     case Red3:
+            //         return Alliance.Red3;
+            //         team=team + 3;
+            //     case Blue1:
+            //         return Alliance.Blue1;
+            //         team=team + 4;
+            //     case Blue2:
+            //         return Alliance.Blue2;
+            //         team=team+5;
+            //     case Blue3:
+            //         return Alliance.Blue3;
+            //         team=team+6;
+            //       default:
+            //         return Alliance.Invalid;
+            //     }
+            //   }
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -178,6 +184,8 @@ public class RobotContainer {
         //CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterB));
 
         RightSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
+
+        LeftSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS))));
     }
 
     // Runs a ton of smart dashboard commands. Lets you track status of commands.
@@ -289,7 +297,7 @@ public class RobotContainer {
             // }
         
 
-        return new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve,LeftBPPTraj));
+        return new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS)));
 
     }
 
