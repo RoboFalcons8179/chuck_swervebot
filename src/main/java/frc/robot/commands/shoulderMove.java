@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
@@ -26,6 +27,7 @@ public class shoulderMove extends CommandBase {
   public void execute() {
     //Command For Moving Shoulder 
     ArmControl.shoulderMotorLeft.set(Constants.kArm.kShoulderForward);
+    System.out.println("test");
 
   }
 
@@ -38,4 +40,8 @@ public class shoulderMove extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
+public Command andThen(Object println) {
+    return null;
+}
 }
