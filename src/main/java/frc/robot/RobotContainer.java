@@ -43,6 +43,7 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
     private final Joystick stick = new Joystick(1);
+    private final Joystick panel = new Joystick(2);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -57,7 +58,7 @@ public class RobotContainer {
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
     // Control Board Stuff//
-    private final JoystickButton forwardShoulder = new JoystickButton(driver, XboxController.Button.kA.value);
+    //private final JoystickButton forwardShoulder = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton backwardShoulder = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton forwardElbow = new JoystickButton(driver, XboxController.Button.kRightStick.value);
     private final JoystickButton backwardElbow = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
@@ -68,6 +69,9 @@ public class RobotContainer {
     private final JoystickButton CenterSP = new JoystickButton(stick, 12);
     private final JoystickButton RightSB = new JoystickButton(stick, 10);
     //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
+
+    // Panel buttons
+    private final JoystickButton forwardShoulder = new JoystickButton(panel, 1);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
