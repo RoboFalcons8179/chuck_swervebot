@@ -44,6 +44,7 @@ public class RobotContainer {
     private final Joystick driver = new Joystick(0);
     private final Joystick stick = new Joystick(1);
     private final Joystick panel = new Joystick(2);
+    private final Joystick board = new Joystick(3);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -58,6 +59,8 @@ public class RobotContainer {
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
     // Control Board Stuff//
+
+
     //private final JoystickButton forwardShoulder = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton backwardShoulder = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton forwardElbow = new JoystickButton(driver, XboxController.Button.kRightStick.value);
@@ -123,48 +126,9 @@ public class RobotContainer {
         // run the shuffleboard
         runTroubleshooting();
     }
-        // attempt to read alliance color and number
-        public enum Alliance {
-            Red1,
-            Blue1,
-            Red2,
-            Blue2,
-            Red3,
-            Blue3,
-            Invalid,
-        }
 
-        // public static Alliance getAlliance() {
-        //     AllianceStationID allianceStationID = DriverStationJNI.getAllianceStation();
-        //     if (allianceStationID == null) {
-        //     return Alliance.Invalid;
-        //     }
-            // numbers 1-3 are for red and numbers 4-6 are for blue
-            // waiting for Tim
-            // switch (allianceStationID) {
-            //     int team = 1;
-            //     case Red1:
-            //         return Alliance.Red1;
-            //         team=team + 1;
-            //     case Red2:
-            //         return Alliance.Red2;
-            //         team=team + 2;
-            //     case Red3:
-            //         return Alliance.Red3;
-            //         team=team + 3;
-            //     case Blue1:
-            //         return Alliance.Blue1;
-            //         team=team + 4;
-            //     case Blue2:
-            //         return Alliance.Blue2;
-            //         team=team+5;
-            //     case Blue3:
-            //         return Alliance.Blue3;
-            //         team=team+6;
-            //       default:
-            //         return Alliance.Invalid;
-            //     }
-            //   }
+
+
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -245,7 +209,61 @@ public class RobotContainer {
   
     }
 
-      
+
+
+
+// // attempt to read alliance color and number
+// public enum Alliance {
+//     Red1,
+//     Blue1,
+//     Red2,
+//     Blue2,
+//     Red3,
+//     Blue3,
+//     Invalid,
+// }
+
+// public static Alliance getAlliance() {
+             
+//     AllianceStationID allianceID = DriverStationJNI.getAllianceStation();
+    
+//     //numbers 1-3 are for red and numbers 4-6 are for blue
+//     //waiting for Tim
+//     boolean isRedAlliance = false;
+//     int stationNumber = 1;
+//     switch (allianceID) {                 
+//         case Red1:                     
+//             isRedAlliance = true;
+//             stationNumber = 1;
+//             break;
+//        case Red2:                    
+//            isRedAlliance = true;
+//            stationNumber = 2;
+//            break;
+//         case Red3:                     
+//             isRedAlliance = true;
+//             stationNumber = 3;
+//             break;
+//         case Blue1:                     
+//             isRedAlliance = false;
+//             stationNumber = 4;
+//             break;
+//         case Blue2:                     
+//             isRedAlliance = false;
+//             stationNumber = 5;
+//             break;
+//         case Blue3:                     
+//             isRedAlliance = false;
+//             stationNumber = 6;
+//             break;
+//           default:
+//             return Alliance.Invalid;
+//         }
+//       }
+
+
+
+
     
 
     public Command getAutonomousCommand() {
@@ -313,6 +331,8 @@ public class RobotContainer {
         
 
         return new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS)));
+
+        
 
     }
 
