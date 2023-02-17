@@ -60,11 +60,12 @@ public class RobotContainer {
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
     // Control Board Stuff//
 
+    private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
+    private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
+    private final JoystickButton forwardElbow = new JoystickButton(board, 7);
+    private final JoystickButton backwardElbow = new JoystickButton(board, 3);
+    private final JoystickButton coneGrab = new JoystickButton(panel, 1);
 
-    //private final JoystickButton forwardShoulder = new JoystickButton(driver, XboxController.Button.kA.value);
-    private final JoystickButton backwardShoulder = new JoystickButton(driver, XboxController.Button.kB.value);
-    private final JoystickButton forwardElbow = new JoystickButton(driver, XboxController.Button.kRightStick.value);
-    private final JoystickButton backwardElbow = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
 
     // Stick buttons
     private final JoystickButton LeftSPS = new JoystickButton(driver, 9);
@@ -74,7 +75,7 @@ public class RobotContainer {
     //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
 
     // Switch buttons
-    private final JoystickButton forwardShoulder = new JoystickButton(panel, 1);
+    // private final JoystickButton forwardShoulder = new JoystickButton(panel, 1);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -166,6 +167,10 @@ public class RobotContainer {
         forwardElbow.debounce(0.04).whileTrue(new elbowMove());
 
         backwardElbow.debounce(0.04).whileTrue(new elbowMoveV2());
+
+        coneGrab.debounce(0.04).whileTrue(new coneMove());
+
+        coneGrab.debounce(0.04).whileFalse(new coneRelease());
         
     }
     private void runTroubleshooting() {

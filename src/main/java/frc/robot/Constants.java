@@ -255,6 +255,7 @@ public final class Constants {
         // Elbow Phase//
         public static final boolean elbowLeftPhase = false;
         public static final boolean elbowRightPhase = false;
+        
     
         //Elbow PIDG//
         public static double kElbowP = 0;
@@ -269,6 +270,9 @@ public final class Constants {
         //Setting Elbow Motor Values//
         public static double kElbowForward = 0;
         public static double kElbowBackward = 0;
+
+        // Grabber Motor Values//
+        public static final double kConeGrab = 0;
     }
 }
     
