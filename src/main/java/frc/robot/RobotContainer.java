@@ -70,7 +70,7 @@ public class RobotContainer {
     private final JoystickButton RightSB = new JoystickButton(stick, 10);
     //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
 
-    // Panel buttons
+    // Switch buttons
     private final JoystickButton forwardShoulder = new JoystickButton(panel, 1);
 
     /* Subsystems */
