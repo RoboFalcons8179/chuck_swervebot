@@ -298,6 +298,8 @@ public final class Constants {
         public static final double kShoulderMediumCone = 0;
         public static final double kShoulderLowCone = 0;
         public static final double kShoulderHighCone = 0;
+        public static final double kShoulderEncoderAt90Degrees = 0;
+        public static final double kElbowEncoderAt90Degrees = 0;
     }
 }
     
