@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.ArmControl;
 
 public class cubeMedium extends CommandBase {
   /** Creates a new cubeMedium. */
@@ -18,7 +20,11 @@ public class cubeMedium extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowIn);
+    ArmControl.shoulderMotorLeft.set(Constants.kArm.kShoulderMediumCube);
+    ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowMediumCube);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

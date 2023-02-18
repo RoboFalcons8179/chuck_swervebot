@@ -284,16 +284,20 @@ public final class Constants {
 
         //Elbow Measures//
         public static final double kElbowIn = 0;
-        public static final double kShoulderHighCube = 0;
         public static final double kElbowHighCube = 0;
-        public static final double kShoulderMediumCone = 0;
+        public static final double kElbowMediumCube = 0;
+        public static final double kElbowLowCube = 0;
         public static final double kElbowMediumCone = 0;
-        public static final double kShoulderLowCone = 0;
         public static final double kElbowLowCone = 0;
-        public static final double kShoulderHighCone = 0;
         public static final double kElbowHighCone = 0;
 
-
+        //Shoulders//
+        public static final double kShoulderHighCube = 0;
+        public static final double kShoulderMediumCube = 0;
+        public static final double kShoulderLowCube = 0;
+        public static final double kShoulderMediumCone = 0;
+        public static final double kShoulderLowCone = 0;
+        public static final double kShoulderHighCone = 0;
     }
 }
     
