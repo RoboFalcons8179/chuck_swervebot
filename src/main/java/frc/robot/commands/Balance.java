@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,11 +33,28 @@ public class Balance extends CommandBase {
     
   }
 
+  private double angleTarget;
+  private double backwards;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-
+    
+    angleTarget = s_Swerve.pointingUpAngle();
+    // if (angleTarget > 90 && angleTarget < 270){
+    //   backwards = 1; 
+    // }
+    // else{
+    //   backwards = -1;
+    // }
+    if(gyro.getRawAccelY() < 0){
+      backwards=-1;
+    }
+    else{
+      backwards=1;
+    }
+    if (angleTarget < 0){
+      angleTarget=angleTarget+Math.toRadians(180);
+    }
 
   }
 
@@ -44,8 +62,10 @@ public class Balance extends CommandBase {
   @Override
   public void execute() {
     
+    s_Swerve.drive_Manually(Constants.kBalance.power*backwards, new Rotation2d(angleTarget));
+    
 
-    s_Swerve.drive_Manually(Constants.kBalance.power, new Rotation2d(s_Swerve.pointingUpAngle()));
+    
 
     // s_Swerve.drive( 
     //   new Translation2d(Constants.kBalance.power, new Rotation2d(s_Swerve.pointingUpAngle())),
@@ -70,7 +90,7 @@ public class Balance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isDone = s_Swerve.isRobotLevel(); // ALL ACCELERATION IN G's
+    // boolean isDone = s_Swerve.isRobotLevel(); // ALL ACCELERATION IN G's
     return false;
   }
 }

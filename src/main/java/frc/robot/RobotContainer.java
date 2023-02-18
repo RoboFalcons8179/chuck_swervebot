@@ -58,6 +58,7 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
     private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
     private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
@@ -151,7 +152,7 @@ public class RobotContainer {
         goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
 
         // counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
-        counterAccel.whileTrue(new Balance(s_Swerve));
+        counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
         holdBot.debounce(0.04).whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
 
@@ -189,6 +190,7 @@ public class RobotContainer {
 
         invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitchV2());
 
+        test.debounce(0.04).whileTrue(new teste());
         
     }
     private void runTroubleshooting() {
@@ -233,61 +235,56 @@ public class RobotContainer {
     }
 
 
+// attempt to read alliance color and number
+public enum Alliance {
+    Red1,
+    Blue1,
+    Red2,
+    Blue2,
+    Red3,
+    Blue3,
+    Invalid,
+}
 
-
-// // attempt to read alliance color and number
-// public enum Alliance {
-//     Red1,
-//     Blue1,
-//     Red2,
-//     Blue2,
-//     Red3,
-//     Blue3,
-//     Invalid,
-// }
-
-// public static Alliance getAlliance() {
+public static void getAlliance() {
              
-//     AllianceStationID allianceID = DriverStationJNI.getAllianceStation();
-    
-//     //numbers 1-3 are for red and numbers 4-6 are for blue
-//     //waiting for Tim
-//     boolean isRedAlliance = false;
-//     int stationNumber = 1;
-//     switch (allianceID) {                 
-//         case Red1:                     
-//             isRedAlliance = true;
-//             stationNumber = 1;
-//             break;
-//        case Red2:                    
-//            isRedAlliance = true;
-//            stationNumber = 2;
-//            break;
-//         case Red3:                     
-//             isRedAlliance = true;
-//             stationNumber = 3;
-//             break;
-//         case Blue1:                     
-//             isRedAlliance = false;
-//             stationNumber = 4;
-//             break;
-//         case Blue2:                     
-//             isRedAlliance = false;
-//             stationNumber = 5;
-//             break;
-//         case Blue3:                     
-//             isRedAlliance = false;
-//             stationNumber = 6;
-//             break;
-//           default:
-//             return Alliance.Invalid;
-//         }
-//       }
+    AllianceStationID allianceID = DriverStationJNI.getAllianceStation();
+    String test = "test";
+    //numbers 1-3 are for red and numbers 4-6 are for blue
+    //waiting for Tim
+    boolean isRedAlliance = false;
+    int stationNumber =1;
+    switch (allianceID) {                 
+        case Red1:                     
+            isRedAlliance = true;
+            stationNumber = 1;
+            System.out.println(test);
+            break;
+       case Red2:                    
+           isRedAlliance = true;
+           stationNumber = 2;
+           break;
+        case Red3:                     
+            isRedAlliance = true;
+            stationNumber = 3;
+            break;
+        case Blue1:                     
+            isRedAlliance = false;
+            stationNumber = 4;
+            break;
+        case Blue2:                     
+            isRedAlliance = false;
+            stationNumber = 5;
+            break;
+        case Blue3:                     
+            isRedAlliance = false;
+            stationNumber = 6;
+            break;
+          default:
+            //return Alliance.Invalid;
+        }
+      }
 
-
-
-
-    
 
     public Command getAutonomousCommand() {
 

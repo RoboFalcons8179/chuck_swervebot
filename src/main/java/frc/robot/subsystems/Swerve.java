@@ -36,9 +36,9 @@ public class Swerve extends SubsystemBase {
     private LinearFilter yAccfilter = LinearFilter.movingAverage(Constants.kBalance.averageWindow);
     private LinearFilter zAccfilter = LinearFilter.movingAverage(Constants.kBalance.averageWindow);
     
-    double xAcc;
-    double yAcc;
-    double zAcc;
+    public double xAcc;
+    public double yAcc;
+    public double zAcc;
 
 
     public Swerve() {
@@ -203,7 +203,18 @@ public class Swerve extends SubsystemBase {
 
     public boolean isRobotLevel() {
         // remember zAcc is filtered.
-        return zAcc <= Constants.kBalance.BalanceAccelThreshold; // ALL ACCELERATION IN G's
+        boolean out = false;
+        
+        if (
+            // xAcc <= Constants.kBalance.BalanceAccelThreshold &&
+            // yAcc <= Constants.kBalance.BalanceAccelThreshold )
+            gyro.getPitch() <= Constants.kBalance.BalanceAccelThreshold &&
+            gyro.getRoll() <= Constants.kBalance.BalanceAccelThreshold )
+            {
+            out = true;
+        }
+
+        return out;
     }
 
     // From Zack's math. finds the angle between gravity and the plane of the Bot, then
@@ -211,7 +222,8 @@ public class Swerve extends SubsystemBase {
     // In RADs
     public double pointingUpAngle() {
 
-            return Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2)));
+            //return Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2)));
+            return Math.atan(gyro.getRawAccelY()/gyro.getRawAccelX());
 
     }
 

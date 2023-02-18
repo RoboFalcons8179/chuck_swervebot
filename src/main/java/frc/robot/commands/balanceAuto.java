@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -19,20 +20,22 @@ public class balanceAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     addCommands(
+
+      new InstantCommand(() -> System.out.println("------------------")),
+
+      new InstantCommand(() -> System.out.println(s_Swerve.isRobotLevel())),
+
       
-      new Balance(s_Swerve).withTimeout(0.3),
+      new Balance(s_Swerve).withTimeout(0.35),
 
       new InstantCommand(() -> s_Swerve.stop()),
       
-      new WaitCommand(10).until(() -> (s_Swerve.isRobotStill())) );
+      new WaitCommand(0.75),
 
-
-      if (s_Swerve.isRobotLevel()) {
-
-        addCommands(new swerveLockPosition(s_Swerve, s_Swerve.pointingUpAngle())); //need to take angle from going up the ramps
-
-        this.end(true); // <- Ends this entire sequential command.
-      }
+      new WaitCommand(10).until(() -> (s_Swerve.isRobotStill()))
+            
+      
+      );
       
 
       // From Tim: consider an add in a turn the wheels apart (or 90 degrees) 
