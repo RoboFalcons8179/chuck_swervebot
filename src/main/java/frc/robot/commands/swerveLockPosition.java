@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.time.format.TextStyle;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -49,7 +51,8 @@ public class swerveLockPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    // int test = 't';
+    // System.out.println(test);
 
     // remember that positive rotation goes counterclockwise while looking down at the robot.
 
@@ -67,6 +70,8 @@ public class swerveLockPosition extends CommandBase {
 
     // Brake all the wheels
     for(SwerveModule mod:s_Swerve.mSwerveMods) {
+      int test = 't';
+      System.out.println(test);
 
       mod.mAngleMotor.setNeutralMode(NeutralMode.Brake);
       mod.mDriveMotor.setNeutralMode(NeutralMode.Brake);

@@ -56,7 +56,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
-    private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
     // Control Board Stuff//
     private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
@@ -160,7 +160,7 @@ public class RobotContainer {
 
         LeftSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS))));
 
-        //This Will Be Control Board//
+        //Control Board//
 
         forwardShoulder.debounce(0.04).whileTrue(new shoulderMove());
 

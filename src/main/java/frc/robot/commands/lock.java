@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -16,14 +16,14 @@ import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
-public final class Constants {
+public final class lock {
     public static final double stickDeadband = 0.1;
-
+    
 
     public static final class Swerve {
         public static final int pigeonID = 1;  
         public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
-
+        
         //TODO: This must be tuned to specific robot - CHECK TURN PID
         public static final COTSFalconSwerveConstants chosenModule =  
             COTSFalconSwerveConstants.SWERVEX(COTSFalconSwerveConstants.driveGearRatios.SWERVEX_L2);

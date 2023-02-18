@@ -24,7 +24,7 @@ public class invertSwitchV2 extends CommandBase {
     //Invert the shoulder backwards//
     ArmControl.elbowMotorLeft.set(Constants.kArm.kInvertElbow);
     ArmControl.shoulderMotorLeft.set(Constants.kArm.kInvertShoulderB);
-    ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowOut);
+    //ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowOut);
   }
 
   // Called once the command ends or is interrupted.
