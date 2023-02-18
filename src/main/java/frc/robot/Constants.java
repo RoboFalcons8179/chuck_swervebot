@@ -281,6 +281,7 @@ public final class Constants {
         public static final double kInvertShoulderF = 0;
         public static final double kInvertShoulderB = 0;
         public static final double kInvertElbow = 0;
+        public static final double kElbowOut = 0;
     }
 }
     
