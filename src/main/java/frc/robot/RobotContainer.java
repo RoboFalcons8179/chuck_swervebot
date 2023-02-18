@@ -73,7 +73,8 @@ public class RobotContainer {
     private final JoystickButton LeftSPS = new JoystickButton(driver, 9);
     private final JoystickButton LeftS = new JoystickButton(stick, 11);
     private final JoystickButton CenterSP = new JoystickButton(stick, 12);
-    private final JoystickButton RightSB = new JoystickButton(stick, 10);
+    private final JoystickButton CenterSB = new JoystickButton(stick, 10);
+    //private final JoystickButton RightSPS = new JoystickButton(stick, 10);
     //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
 
     // Switch buttons
@@ -97,7 +98,11 @@ public class RobotContainer {
     PathPlannerTrajectory RightB = PathPlanner.loadPath("RIGHTB", new PathConstraints(2,2));
     PathPlannerTrajectory LeftP = PathPlanner.loadPath("LEFTP", new PathConstraints(2, 2));
     PathPlannerTrajectory LeftPS = PathPlanner.loadPath("LEFTPS", new PathConstraints(2, 2));
-
+    PathPlannerTrajectory RightP = PathPlanner.loadPath("RIGHTP", new PathConstraints(2, 2));
+    PathPlannerTrajectory RightPS = PathPlanner.loadPath("RIGHTPS", new PathConstraints(2, 2));
+    PathPlannerTrajectory CenterS = PathPlanner.loadPath("CENTERS", new PathConstraints(2, 2));
+    PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
+    
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
 
@@ -156,7 +161,9 @@ public class RobotContainer {
 
         //CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterB));
 
-        RightSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
+        //RightSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
+
+        CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB)));
 
         LeftSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS))));
 
