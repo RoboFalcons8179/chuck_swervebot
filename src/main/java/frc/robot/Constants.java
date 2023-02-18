@@ -288,6 +288,9 @@ public final class Constants {
         public static final double kElbowHighCone = 0;
         public static final double kElbowMediumCone = 0;
         public static final double kElbowLowCone = 0;
+        public static final double kElbowHighCube = 0;
+        public static final double kElbowMediumCube = 0;
+        public static final double kElbowLowCube = 0;
         
         //Shoulder Measures//
         public static final double kShoulderHighCone = 0;
@@ -296,7 +299,6 @@ public final class Constants {
         public static final double kShoulderLowCube = 0;
         public static final double kShoulderMediumCube = 0;
         public static final double kShoulderHighCube = 0;
-
 
     }
 }
