@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmControl;
 
-public class coneRelease extends CommandBase {
-  /** Creates a new coneRelease. */
-  public coneRelease() {
+public class squareRelease extends CommandBase {
+  /** Creates a new squareRelease. */
+  public squareRelease() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -20,17 +20,14 @@ public class coneRelease extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-
-    //Command For Releasing Cone//
-    ArmControl.grabberMotor.set(Constants.kArm.kConeRelease);
-    System.out.println("Test");
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    //Command For Releasing Square
+    ArmControl.grabberMotor.set(Constants.kArm.kSquareRelease);
+  }
 
   // Returns true when the command should end.
   @Override

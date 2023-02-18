@@ -273,7 +273,16 @@ public final class Constants {
 
         // Grabber Motor Values//
         public static final double kConeGrab = 0;
+        public static final double kConeRelease = 0;
+        public static final double kSquareGrab = 0;
+        public static final double kSquareRelease = 0;
+
+        //Invert Switch//
+        public static final double kInvertShoulderF = 0;
+        public static final double kInvertShoulderB = 0;
+        public static final double kInvertElbow = 0;
     }
 }
     
+
 

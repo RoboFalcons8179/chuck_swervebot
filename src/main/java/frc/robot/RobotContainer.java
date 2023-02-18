@@ -59,12 +59,14 @@ public class RobotContainer {
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
     // Control Board Stuff//
-
     private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
     private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
     private final JoystickButton forwardElbow = new JoystickButton(board, 7);
     private final JoystickButton backwardElbow = new JoystickButton(board, 3);
     private final JoystickButton coneGrab = new JoystickButton(panel, 1);
+    // When we get a new switch change button number to what the switch is//
+    private final JoystickButton squareGrab = new JoystickButton(panel, 1);
+    private final JoystickButton invertSwitchButton = new JoystickButton (panel, 1);
 
 
     // Stick buttons
@@ -171,6 +173,15 @@ public class RobotContainer {
         coneGrab.debounce(0.04).whileTrue(new coneMove());
 
         coneGrab.debounce(0.04).whileFalse(new coneRelease());
+
+        squareGrab.debounce(0.04).whileTrue(new squareMove());
+
+        squareGrab.debounce(0.04).whileFalse(new squareRelease());
+
+        invertSwitchButton.debounce(0.04).whileFalse(new invertSwitch());
+
+        invertSwitchButton.debounce(0.04).whileTrue(new invertSwitchV2());
+
         
     }
     private void runTroubleshooting() {
