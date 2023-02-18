@@ -281,6 +281,19 @@ public final class Constants {
         public static final double kInvertShoulderF = 0;
         public static final double kInvertShoulderB = 0;
         public static final double kInvertElbow = 0;
+
+        //Elbow Measures//
+        public static final double kElbowIn = 0;
+        public static final double kShoulderHighCube = 0;
+        public static final double kElbowHighCube = 0;
+        public static final double kShoulderMediumCone = 0;
+        public static final double kElbowMediumCone = 0;
+        public static final double kShoulderLowCone = 0;
+        public static final double kElbowLowCone = 0;
+        public static final double kShoulderHighCone = 0;
+        public static final double kElbowHighCone = 0;
+
+
     }
 }
     
