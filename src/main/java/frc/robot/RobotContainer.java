@@ -66,7 +66,8 @@ public class RobotContainer {
     private final JoystickButton coneGrab = new JoystickButton(panel, 1);
     // When we get a new switch change button number to what the switch is//
     private final JoystickButton squareGrab = new JoystickButton(panel, 1);
-    private final JoystickButton invertSwitchButton = new JoystickButton (panel, 1);
+    private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
+    private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
 
 
     // Stick buttons
@@ -178,9 +179,9 @@ public class RobotContainer {
 
         squareGrab.debounce(0.04).whileFalse(new squareRelease());
 
-        invertSwitchButton.debounce(0.04).whileFalse(new invertSwitch());
+        invertSwitchButton1.debounce(0.04).whileTrue(new invertSwitch());
 
-        invertSwitchButton.debounce(0.04).whileTrue(new invertSwitchV2());
+        invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitchV2());
 
         
     }
