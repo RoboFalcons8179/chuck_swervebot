@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.Map;
 
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -79,7 +80,8 @@ public class RobotContainer {
     //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
 
     // Switch buttons
-    // private final JoystickButton forwardShoulder = new JoystickButton(panel, 1);
+     private final JoystickButton test = new JoystickButton(panel, 1);
+     //private final JoystickButton test2 = new JoystickButton(panel, 0);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -289,71 +291,15 @@ public static void getAlliance() {
 
     public Command getAutonomousCommand() {
 
-        // // First, find the info that we need to choose the command.
+        if (test.getAsBoolean() == true){
+           return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
+        }
 
-        // String thisCmd =  autoCommand.getString("ALPHA");
-        // double thisDelay =     autoDelay.getDouble(0);
-        // boolean thisLock =  autoHold.getBoolean(false);
+        else{
+            return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
+        }
 
-        // // Initalize the command
-        // Command cmd = new WaitCommand(thisDelay);
-
-        // // It may be worth making all the different traj's into their own command files.
-        // // otherwise, look into using the .andThen / .parrallel / .raceParallel cmd compositions.
-
-        // switch (thisCmd.charAt(0)) {
-        //     case 'A':
-        //         // default trajectory
-        //         cmd=cmd.andThen(new backAndForth(s_Swerve));
-
-        //     case 'B':
-        //         // secondary traj
-
-        //        cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleLeft));
-
-        //     case 'C':
-        //         // 3rd traj
-        //         cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.shuffleRight));
-
-        //     case 'D':
-        //         // 4th traj
-
-        //         cmd=cmd.andThen(new doTrajectory(s_Swerve, traj.exampleTrajectory));
-
-        //     break;
-
-        //     default:
-
-        //         // Always have a backup plan. Don't rely on the shuffleboard.
-
-        //         new backAndForth(s_Swerve);
-
-        //     break;
-        // }
-
-        // // and keep adding commands
-        // // cmd.andThen(null)
-
-        // // In this case, we need to do testning to see if we should lock the wheels or continue to be in "balance" mode.
-        // // Would reccommend for auto balance, then lock. Do not move after. 
-        // // Another bot can ram into the side after we are already up and you will end up on top of it.
-        // // if another bot wants to get up there, it can get up and try to push us.
-
-
-
-        // if (thisLock) {
-        //     cmd=cmd.andThen(new swerveLockPosition(s_Swerve,0));
-        // }
-                        
-        
-            // if(team=1){
-            //     LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
-            // }
-        
-
-        return new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS)));
-
-        
+              
 
     }
 
