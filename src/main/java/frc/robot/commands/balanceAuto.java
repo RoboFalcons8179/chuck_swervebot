@@ -26,11 +26,11 @@ public class balanceAuto extends SequentialCommandGroup {
       new InstantCommand(() -> System.out.println(s_Swerve.isRobotLevel())),
 
       
-      new Balance(s_Swerve).withTimeout(0.35),
+      new Balance(s_Swerve).withTimeout(0.3),
 
       new InstantCommand(() -> s_Swerve.stop()),
       
-      new WaitCommand(0.75),
+      new WaitCommand(1.00),
 
       new WaitCommand(10).until(() -> (s_Swerve.isRobotStill()))
             

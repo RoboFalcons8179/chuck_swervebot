@@ -10,6 +10,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -92,6 +93,7 @@ public class chaseTagV2 extends CommandBase {
 
   @Override
   public void execute() {
+    Pose2d goalPose = new Pose2d(TAG_TO_GOAL.getX(),TAG_TO_GOAL.getY(), new Rotation2d());
     var robotPose2d = new Pose2d();
     var robotPose = 
         new Pose3d(
@@ -122,7 +124,8 @@ public class chaseTagV2 extends CommandBase {
         var targetPose = cameraPose.transformBy(camToTarget);
         
         // Transform the tag's pose to set our goal
-        var goalPose = targetPose.transformBy(TAG_TO_GOAL).toPose2d();
+        goalPose = targetPose.transformBy(TAG_TO_GOAL).toPose2d();
+        
 
         // Drive
         xController.setGoal(goalPose.getX());
@@ -130,6 +133,10 @@ public class chaseTagV2 extends CommandBase {
         omegaController.setGoal(goalPose.getRotation().getRadians());
       }
     }
+
+    double xSpeed = 0;
+    double ySpeed = 0;
+    double omegaSpeed = 0;
     
     if (lastTarget == null) {
       // No target has been visible
@@ -137,9 +144,9 @@ public class chaseTagV2 extends CommandBase {
       lostTarget = true;
     } else {
       // calculate
-      var xSpeed = xController.calculate(robotPose.getX());
-      var ySpeed = yController.calculate(robotPose.getY());
-      var omegaSpeed = omegaController.calculate(robotPose2d.getRotation().getRadians());
+      xSpeed = xController.calculate(goalPose.getX());
+      ySpeed = yController.calculate(goalPose.getY());
+      ySpeed = omegaController.calculate(goalPose.getRotation().getRadians());
 
 
       if(xAtGoal) {
@@ -157,31 +164,34 @@ public class chaseTagV2 extends CommandBase {
 
 
 
-      // Troubleshoot
 
-      
-      SmartDashboard.putNumber("Robot range", robotPose.getX() );
-      SmartDashboard.putNumber("ROBOT strafe",robotPose.getY());
-      SmartDashboard.putNumber("ROBOT ANGLE", robotPose2d.getRotation().getRadians());
-
-      SmartDashboard.putNumber("XSPEEDCMD", xSpeed);
-      SmartDashboard.putNumber("YSPEEDCMD", ySpeed);
-      SmartDashboard.putNumber("OMEGASPEEDCMD", omegaSpeed );
-
-      SmartDashboard.putBoolean("X_CONTROLLER_AT_GOAL", xAtGoal);
-      SmartDashboard.putBoolean("Y_CONTROLLER_AT_GOAL", yAtGoal);
-      SmartDashboard.putBoolean("R_CONTROLLER_AT_GOAL", rAtGoal);
-
-      SmartDashboard.putData(xController);
-      SmartDashboard.putData(yController);
-      SmartDashboard.putData(omegaController);
-
-      SmartDashboard.putBoolean("SOTPPED", lostTarget);
 
 
       
     }
-  }
+
+
+        // Troubleshoot
+
+    
+        SmartDashboard.putNumber("Robot range", robotPose.getX() );
+        SmartDashboard.putNumber("ROBOT strafe",robotPose.getY());
+        SmartDashboard.putNumber("ROBOT ANGLE", robotPose2d.getRotation().getRadians());
+  
+        SmartDashboard.putNumber("XSPEEDCMD", xSpeed);
+        SmartDashboard.putNumber("YSPEEDCMD", ySpeed);
+        SmartDashboard.putNumber("OMEGASPEEDCMD", omegaSpeed );
+  
+        SmartDashboard.putBoolean("X_CONTROLLER_AT_GOAL", xAtGoal);
+        SmartDashboard.putBoolean("Y_CONTROLLER_AT_GOAL", yAtGoal);
+        SmartDashboard.putBoolean("R_CONTROLLER_AT_GOAL", rAtGoal);
+  
+        SmartDashboard.putData(xController);
+        SmartDashboard.putData(yController);
+        SmartDashboard.putData(omegaController);
+  
+        SmartDashboard.putBoolean("SOTPPED", lostTarget);
+}
 
   @Override
   public void end(boolean interrupted) {

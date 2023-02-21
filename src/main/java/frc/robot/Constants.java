@@ -180,14 +180,14 @@ public final class Constants {
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 6;
+        public static final double kMaxSpeedMetersPerSecond = 2;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 2;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*4;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 4;
     
         public static final double kPXController = 1.2;
         public static final double kPYController = 3.25;
-        public static final double kPThetaController = 2;
+        public static final double kPThetaController = 1;
     
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
@@ -198,8 +198,8 @@ public final class Constants {
 
     public static final class kBalance {
 
-        public static final double StillThreshold = 0.000000400; // in G's
-        public static final double BalanceAccelThreshold = 0.000000000000000000025; // In G's
+        public static final double StillThreshold = 0.050000; // in G's
+        public static final double BalanceAccelThreshold = 0.85; // In angle's
         public static final double power = 0.8; // Speed demanded to the wheels, relitive to MAX Speed.
 
         // Averaging window for accels when determining if the robot is still. 

@@ -58,7 +58,7 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
+    // private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
     private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
     private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
@@ -103,7 +103,8 @@ public class RobotContainer {
     PathPlannerTrajectory RightPS = PathPlanner.loadPath("RIGHTPS", new PathConstraints(2, 2));
     PathPlannerTrajectory CenterS = PathPlanner.loadPath("CENTERS", new PathConstraints(2, 2));
     PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
-    
+    PathPlannerTrajectory CenterMO = PathPlanner.loadPath("CENTERMO", new PathConstraints(2,2));
+
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
 
@@ -190,7 +191,7 @@ public class RobotContainer {
 
         invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitchV2());
 
-        test.debounce(0.04).whileTrue(new teste());
+        //test.debounce(0.04).whileTrue(new teste());
         
     }
     private void runTroubleshooting() {
