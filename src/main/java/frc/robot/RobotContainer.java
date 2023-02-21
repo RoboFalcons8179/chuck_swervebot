@@ -292,16 +292,18 @@ public static void getAlliance() {
     public Command getAutonomousCommand() {
 
         if (test.getAsBoolean() == true){
-           return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
+           return new doPathTrajectory(s_Swerve, CenterS);
         }
 
         else{
-            return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
+            return (new doPathTrajectory(s_Swerve, CenterB));
         }
 
               
 
     }
+
+    //            return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
 
 
 }
