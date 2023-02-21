@@ -108,7 +108,6 @@ public class chaseTagV2 extends CommandBase {
     if (photonRes.hasTargets()) {
       // Find the tag we want to chase
       var targetOpt = photonRes.getTargets().stream()
-          .filter(t -> t.getFiducialId() == 2)
           .filter(t -> !t.equals(lastTarget) && t.getPoseAmbiguity() <= .2 && t.getPoseAmbiguity() != -1)
           .findFirst();
       if (targetOpt.isPresent()) {
@@ -132,6 +131,8 @@ public class chaseTagV2 extends CommandBase {
         yController.setGoal(goalPose.getY());
         omegaController.setGoal(goalPose.getRotation().getRadians());
       }
+    } else {
+      lastTarget = null;
     }
 
     double xSpeed = 0;
