@@ -9,10 +9,17 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmControl;
 
 public class cubeMedium extends CommandBase {
-  /** Creates a new cubeMedium. */
-  public cubeMedium() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  public ArmControl arm;
+  /** Creates a new coneLow. */
+  public cubeMedium(ArmControl arm_in) {
+    
+
+    this.arm = arm_in;
+
+    addRequirements(arm);
   }
+
 
   // Called when the command is initially scheduled.
   @Override

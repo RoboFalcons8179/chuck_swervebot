@@ -9,9 +9,15 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmControl;
 
 public class coneLow extends CommandBase {
+
+  public ArmControl arm;
   /** Creates a new coneLow. */
-  public coneLow() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public coneLow(ArmControl arm_in) {
+    
+
+    this.arm = arm_in;
+
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.

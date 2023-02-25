@@ -9,10 +9,17 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmControl;
 
 public class cubeLow extends CommandBase {
-  /** Creates a new cubeLow. */
-  public cubeLow() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  public ArmControl arm;
+  /** Creates a new coneLow. */
+  public cubeLow(ArmControl arm_in) {
+    
+
+    this.arm = arm_in;
+
+    addRequirements(arm);
   }
+
 
   // Called when the command is initially scheduled.
   @Override

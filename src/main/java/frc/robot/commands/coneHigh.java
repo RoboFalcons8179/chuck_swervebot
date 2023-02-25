@@ -8,10 +8,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmControl;
 
+
 public class coneHigh extends CommandBase {
+
+
+  public ArmControl arm;
+
   /** Creates a new coneHigh. */
-  public coneHigh() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public coneHigh(ArmControl arm_in) {
+
+    this.arm = arm_in;
+
+    addRequirements(arm);
+    
   }
 
   // Called when the command is initially scheduled.
