@@ -5,33 +5,51 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ArmControl;
+import frc.robot.subsystems.Grabber;
 
-public class squareRelease extends CommandBase {
-  /** Creates a new squareRelease. */
-  public squareRelease() {
+public class openClaw extends CommandBase {
+  /** Creates a new openClaw. */
+
+
+  // Directions - make sure to use the timeout command below after any time you
+  // start this command.
+  // .withTimeout(Constants.kGrabber.openTimeout)
+
+
+  Grabber claw;
+  public openClaw(Grabber claw_in) {
     // Use addRequirements() here to declare subsystem dependencies.
+    claw = claw_in;
+
+    addRequirements(claw);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    claw.openClawSubsystem();
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Command For Releasing Square
-    ArmControl.grabberMotor.set(Constants.kArm.kSquareRelease);
+
+    claw.stopClaw();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // potentially add the wait here
     return false;
   }
 }

@@ -86,6 +86,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final pVision vision = new pVision();
+    private final Grabber claw = new Grabber();
 
     /* Troubleshooting, Auto, and Shuffleboard */
     private final SendableChooser<Command> commandChooser = new SendableChooser<>();
@@ -157,7 +158,7 @@ public class RobotContainer {
         // counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
-        holdBot.debounce(0.04).whileTrue(new swerveLockPosition(s_Swerve, rotationAxis));
+        holdBot.debounce(0.04).whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
 
         LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
 
@@ -180,14 +181,6 @@ public class RobotContainer {
         forwardElbow.debounce(0.04).whileTrue(new elbowMove());
 
         backwardElbow.debounce(0.04).whileTrue(new elbowMoveV2());
-
-        coneGrab.debounce(0.04).whileTrue(new coneMove());
-
-        coneGrab.debounce(0.04).whileFalse(new coneRelease());
-
-        squareGrab.debounce(0.04).whileTrue(new squareMove());
-
-        squareGrab.debounce(0.04).whileFalse(new squareRelease());
 
         invertSwitchButton1.debounce(0.04).whileTrue(new invertSwitch());
 

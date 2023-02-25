@@ -221,7 +221,6 @@ public final class Constants {
         public static final int kShoulderMotorIDLeft = 21;
         public static final int kElbowMotorIDRight = 22;
         public static final int kElbowMotorIDLeft = 23;
-        public static final int kGrabberMotorID = 24;
 
         // Shoulder Invert//
         public static final TalonFXInvertType shoulderMotorLeftInvert = TalonFXInvertType.Clockwise;
@@ -237,16 +236,17 @@ public final class Constants {
         public static double kShoulderD = 0;
         public static double kShoulderG = 0;
 
-        // Grabber Invert//
-        public static final TalonFXInvertType grabberMotorInvert = TalonFXInvertType.Clockwise;
-
-        // Grabber Phase//
-        public static final boolean grabberMotorPhase = false;
-
-        // Grabber PID//
-        public static final double kGrabberP = 0;
-        public static final double kGrabberI = 0;
-        public static final double kGrabberD = 0;
+        //Shoulders//
+        public static double kShoulderForward = 0;
+        public static double kShoulderBackward = 0;
+        public static final double kShoulderHighCube = 0;
+        public static final double kShoulderMediumCube = 0;
+        public static final double kShoulderLowCube = 0;
+        public static final double kShoulderMediumCone = 0;
+        public static final double kShoulderLowCone = 0;
+        public static final double kShoulderHighCone = 0;
+        public static final double kShoulderEncoderAt90Degrees = 0;
+        public static final double kElbowEncoderAt90Degrees = 0;
 
         // Elbow Invert/
         public static final InvertType elbowMotorLeftInvert = InvertType.None;
@@ -255,7 +255,6 @@ public final class Constants {
         // Elbow Phase//
         public static final boolean elbowLeftPhase = false;
         public static final boolean elbowRightPhase = false;
-        
     
         //Elbow PIDG//
         public static double kElbowP = 0;
@@ -263,24 +262,9 @@ public final class Constants {
         public static double kElbowD = 0;
         public static double kElbowG = 0;
 
-        //Setting Shoulder Motor values//
-        public static double kShoulderForward = 0;
-        public static double kShoulderBackward = 0;
-
         //Setting Elbow Motor Values//
         public static double kElbowForward = 0;
         public static double kElbowBackward = 0;
-
-        // Grabber Motor Values//
-        public static final double kConeGrab = 0;
-        public static final double kConeRelease = 0;
-        public static final double kSquareGrab = 0;
-        public static final double kSquareRelease = 0;
-
-        //Invert Switch//
-        public static final double kInvertShoulderF = 0;
-        public static final double kInvertShoulderB = 0;
-        public static final double kInvertElbow = 0;
 
         //Elbow Measures//
         public static final double kElbowIn = 0;
@@ -291,15 +275,49 @@ public final class Constants {
         public static final double kElbowLowCone = 0;
         public static final double kElbowHighCone = 0;
 
-        //Shoulders//
-        public static final double kShoulderHighCube = 0;
-        public static final double kShoulderMediumCube = 0;
-        public static final double kShoulderLowCube = 0;
-        public static final double kShoulderMediumCone = 0;
-        public static final double kShoulderLowCone = 0;
-        public static final double kShoulderHighCone = 0;
-        public static final double kShoulderEncoderAt90Degrees = 0;
-        public static final double kElbowEncoderAt90Degrees = 0;
+        //Invert Switch//
+        public static final double kInvertShoulderF = 0;
+        public static final double kInvertShoulderB = 0;
+        public static final double kInvertElbow = 0;
+        
+    }
+
+    public static final class kGrabber{
+        //CAN ID's//
+        public static final int kGrabberMotorID = 24;
+
+        // Grabber Invert//
+        public static final boolean grabberMotorInvert = false;
+
+        // Grabber Phase//
+        public static final boolean grabberMotorPhase = false;
+
+        // Grabber PID//
+        public static final double kGrabberP = 0.04;
+        public static final double kGrabberI = 0;
+        public static final double kGrabberD = 0;
+        public static final double kGrabberF = 0.65;
+
+        // Grabber Motor Values//
+        public static final double kConeGrab = 0;
+        public static final double kConeRelease = 0;
+        public static final double kSquareGrab = 0;
+        public static final double kSquareRelease = 0;
+
+        //Power Levels//
+        public static final double backPower = 0;
+        public static final double squeezeCurrent = 0;
+
+        //Safety Limit Currenting//
+        public static final int ampLimit = 5;
+        public static final int timeout = 500; //ms
+
+        // Timeout for the open claw command. Needed if the 
+        // limit switch breaks.
+        public static final double openTimeout = 5;
+
+
+
     }
 }
     

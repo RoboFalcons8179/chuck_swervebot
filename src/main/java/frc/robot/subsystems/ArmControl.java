@@ -22,7 +22,6 @@ public class ArmControl extends SubsystemBase {
   public static WPI_TalonFX shoulderMotorRight = new WPI_TalonFX (Constants.kArm.kShoulderMotorIDRight); 
   public static WPI_TalonFX shoulderMotorLeft = new WPI_TalonFX (Constants.kArm.kShoulderMotorIDLeft);
   public static WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorIDLeft);
-  public static WPI_TalonFX grabberMotor = new WPI_TalonFX (Constants.kArm.kGrabberMotorID);
   
   
   public ArmControl() {
@@ -62,20 +61,7 @@ public class ArmControl extends SubsystemBase {
     elbowMotorLeft.config_kI(0, Constants.kArm.kElbowI);
     elbowMotorLeft.config_kD(0, Constants.kArm.kElbowD);
 
-    //Setting Grabber Inverted//
-    grabberMotor.setInverted(Constants.kArm.grabberMotorInvert);
-
-    // Setting Grabber Sensor Phase//
-    grabberMotor.setSensorPhase(Constants.kArm.grabberMotorPhase);
-
-    // Grabber PID//
-  /*grabberMotor.config_kP(0, Constants.kArm.kGrabberP);
-    grabberMotor.config_kP(0, Constants.kArm.kGrabberI);
-    grabberMotor.config_kP(0, Constants.kArm.kGrabberD);*/
-
-    grabberMotor.config_kP(0, Constants.kArm.kGrabberP);
-    grabberMotor.config_kI(0, Constants.kArm.kGrabberI);
-    grabberMotor.config_kD(0, Constants.kArm.kGrabberD); // -z
+    
     
     shoulderMotorRight.follow(shoulderMotorLeft);
 
