@@ -59,6 +59,8 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton slowForward = new JoystickButton(driver, XboxController.Axis.kRightX.value);
+    
     // private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
     private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
@@ -72,7 +74,7 @@ public class RobotContainer {
     private final JoystickButton squareGrab = new JoystickButton(panel, 1);
 
     // Stick buttons
-    private final JoystickButton LeftSPS = new JoystickButton(driver, 9);
+    private final JoystickButton LeftSPS = new JoystickButton(stick, 9);
     private final JoystickButton LeftS = new JoystickButton(stick, 11);
     private final JoystickButton CenterSP = new JoystickButton(stick, 12);
     private final JoystickButton CenterSB = new JoystickButton(stick, 10);
@@ -193,6 +195,8 @@ public class RobotContainer {
 
         invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitchV2());
 
+        slowForward.debounce(0.04).whileTrue(new doAThing());
+
         //test.debounce(0.04).whileTrue(new teste());
         
     }
@@ -237,9 +241,8 @@ public class RobotContainer {
   
     }
 
-
 // attempt to read alliance color and number
-/*public enum Alliance {
+public enum Alliance {
     Red1,
     Blue1,
     Red2,
@@ -286,7 +289,7 @@ public static void getAlliance() {
           default:
             //return Alliance.Invalid;
         }
-      } this is in teste */
+      }
 
 
     public Command getAutonomousCommand() {
