@@ -239,7 +239,7 @@ public class RobotContainer {
 
 
 // attempt to read alliance color and number
-public enum Alliance {
+/*public enum Alliance {
     Red1,
     Blue1,
     Red2,
@@ -286,7 +286,7 @@ public static void getAlliance() {
           default:
             //return Alliance.Invalid;
         }
-      }
+      } this is in teste */
 
 
     public Command getAutonomousCommand() {

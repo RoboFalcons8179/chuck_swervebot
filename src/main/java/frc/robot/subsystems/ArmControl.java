@@ -69,9 +69,13 @@ public class ArmControl extends SubsystemBase {
     grabberMotor.setSensorPhase(Constants.kArm.grabberMotorPhase);
 
     // Grabber PID//
-    grabberMotor.config_kP(0, Constants.kArm.kGrabberP);
+  /*grabberMotor.config_kP(0, Constants.kArm.kGrabberP);
     grabberMotor.config_kP(0, Constants.kArm.kGrabberI);
-    grabberMotor.config_kP(0, Constants.kArm.kGrabberD);
+    grabberMotor.config_kP(0, Constants.kArm.kGrabberD);*/
+
+    grabberMotor.config_kP(0, Constants.kArm.kGrabberP);
+    grabberMotor.config_kI(0, Constants.kArm.kGrabberI);
+    grabberMotor.config_kD(0, Constants.kArm.kGrabberD); // -z
     
     shoulderMotorRight.follow(shoulderMotorLeft);
 
@@ -107,7 +111,8 @@ public class ArmControl extends SubsystemBase {
   @Override
   public void periodic() {
 
-    // accound for gravity
+    // account for gravity
+    // why are these not instance / static variables instead of just periodic ? -z
     double shoulderAngle = shoulderMotorLeft.getSelectedSensorPosition();
     double elbowAngle = elbowMotorLeft.getSelectedSensorPosition();
 

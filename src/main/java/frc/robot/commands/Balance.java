@@ -51,7 +51,7 @@ public class Balance extends CommandBase {
       backwards=1;
     }
     if (angleTarget < 0){
-      angleTarget=angleTarget+Math.toRadians(180);
+      angleTarget = angleTarget + Math.toRadians(180);
     }
 
   }

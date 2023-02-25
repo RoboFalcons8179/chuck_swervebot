@@ -9,9 +9,16 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmControl;
 
 public class elbowMove extends CommandBase {
+
+  public boolean f = true;
+
   /** Creates a new elbowMove. */
   public elbowMove() {
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public elbowMove(boolean forward) {
+    f = forward;
   }
 
   // Called when the command is initially scheduled.
@@ -19,11 +26,23 @@ public class elbowMove extends CommandBase {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
+/*@Override
   public void execute() {
 
     //Command For Moving Elbow
     ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowForward);
+  }
+
+  see invertSwitch -z
+  */
+
+  @Override
+  public void execute() {
+    ArmControl.elbowMotorLeft.set(
+      f ? 
+      Constants.kArm.kElbowForward :
+      Constants.kArm.kElbowBackward
+    );
   }
 
   // Called once the command ends or is interrupted.

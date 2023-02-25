@@ -134,6 +134,7 @@ public class Swerve extends SubsystemBase {
 
     }
 
+    //^ v why do these both exist when the other almost serves the same purpose / what does desaturateWheelSpeeds() do? -z
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -217,7 +218,7 @@ public class Swerve extends SubsystemBase {
         return out;
     }
 
-    // From Zack's math. finds the angle between gravity and the plane of the Bot, then
+    // From Zach's math. finds the angle between gravity and the plane of the Bot, then
     // the angle or the swerve wheels are required to be to point it in the right direction for balencing.
     // In RADs
     public double pointingUpAngle() {
@@ -234,7 +235,7 @@ public class Swerve extends SubsystemBase {
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
 
-        // SWERVE GYRO FILTERING - USED FOR BALENCING
+        // SWERVE GYRO FILTERING - USED FOR BALANCING
         xAcc = xAccfilter.calculate(gyro.getWorldLinearAccelX());
         yAcc = yAccfilter.calculate(gyro.getWorldLinearAccelY());
         zAcc = zAccfilter.calculate(gyro.getWorldLinearAccelZ());

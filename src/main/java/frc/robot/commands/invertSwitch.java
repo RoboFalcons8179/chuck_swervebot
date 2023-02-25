@@ -9,9 +9,17 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmControl;
 
 public class invertSwitch extends CommandBase {
+
+  private boolean f = true;
+
   /** Creates a new invertSwitch. */
-  public invertSwitch() {
+  public invertSwitch(boolean isKInvertShoulderF) {
     // Use addRequirements() here to declare subsystem dependencies.
+    f = isKInvertShoulderF;
+  }
+
+  public invertSwitch() {
+    // To not break existing code
   }
 
   // Called when the command is initially scheduled.
@@ -19,13 +27,27 @@ public class invertSwitch extends CommandBase {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
+  
+  /* original invertSwitch here
   @Override
   public void execute() {
     //Invert the shoulder forward//
     ArmControl.elbowMotorLeft.set(Constants.kArm.kInvertElbow);
     ArmControl.shoulderMotorLeft.set(Constants.kArm.kInvertShoulderF);
     //ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowOut);
-  }
+  } */
+
+  @Override
+  public void execute() {
+    ArmControl.elbowMotorLeft.set(Constants.kArm.kInvertElbow);
+    ArmControl.shoulderMotorLeft.set(
+      f ? //checks if the parameter on the parameterized constructor wants kInvertShoulderF or the other option, the ? is a fancy if/else statement
+
+      Constants.kArm.kInvertShoulderF : 
+      Constants.kArm.kInvertShoulderB
+
+    );
+  } // the goal of this is to eliminate the need for invertSwitchV2, im not going to delete it though because I'm not sure the intention of having seperate forward and backward commands -z
 
   // Called once the command ends or is interrupted.
   @Override
