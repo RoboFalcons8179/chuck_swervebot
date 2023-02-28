@@ -13,9 +13,9 @@ public class invertSwitch extends CommandBase {
   private boolean f = true;
 
   /** Creates a new invertSwitch. */
-  public invertSwitch(boolean isKInvertShoulderF) {
+  public invertSwitch(boolean isForward) {
     // Use addRequirements() here to declare subsystem dependencies.
-    f = isKInvertShoulderF;
+    f = isForward;
   }
 
   public invertSwitch() {
@@ -27,20 +27,12 @@ public class invertSwitch extends CommandBase {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
-  
-  /* original invertSwitch here
-  @Override
-  public void execute() {
-    //Invert the shoulder forward//
-    ArmControl.elbowMotorLeft.set(Constants.kArm.kInvertElbow);
-    ArmControl.shoulderMotorLeft.set(Constants.kArm.kInvertShoulderF);
-    //ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowOut);
-  } */
 
   @Override
   public void execute() {
     ArmControl.elbowMotorLeft.set(Constants.kArm.kInvertElbow);
     ArmControl.shoulderMotorLeft.set(
+      
       f ? //checks if the parameter on the parameterized constructor wants kInvertShoulderF or the other option, the ? is a fancy if/else statement
 
       Constants.kArm.kInvertShoulderF : 

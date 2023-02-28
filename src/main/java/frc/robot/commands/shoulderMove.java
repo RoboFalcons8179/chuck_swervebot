@@ -13,9 +13,15 @@ import frc.robot.subsystems.ArmControl;
 
 public class shoulderMove extends CommandBase {
 
+  public boolean f = true;
+
   /** Creates a new shoulderMove. */
   public shoulderMove() {
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public shoulderMove(boolean isForward) {
+    f = isForward;
   }
 
   // Called when the command is initially scheduled.
@@ -26,9 +32,14 @@ public class shoulderMove extends CommandBase {
   @Override
   public void execute() {
     //Command For Moving Shoulder 
-    ArmControl.shoulderMotorLeft.set(Constants.kArm.kShoulderForward);
-    System.out.println("test");
+    ArmControl.shoulderMotorLeft.set(
 
+    f ?
+
+    Constants.kArm.kShoulderForward:
+    Constants.kArm.kShoulderBackward
+
+    );
   }
 
   // Called once the command ends or is interrupted.

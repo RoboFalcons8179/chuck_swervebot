@@ -17,31 +17,23 @@ public class elbowMove extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public elbowMove(boolean forward) {
-    f = forward;
+  public elbowMove(boolean isForward) {
+    f = isForward;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-/*@Override
-  public void execute() {
-
-    //Command For Moving Elbow
-    ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowForward);
-  }
-
-  see invertSwitch -z
-  */
-
   @Override
   public void execute() {
     ArmControl.elbowMotorLeft.set(
-      f ? 
+
+      f ?
+
       Constants.kArm.kElbowForward :
       Constants.kArm.kElbowBackward
+    
     );
   }
 

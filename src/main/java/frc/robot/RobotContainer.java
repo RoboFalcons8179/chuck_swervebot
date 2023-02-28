@@ -176,17 +176,17 @@ public class RobotContainer {
 
         //Control Board//
 
-        forwardShoulder.debounce(0.04).whileTrue(new shoulderMove());
+        forwardShoulder.debounce(0.04).whileTrue(new shoulderMove(true));
 
-        backwardShoulder.debounce(0.04).whileTrue(new shoulderMoveV2());
+        backwardShoulder.debounce(0.04).whileTrue(new shoulderMove(false));
 
-        forwardElbow.debounce(0.04).whileTrue(new elbowMove());
+        forwardElbow.debounce(0.04).whileTrue(new elbowMove(true));
 
-        backwardElbow.debounce(0.04).whileTrue(new elbowMoveV2());
+        backwardElbow.debounce(0.04).whileTrue(new elbowMove(false));
 
-        invertSwitchButton1.debounce(0.04).whileTrue(new invertSwitch());
+        invertSwitchButton1.debounce(0.04).whileTrue(new invertSwitch(true));
 
-        invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitchV2());
+        invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitch(false));
 
         slowForward.debounce(0.04).whileTrue(new doAThing());
 
