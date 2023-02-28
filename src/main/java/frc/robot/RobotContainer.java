@@ -95,7 +95,7 @@ public class RobotContainer {
     private GenericEntry autoCommand;
     private GenericEntry autoDelay;
     private GenericEntry autoHold;
-    
+
     PathPlannerTrajectory CenterRB = PathPlanner.loadPath("CENTERRB", new PathConstraints(2, 2));
 
     PathPlannerTrajectory CenterMO = PathPlanner.loadPath("CENTERMO", new PathConstraints(2,2));
@@ -107,6 +107,8 @@ public class RobotContainer {
     PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERSB", new PathConstraints(2, 2));
     
     PathPlannerTrajectory CenterSPTraj = PathPlanner.loadPath("CENTERSP", new PathConstraints(2, 2));
+
+    PathPlannerTrajectory LeaveC = PathPlanner.loadPath("LEAVEC", new PathConstraints(2, 2));
     
     PathPlannerTrajectory LeftBPPTraj = PathPlanner.loadPath("LEFTB", new PathConstraints(2, 2));
     
@@ -115,6 +117,8 @@ public class RobotContainer {
     PathPlannerTrajectory LeftPS = PathPlanner.loadPath("LEFTPS", new PathConstraints(2, 2));
     
     PathPlannerTrajectory LeftSPPTraj = PathPlanner.loadPath("LEFTS", new PathConstraints(2, 2));
+
+    PathPlannerTrajectory ReturnC = PathPlanner.loadPath("RETURNC", new PathConstraints(2, 2));
     
     PathPlannerTrajectory RightB = PathPlanner.loadPath("RIGHTB", new PathConstraints(2,2));
     
