@@ -245,8 +245,9 @@ public final class Constants {
         public static final double kShoulderMediumCone = 0;
         public static final double kShoulderLowCone = 0;
         public static final double kShoulderHighCone = 0;
-        public static final double kShoulderEncoderAt90Degrees = 0;
-        public static final double kElbowEncoderAt90Degrees = 0;
+        public static final double kShoulderEncoderAt90Degrees = 1;
+        public static final double kElbowEncoderAt90Degrees = 1;
+        public static final double centerDegreeShoulder = 0;
 
         // Elbow Invert/
         public static final InvertType elbowMotorLeftInvert = InvertType.None;
@@ -279,6 +280,7 @@ public final class Constants {
         public static final double kInvertShoulderF = 0;
         public static final double kInvertShoulderB = 0;
         public static final double kInvertElbow = 0;
+        
         
     }
 

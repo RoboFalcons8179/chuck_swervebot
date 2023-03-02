@@ -11,7 +11,7 @@ import frc.robot.subsystems.ArmControl;
 public class cubeHigh extends CommandBase {
 
   public ArmControl arm;
-  /** Creates a new coneLow. */
+  /** Creates a new cube high  */
   public cubeHigh(ArmControl arm_in) {
     
 

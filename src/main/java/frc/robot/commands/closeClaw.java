@@ -5,32 +5,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ArmControl;
+import frc.robot.subsystems.Grabber;
 
-public class cubeLow extends CommandBase {
+public class closeClaw extends CommandBase {
 
-  public ArmControl arm;
-  /** Creates a new cube Low. */
-  public cubeLow(ArmControl arm_in) {
-    
 
-    this.arm = arm_in;
+  Grabber claw;
+  public closeClaw(Grabber claw_out) {
 
-    addRequirements(arm);
+    claw = claw_out;
+
+    addRequirements(claw);
+
+
   }
-
+  
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowIn);
-    ArmControl.shoulderMotorLeft.set(Constants.kArm.kShoulderLowCube);
-    ArmControl.elbowMotorLeft.set(Constants.kArm.kElbowLowCube);
+
+    claw.closeClawSubsystem();
   }
 
   // Called once the command ends or is interrupted.

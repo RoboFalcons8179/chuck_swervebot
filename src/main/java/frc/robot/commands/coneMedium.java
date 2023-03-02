@@ -11,7 +11,7 @@ import frc.robot.subsystems.ArmControl;
 public class coneMedium extends CommandBase {
 
   public ArmControl arm;
-  /** Creates a new coneLow. */
+  /** Creates a new cone Medium */
   public coneMedium(ArmControl arm_in) {
     
 

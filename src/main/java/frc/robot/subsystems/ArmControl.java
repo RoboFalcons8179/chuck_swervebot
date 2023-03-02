@@ -68,6 +68,18 @@ public class ArmControl extends SubsystemBase {
   }
 
 
+  public boolean shoulderDirection() {
+    if (shoulderEncodertoDegrees(0) < Constants.kArm.centerDegreeShoulder) {
+      return false;
+    } else {
+      return true;
+    }
+
+    
+
+  }
+
+
   public void goToShoulderSetpoint(double point) {
 
     shoulderMotorLeft.set(ControlMode.Position, point, DemandType.ArbitraryFeedForward , shoulderAuxInputGrav);
