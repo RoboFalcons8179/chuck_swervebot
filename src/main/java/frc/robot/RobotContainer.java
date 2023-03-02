@@ -232,6 +232,8 @@ public class RobotContainer {
 
         slowForward.debounce(0.04).whileTrue(new doAThing());
 
+        //shoulderMove.ifShoulderForward(ArmControl.shoulderDirection());
+
         //test.debounce(0.04).whileTrue(new teste());
         
     }

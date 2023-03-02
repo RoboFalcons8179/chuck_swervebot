@@ -20,7 +20,7 @@ public class shoulderMove extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public shoulderMove(boolean isForward) {
+  public shoulderMove (boolean isForward) {
     f = isForward;
   }
 

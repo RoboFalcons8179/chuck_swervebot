@@ -67,7 +67,7 @@ public class ArmControl extends SubsystemBase {
 
   }
 
-
+  //We were brain dead I honestly don't know if we need this//
   public boolean shoulderDirection() {
     if (shoulderEncodertoDegrees(0) < Constants.kArm.centerDegreeShoulder) {
       return false;
