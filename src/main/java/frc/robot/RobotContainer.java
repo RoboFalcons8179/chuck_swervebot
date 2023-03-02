@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.event.BooleanEvent;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.event.NetworkBooleanEvent;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -127,8 +129,18 @@ public class RobotContainer {
     PathPlannerTrajectory RightPS = PathPlanner.loadPath("RIGHTPS", new PathConstraints(2, 2));
     
     PathPlannerTrajectory RightS = PathPlanner.loadPath("RIGHTS", new PathConstraints(2, 2));
+    private GenericHID j;
 
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
+
+    // public BooleanEvent povUp(EventLoop loop){
+    //     return null;
+    // }
+
+
+
+   
+
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -170,6 +182,16 @@ public class RobotContainer {
      **/
     private void configureButtonBindings() {
         
+        int pov = j.getPOV(0);
+
+        if (pov == 0){
+            System.out.println("test0");
+        }
+
+        else if (pov == 180){
+            System.out.println("test180");
+        }
+
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
