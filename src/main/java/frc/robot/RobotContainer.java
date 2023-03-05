@@ -69,11 +69,11 @@ public class RobotContainer {
     private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
     private final JoystickButton forwardElbow = new JoystickButton(board, 7);
     private final JoystickButton backwardElbow = new JoystickButton(board, 3);
-    private final JoystickButton coneGrab = new JoystickButton(panel, 1);
+    private final JoystickButton grabForwardButton1 = new JoystickButton(panel, 1);
     private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
     private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
     // When we get a new switch change button number to what the switch is//
-    private final JoystickButton squareGrab = new JoystickButton(panel, 1);
+    private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 1);
 
     // Stick buttons
     private final JoystickButton LeftSPS = new JoystickButton(stick, 9);
@@ -182,7 +182,7 @@ public class RobotContainer {
      **/
     private void configureButtonBindings() {
         
-        int pov = j.getPOV(0);
+        int pov = driver.getPOV(0);
 
         if (pov == 0){
             System.out.println("test0");
@@ -197,7 +197,6 @@ public class RobotContainer {
 
         goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
 
-        // counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly());
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
         holdBot.debounce(0.04).whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
@@ -216,23 +215,29 @@ public class RobotContainer {
 
 
 
+        // Arm Troubleshooting
+
+
+
         //Control Board//
 
-        forwardShoulder.debounce(0.04).whileTrue(new shoulderMove(true));
+        // forwardShoulder.debounce(0.04).whileTrue(new shoulderMove(true));
 
-        backwardShoulder.debounce(0.04).whileTrue(new shoulderMove(false));
+        // backwardShoulder.debounce(0.04).whileTrue(new shoulderMove(false));
 
-        forwardElbow.debounce(0.04).whileTrue(new elbowMove(true));
+        // forwardElbow.debounce(0.04).whileTrue(new elbowMove(true));
 
-        backwardElbow.debounce(0.04).whileTrue(new elbowMove(false));
+        // backwardElbow.debounce(0.04).whileTrue(new elbowMove(false));
 
-        invertSwitchButton1.debounce(0.04).whileTrue(new invertSwitch(true));
+        // invertSwitchButton1.debounce(0.04).whileTrue(new invertSwitch(true));
 
-        invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitch(false));
+        // invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitch(false));
 
-        slowForward.debounce(0.04).whileTrue(new doAThing());
+        // slowForward.debounce(0.04).whileTrue(new doAThing());
 
-        
+        // grabForwardButton1.debounce(0.04).whileTrue(new grabForward(null, claw, true));
+
+        // grabForwardButton2.debounce(0.04).whileTrue(new grabForward(null, claw, false));
 
         //test.debounce(0.04).whileTrue(new teste());
         
