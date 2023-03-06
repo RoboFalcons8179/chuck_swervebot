@@ -34,6 +34,9 @@ import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.armStuff.defaultArm;
+import frc.robot.commands.armStuff.goto30;
+import frc.robot.commands.armStuff.gotoArmGeneralLocation;
 import frc.robot.subsystems.*;
 
 /**
@@ -55,13 +58,13 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value);
-    private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value);
-    private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value);
-    private final JoystickButton goToTag = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton slowForward = new JoystickButton(driver, XboxController.Axis.kRightX.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value); // reserved for swerve
+    private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
+    private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
+    private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
+    private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton slowForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
     
     // private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
@@ -91,6 +94,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final pVision vision = new pVision();
     private final Grabber claw = new Grabber();
+    private final ArmControl arm = new ArmControl();
 
     /* Troubleshooting, Auto, and Shuffleboard */
     private final SendableChooser<Command> commandChooser = new SendableChooser<>();
@@ -129,7 +133,6 @@ public class RobotContainer {
     PathPlannerTrajectory RightPS = PathPlanner.loadPath("RIGHTPS", new PathConstraints(2, 2));
     
     PathPlannerTrajectory RightS = PathPlanner.loadPath("RIGHTS", new PathConstraints(2, 2));
-    private GenericHID j;
 
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
@@ -146,6 +149,9 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
+        // Default Commands
+
+        // swerve will look at the driver
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -157,10 +163,13 @@ public class RobotContainer {
             )
         );
 
+        // arm will look at holding the position.
+        arm.setDefaultCommand(new defaultArm(arm));
 
-        // untested goto commands.
-        
+        // No default for gripper - it will run a command until it is done
+        // or interupted.
 
+        ///// COMMAND BUTTONS
 
         // Configure the button bindings
         configureButtonBindings();
@@ -182,6 +191,8 @@ public class RobotContainer {
      **/
     private void configureButtonBindings() {
         
+
+        /// DRIVER BUTTONS
         int pov = driver.getPOV(0);
 
         if (pov == 0){
@@ -195,23 +206,15 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
-
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
-        holdBot.debounce(0.04).whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+        slowForward.whileTrue(new goto30(arm));
 
-        LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
+        // goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
+            // This is reseved for later use.
 
-        CenterSP.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterSPTraj).andThen(new doPathTrajectory(s_Swerve, CenterPSTraj)));
-
-        //CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterB));
-
-        //RightSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
-
-        CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB)));
-
-        LeftSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS))));
+        // CLAW COMMANDS
+        //clawOpen.debounce(0.04).whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
 
 
 
@@ -233,13 +236,29 @@ public class RobotContainer {
 
         // invertSwitchButton2.debounce(0.04).whileTrue(new invertSwitch(false));
 
-        // slowForward.debounce(0.04).whileTrue(new doAThing());
-
         // grabForwardButton1.debounce(0.04).whileTrue(new grabForward(null, claw, true));
 
         // grabForwardButton2.debounce(0.04).whileTrue(new grabForward(null, claw, false));
 
         //test.debounce(0.04).whileTrue(new teste());
+
+        // AUTON STUFF
+
+        LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
+
+        CenterSP.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterSPTraj).andThen(new doPathTrajectory(s_Swerve, CenterPSTraj)));
+
+        //CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterB));
+
+        //RightSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
+
+        CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB)));
+
+        LeftSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS))));
+
+
+
+        
         
     }
     private void runTroubleshooting() {

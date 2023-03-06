@@ -130,7 +130,7 @@ public final class Constants {
         /* Back Right Module - Module 3 */
         public static final class Mod3 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 20;
-            public static final int angleMotorID = 1;
+            public static final int angleMotorID = 21;
             public static final int canCoderID = 2;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(60.029);
             public static final SwerveModuleConstants constants = 
@@ -222,18 +222,26 @@ public final class Constants {
         public static final int kElbowMotorID = 15;
 
         // Shoulder Invert//
-        public static final TalonFXInvertType shoulderMotorLeftInvert = TalonFXInvertType.Clockwise;
-        public static final TalonFXInvertType shoulderMotorRightInvert = TalonFXInvertType.CounterClockwise;
+        public static final TalonFXInvertType shoulderMotorLeftInvert = TalonFXInvertType.CounterClockwise;
+        public static final TalonFXInvertType shoulderMotorRightInvert = TalonFXInvertType.Clockwise;
 
         // Shoulder Phase//
         public static final boolean shoulderLeftPhase = false;
         public static final boolean shoulderRightPhase = false;
 
         //Shoulder PIDG//
-        public static double kShoulderP = 0;
-        public static double kShoulderI = 0;
-        public static double kShoulderD = 0;
-        public static double kShoulderG = 0;
+        public static double kShoulderP = 0.012;
+        public static double kShoulderI = 0.0005;
+        public static double kShoulderD = 0.02;
+        public static double kShoulderF = 0.00005;
+        public static double kShoulderG = 0.065; // From Tims experiments on 3/5
+
+        public static final double kGElbowOnShoulder = 0.002;
+
+
+        // Shoulder Motion Magic
+        public static double shoulderAccel = 10000;
+        public static double shoulderVel = 15000;
 
         //Shoulders//
         public static double kShoulderForward = 0;
@@ -252,14 +260,18 @@ public final class Constants {
         public static final InvertType elbowMotorLeftInvert = InvertType.None;
 
         // Elbow Phase//
-        public static final boolean elbowLeftPhase = false;
-        public static final boolean elbowRightPhase = false;
+        public static final boolean elbowLeftPhase = true;
     
         //Elbow PIDG//
-        public static double kElbowP = 0;
-        public static double kElbowI = 0;
-        public static double kElbowD = 0;
-        public static double kElbowG = 0;
+        public static double kElbowP = 1.5;
+        public static double kElbowI = 0.02;
+        public static double kElbowD = 4.0;
+        public static double kElbowF = 0;        
+        public static double kElbowG = 0.35; // From Tim Experiments on 3/5
+
+        // Shoulder Motion Magic
+        public static double elbowAccel = 2000;
+        public static double elbowVel = 800;
 
         //Setting Elbow Motor Values//
         public static double kElbowForward = 0;
