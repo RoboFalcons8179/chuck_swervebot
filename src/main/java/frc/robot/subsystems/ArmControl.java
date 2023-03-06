@@ -114,7 +114,7 @@ public class ArmControl extends SubsystemBase {
       // shoulderMotorLeft.set(ControlMode.MotionMagic, 30000, DemandType.ArbitraryFeedForward, shoulderAuxInputGrav);
       // shoulderMotorRight.follow(shoulderMotorLeft);
       // elbowMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
-      elbowMotorLeft.set(ControlMode.MotionMagic, elbowAngle2encoder(90+40), DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
+      elbowMotorLeft.set(ControlMode.MotionMagic, elbowAngle2encoder(90+50), DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
 
     }
     else {
@@ -246,7 +246,7 @@ public class ArmControl extends SubsystemBase {
       double elbowRelitiveToGroundAngle = 360.0 - 90.0 - shoulderAngleDegree - elbowAngleDegree;    
   
       this.elbowAuxInputGrav = Constants.kArm.kElbowG * Math.cos(Math.toRadians(elbowRelitiveToGroundAngle));
-      this.shoulderAuxInputGrav = Constants.kArm.kShoulderG * Math.sin(Math.toRadians(shoulderAngle)) + (Constants.kArm.kGElbowOnShoulder * Math.abs(Math.cos(Math.toRadians(elbowAngleDegree))));
+      this.shoulderAuxInputGrav = Constants.kArm.kShoulderG * Math.sin(Math.toRadians(shoulderAngle));
 
   }
 

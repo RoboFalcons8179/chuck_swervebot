@@ -208,7 +208,7 @@ public class RobotContainer {
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
-        slowForward.whileTrue(new goto30(arm));
+        slowForward.whileTrue(new gotoArmGeneralLocation(arm,50,90).repeatedly());
 
         // goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
             // This is reseved for later use.

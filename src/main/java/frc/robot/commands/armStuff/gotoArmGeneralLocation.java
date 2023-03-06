@@ -27,25 +27,35 @@ public class gotoArmGeneralLocation extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    System.out.println("GOING TO:");
+    System.out.println(this.shoulderSet);
+    System.out.println(this.elbowSet);
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    arm.goToElbowSetpoint(arm.elbowAngle2encoder(elbowSet));
-    arm.goToShoulderSetpoint(arm.shoulderAngle2encoder(shoulderSet));
+    arm.goToElbowSetpoint(elbowSet);
+    arm.goToShoulderSetpoint(shoulderSet);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+
+    arm.lastElbowPosition = elbowSet;
+    arm.lastShoulderPosition = shoulderSet;
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
 
-    if (Math.abs(arm.shoulderMotorLeft.getSelectedSensorPosition() - shoulderSet) < 10000 && Math.abs(arm.elbowMotorLeft.getSelectedSensorPosition() - elbowSet) < 200) {
+    if (Math.abs(arm.shoulderMotorLeft.getSelectedSensorPosition() - arm.shoulderAngle2encoder(shoulderSet)) < 10000 && Math.abs(arm.elbowMotorLeft.getSelectedSensorPosition() - arm.elbowAngle2encoder(elbowSet)) < 200) {
       return true;
     }
     return false;

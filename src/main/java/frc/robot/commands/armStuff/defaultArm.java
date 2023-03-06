@@ -29,6 +29,8 @@ public class defaultArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    /// TO ADD: IF SHOULDER HIGH, GO DOWN SLOWLY. TIM TO ADD
     this.arm.holdPosition();
   }
 
