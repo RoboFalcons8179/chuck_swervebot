@@ -85,7 +85,7 @@ public class ArmControl extends SubsystemBase {
 
     
     
-    shoulderMotorLeft.follow(shoulderMotorRight);
+    shoulderMotorRight.follow(shoulderMotorLeft);
 
   }
 
@@ -109,8 +109,8 @@ public class ArmControl extends SubsystemBase {
     // just have the arm sit there.
 
     if(activeHold){
-      shoulderMotorLeft.set(ControlMode.PercentOutput, 0);
-      shoulderMotorRight.set(0);
+      shoulderMotorLeft.set(ControlMode.PercentOutput, 0);//this is redundant since left is set to follow right?
+      //shoulderMotorRight.set(ControlMode.PercentOutput, 0);
       // shoulderMotorLeft.set(ControlMode.MotionMagic, 30000, DemandType.ArbitraryFeedForward, shoulderAuxInputGrav);
       // shoulderMotorRight.follow(shoulderMotorLeft);
       // elbowMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
@@ -132,7 +132,7 @@ public class ArmControl extends SubsystemBase {
      * 
      * THAT MEANS YOU MATTHEW
      */
-    shoulderMotorLeft.set(ControlMode.Position, 
+    shoulderMotorLeft.set(ControlMode.MotionMagic, 
       shoulderAngle2encoder(degree),
       DemandType.ArbitraryFeedForward,
       shoulderAuxInputGrav);

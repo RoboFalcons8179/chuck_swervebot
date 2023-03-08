@@ -230,11 +230,17 @@ public final class Constants {
         public static final boolean shoulderRightPhase = false;
 
         //Shoulder PIDG//
-        public static double kShoulderP = 0.012;
-        public static double kShoulderI = 0.0005;
-        public static double kShoulderD = 0.02;
+        /*public static double kShoulderP = 0.012;
+        public static double kShoulderI = 0.0001;
+        public static double kShoulderD = 0.0075;
         public static double kShoulderF = 0.00005;
-        public static double kShoulderG = 0.065; // From Tims experiments on 3/5
+        public static double kShoulderG = 0.085; // From Tims experiments on 3/5*/
+
+        public static double kShoulderP = 0.06;
+        public static double kShoulderI = 0.0005;
+        public static double kShoulderD = 0.01;
+        public static double kShoulderF = 0.00005;
+        public static double kShoulderG = 0.1; // From Tims experiments on 3/5
 
         public static final double kGElbowOnShoulder = 0.002;
 
