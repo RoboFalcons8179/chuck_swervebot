@@ -1,7 +1,7 @@
 package frc.robot;
 
 import java.util.Map;
-
+import java.util.function.BooleanSupplier;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -53,21 +53,90 @@ public class RobotContainer {
     private final Joystick board = new Joystick(3);
     
     
-    /* Drive Controls */
+    /* BIG TODO FROM TIM:
+     * Clean up the driver buttons and commands. Label them if they are for competition and/or reseved for a function later.
+     * YOU ONLY MOVE A BUTTON TO THE RESERVED FOR COMPETION IF THE DRIVE TEAM OR MENTOR APPROVES.
+     * 
+     * ALSO, print out one or two of these and label it every time you add a function to a button.
+     * Do one for the other Controllers too.
+     * https://support.xbox.com/en-US/help/hardware-network/controller/xbox-one-wireless-controller
+     * 
+     * For example, look at the Drive control section below. Add an Arm section and a testing section. Then
+     *  use the printout to track buttons.
+     */
+
+
+
+    /* Drive Control Axis - RESERVED FOR COMPETITION*/
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
-    private final int panelX = Joystick.kDefaultXChannel;
-    private final int panelY = Joystick.kDefaultYChannel;
 
-    /* Driver Buttons */
+
+    /* Driver Buttons and Triggers - RESERVED FOR COMPETITION*/
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value); // reserved for swerve
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
+
+
+
+    /* Extra Driver Remote buttons for testing */
+
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
+
+    
+    
+    
+
+    /* Arm Axes - COMPERTITION */
+
+    /* ARM Buttons/Triggers - COMPETITION */
+    
+    /* ARM AXES - Testing */
+    private final int panelX = Joystick.kDefaultXChannel;
+    private final int panelY = Joystick.kDefaultYChannel;
+
+    /* ARM BUTTONS/Triggers - Testing */
     private final JoystickButton slowForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
+
+    // FROM TIM: This is how you do the commmand on the joystick for adjusting the shoulder.
+    //      repeat this for the shoulder.
+
+    private final BooleanSupplier isArmAdjustUp = new BooleanSupplier() {
+        // This part makes the thing that passes up the true false
+
+        @Override
+        public boolean getAsBoolean() {
+
+            if(panel.getRawAxis(panelX) == 1)
+                return true;
+            else
+                return false;
+        }
+        
+    };
+
+    private final Trigger shoulderAdjUp = new Trigger(isArmAdjustUp);
+        // This part makes it work with the command archetecture.
+
+
+    private final BooleanSupplier isArmAdjustDown = new BooleanSupplier() {
+
+        @Override
+        public boolean getAsBoolean() {
+
+            if(panel.getRawAxis(panelX) == -1)
+                return true;
+            else
+                return false;
+        }
+        
+    };
+
+    private final Trigger shoulderAdjDown = new Trigger(isArmAdjustDown);
+
 
     //private final Joystick manualShoulder = new JoystickButton(panel, rotationAxis);
     
@@ -157,7 +226,7 @@ public class RobotContainer {
 
         // Default Commands
 
-        // swerve will look at the driver
+        // swerve will look at the driver for its info
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -177,6 +246,31 @@ public class RobotContainer {
 
         ///// COMMAND BUTTONS
 
+
+        // TODO: ORGANIZE THE BUTTONS!!!!!!
+
+        // Set Driver Commands
+        doDriverCompetitionCommands();
+
+        doDriverTestCommands();
+
+
+
+        // ARM commands
+
+        doArmCompetitionCommands();
+
+        doArmTestCommands();
+
+
+
+        // Gripper Test Commands
+
+        doGripperCompetitionCommands();
+
+        doGripperTestCommands();
+
+
         // Configure the button bindings
         configureButtonBindings();
 
@@ -189,14 +283,23 @@ public class RobotContainer {
 
 
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     **/
-    private void configureButtonBindings() {
-        
+    /* THIS IS NOT FOR TEST CODE. THIS IS ONLY COMMANDS READY FOR COMPETITION.
+     * You need to test your code and make sure it will not break the bot.
+     * Use this for driver commands only.
+     * 
+     * TODO: TEST GRIPPER AND ARM CODE TO BE ABLE TO MOVE IT UP TO THE 
+     * COMPETITION CODE SECTION
+    */
+    private void doDriverCompetitionCommands() {
+
+        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+
+    }
+
+
+    /* This is for testing driving commands */
+    private void doDriverTestCommands() {
 
         /// DRIVER BUTTONS
         int pov = driver.getPOV(0);
@@ -210,11 +313,29 @@ public class RobotContainer {
         }
 
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
         slowForward.whileTrue(new gotoArmGeneralLocation(arm,50,90).repeatedly());
+
+    }
+
+
+    /////////////ARM
+
+    private void doArmCompetitionCommands() {
+
+
+
+
+    }
+
+    private void doArmTestCommands() {
+
+
+        // From Tim: See this. This is how to do this.
+        // shoulderAdjUp.debounce(0.04).onTrue( new {Your Command here})
+        // shoulderAdjDown.debounce(0.04).onTrue ( new {Your command here})
 
         while(arm.panelMove(panel.getRawAxis(panelY))){
             if (arm.panelMoveDecision(panel.getRawAxis(panelY))) {
@@ -225,6 +346,7 @@ public class RobotContainer {
             }
         }
 
+
         while(arm.panelMove(panel.getRawAxis(panelX))){
             if (arm.panelMoveDecision(panel.getRawAxis(panelX))) {
                 arm.goToShoulderSetpoint(arm.shoulderCurrentAngle () + 5);
@@ -234,11 +356,39 @@ public class RobotContainer {
             }
         }
 
+
+    }
+
+    ///// GRABBER
+
+    private void doGripperCompetitionCommands(){
+
+    }
+
+    private void doGripperTestCommands(){
+
+       // CLAW COMMANDS
+       clawOpen.debounce(0.04).whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+    }
+
+
+    /**
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     **/
+    private void configureButtonBindings() {
+        
+
+  
+
+
+
         // goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
             // This is reseved for later use.
 
-        // CLAW COMMANDS
-        //clawOpen.debounce(0.04).whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+ 
 
 
 
