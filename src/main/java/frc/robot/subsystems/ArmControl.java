@@ -105,15 +105,16 @@ public class ArmControl extends SubsystemBase {
     // This is the default command to hold position. It WILL NOT be perfect, but it will be good enough to stay still enough.
 
     boolean activeHold = true;
+    //TODO make boolean for seeing if arm is inside robot if this is true make no grav compensation//
+    //TODO increase the value of the error zone of the shoulder control loop, increase the maximum intergal accumalation//
+
     // change this if you want to actively hold/float the values or
     // just have the arm sit there.
 
     if(activeHold){
-      shoulderMotorLeft.set(ControlMode.PercentOutput, 0);//this is redundant since left is set to follow right?
-      //shoulderMotorRight.set(ControlMode.PercentOutput, 0);
-      // shoulderMotorLeft.set(ControlMode.MotionMagic, 30000, DemandType.ArbitraryFeedForward, shoulderAuxInputGrav);
-      // shoulderMotorRight.follow(shoulderMotorLeft);
-      // elbowMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
+      shoulderMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, shoulderAuxInputGrav);//this is redundant since left is set to follow right?
+      shoulderMotorRight.set(ControlMode.PercentOutput, 0);
+      //elbowMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
       elbowMotorLeft.set(ControlMode.MotionMagic, elbowAngle2encoder(90+50), DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
 
     }
