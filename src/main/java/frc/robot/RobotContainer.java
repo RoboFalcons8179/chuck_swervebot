@@ -51,11 +51,16 @@ public class RobotContainer {
     private final Joystick stick = new Joystick(1);
     private final Joystick panel = new Joystick(2);
     private final Joystick board = new Joystick(3);
-
+    
+    
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int panelX = Joystick.kDefaultXChannel;
+    private final int panelY = Joystick.kDefaultYChannel;
+    public final double panelYDegree = panel.getRawAxis(panelY);
+    public final double panelXDegree = panel.getRawAxis(panelX);
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
@@ -65,6 +70,8 @@ public class RobotContainer {
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton slowForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
+
+    //private final Joystick manualShoulder = new JoystickButton(panel, rotationAxis);
     
     // private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
@@ -76,8 +83,9 @@ public class RobotContainer {
     private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
     private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
     // When we get a new switch change button number to what the switch is//
-    private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 1);
+    private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
 
+    
     // Stick buttons
     private final JoystickButton LeftSPS = new JoystickButton(stick, 9);
     private final JoystickButton LeftS = new JoystickButton(stick, 11);
@@ -209,6 +217,24 @@ public class RobotContainer {
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
         slowForward.whileTrue(new gotoArmGeneralLocation(arm,50,90).repeatedly());
+
+        while(arm.panelMove(panel.getRawAxis(panelY))){
+            if (arm.panelMoveDecision(panel.getRawAxis(panelY))) {
+                arm.goToElbowSetpoint(arm.elbowCurrentAngle () + 5);
+            }else {
+                arm.goToElbowSetpoint(arm.elbowCurrentAngle () - 5);
+                
+            }
+        }
+
+        while(arm.panelMove(panel.getRawAxis(panelX))){
+            if (arm.panelMoveDecision(panel.getRawAxis(panelX))) {
+                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle () + 5);
+            }else {
+                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle () - 5);
+                
+            }
+        }
 
         // goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
             // This is reseved for later use.

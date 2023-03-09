@@ -125,6 +125,35 @@ public class ArmControl extends SubsystemBase {
     }
   }
 
+  public double shoulderCurrentAngle(){
+
+    double shoulderAngle = shoulderMotorLeft.getSelectedSensorPosition();
+  
+      double shoulderAngleDegree = shoulderEncoder2Angle(shoulderAngle);
+
+      return shoulderAngleDegree;
+  }
+
+  public double elbowCurrentAngle(){
+      double elbowAngle = elbowMotorLeft.getSelectedSensorPosition();
+  
+      double elbowAngleDegree = elbowEncoder2Angle(elbowAngle);
+
+      return elbowAngleDegree;
+  }
+
+  public boolean panelMoveDecision (double panelDegree) {
+    if (panelDegree > -0.01 ){return true;}
+    else  {return false;}
+    
+  }
+
+  public boolean panelMove (double panelDegree) {
+    if (panelDegree > -0.01 && panelDegree < -0.01 ){return true;}
+    else {return false;}
+    
+  }
+
   public void goToShoulderSetpoint(double degree) {
     /* USE THIS FUNCTION TO COMMAND SETPOINTS
      * DO NOT - AND I MEAN DO NOT ACCESS THE MOTORS 
