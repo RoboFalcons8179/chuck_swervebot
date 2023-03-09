@@ -45,10 +45,10 @@ public class Balance extends CommandBase {
     //   backwards = -1;
     // }
     if(gyro.getRawAccelY() < 0){
-      backwards=-1;
+      backwards=1;
     }
     else{
-      backwards=1;
+      backwards=-1;
     }
     if (angleTarget < 0){
       angleTarget = angleTarget + Math.toRadians(180);
