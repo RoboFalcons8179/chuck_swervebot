@@ -59,8 +59,6 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
     private final int panelX = Joystick.kDefaultXChannel;
     private final int panelY = Joystick.kDefaultYChannel;
-    public final double panelYDegree = panel.getRawAxis(panelY);
-    public final double panelXDegree = panel.getRawAxis(panelX);
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
