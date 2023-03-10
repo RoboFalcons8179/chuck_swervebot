@@ -199,7 +199,7 @@ public final class Constants {
     public static final class kBalance {
 
         public static final double StillThreshold = 0.050000; // in G's
-        public static final double BalanceAccelThreshold = 0.95; // In angle's
+        public static final double BalanceAccelThreshold = 0.00000003; // In angle's
         public static final double power = 0.7; // Speed demanded to the wheels, relitive to MAX Speed.
 
         // Averaging window for accels when determining if the robot is still. 
