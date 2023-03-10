@@ -48,6 +48,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final Joystick stick = new Joystick(1);
     private final Joystick panel = new Joystick(2);
     private final Joystick board = new Joystick(3);
     
@@ -109,7 +110,7 @@ public class RobotContainer {
         @Override
         public boolean getAsBoolean() {
 
-            if(panel.getRawAxis(panelX) == -1)
+            if(panel.getRawAxis(panelX) == 1)
                 return true;
             else
                 return false;
@@ -126,7 +127,7 @@ public class RobotContainer {
         @Override
         public boolean getAsBoolean() {
 
-            if(panel.getRawAxis(panelX) == 1)
+            if(panel.getRawAxis(panelX) == -1)
                 return true;
             else
                 return false;
@@ -141,8 +142,8 @@ public class RobotContainer {
     
     // private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
-    private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
-    private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
+    private final JoystickButton upShoulderButton = new JoystickButton(board, 2);
+    private final JoystickButton downShoulderButton = new JoystickButton(board, 1);
     private final JoystickButton forwardElbow = new JoystickButton(board, 7);
     private final JoystickButton backwardElbow = new JoystickButton(board, 3);
     private final JoystickButton grabForwardButton1 = new JoystickButton(panel, 1);
@@ -153,10 +154,10 @@ public class RobotContainer {
 
     
     // Stick buttons
-    // private final JoystickButton LeftSPS = new JoystickButton(stick, 9);
-    // private final JoystickButton LeftS = new JoystickButton(stick, 11);
-    // private final JoystickButton CenterSP = new JoystickButton(stick, 12);
-    // private final JoystickButton CenterSB = new JoystickButton(stick, 10);
+    private final JoystickButton LeftSPS = new JoystickButton(stick, 9);
+    private final JoystickButton LeftS = new JoystickButton(stick, 11);
+    private final JoystickButton CenterSP = new JoystickButton(stick, 12);
+    private final JoystickButton CenterSB = new JoystickButton(stick, 10);
     //private final JoystickButton RightSPS = new JoystickButton(stick, 10);
     //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
 
@@ -317,6 +318,12 @@ public class RobotContainer {
 
         slowForward.whileTrue(new gotoArmGeneralLocation(arm,50,90).repeatedly());
         
+        //upShoulderButton.debounce(0.04).whileTrue(new shoulderUp());
+
+        //downShoulderButton.debounce(0.04).whileTrue(new shoulderDown());
+
+        //forwardElbow.debounce(0.04).whileTrue(new elbowforward);
+
 
 
         /*while(arm.panelMove(panel.getRawAxis(panelY))){
@@ -325,6 +332,8 @@ public class RobotContainer {
 
 
     /////////////ARM
+
+    
 
     private void doArmCompetitionCommands() {
 
@@ -423,17 +432,17 @@ public class RobotContainer {
 
         // AUTON STUFF
 
-        // LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
+        LeftS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve,LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftBPPTraj))); // Do the path plan
 
-        // CenterSP.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterSPTraj).andThen(new doPathTrajectory(s_Swerve, CenterPSTraj)));
+        CenterSP.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterSPTraj).andThen(new doPathTrajectory(s_Swerve, CenterPSTraj)));
 
         //CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterB));
 
         //RightSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, RightS).andThen(new doPathTrajectory(s_Swerve, RightB)));
 
-        // CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB)));
+        CenterSB.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB)));
 
-        // LeftSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS))));
+        LeftSPS.debounce(0.04).whileTrue(new doPathTrajectory(s_Swerve, LeftSPPTraj).andThen(new doPathTrajectory(s_Swerve, LeftP).andThen(new doPathTrajectory(s_Swerve, LeftPS))));
 
 
 

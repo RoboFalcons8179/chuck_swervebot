@@ -34,8 +34,14 @@ public class defaultArm extends CommandBase {
   public void execute() {
 
     /// TO ADD: IF SHOULDER HIGH, GO DOWN SLOWLY. TIM TO ADD
-    if ((int) board.getX() != 0 || (int) board.getY() != 0) { // checking if joystick on board is pushed somewhere
-      this.arm.adjustArm((int) board.getX(), (int) board.getY()); // casting to get rid of values that are not maximums
+    if ((int) board.getX() != 0) { // checking if joystick on board is pushed somewhere
+      this.arm.adjustArmX((int) board.getX()); // casting to get rid of values that are not maximums
+    } else {
+      this.arm.holdPosition();
+    }
+
+    if ((int) board.getY() !=0) {
+      this.arm.adjustArmY((int) board.getY());
     } else {
       this.arm.holdPosition();
     }

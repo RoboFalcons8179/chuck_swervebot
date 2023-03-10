@@ -25,7 +25,7 @@ public class ArmControl extends SubsystemBase {
   public static WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorID);
 
   // Starting position relitive to the straigt out form.
-  public double startPositionto90Elbow = -2269 * 3; // Note that the *3 is from the gear ratio. It was not measured.
+  public double startPositionto90Elbow = -2169 * 3; // Note that the *3 is from the gear ratio. It was not measured.
   public double startPositionto90Shoulder = 45803;
   
   
@@ -115,7 +115,7 @@ public class ArmControl extends SubsystemBase {
       shoulderMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, shoulderAuxInputGrav);//this is redundant since left is set to follow right?
       shoulderMotorRight.set(ControlMode.PercentOutput, 0);
       //elbowMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
-      elbowMotorLeft.set(ControlMode.MotionMagic, elbowAngle2encoder(90+50), DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
+      elbowMotorLeft.set(ControlMode.MotionMagic, elbowAngle2encoder(90 + 50), DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
 
     }
     else {
@@ -155,14 +155,16 @@ public class ArmControl extends SubsystemBase {
     
   }
 
-  public void adjustArm(int x, int y) { // shoulder seems to work slighty, elbow keeps raising until either joystick up or down it returns to a setpoint?
-    System.out.println(x + " " + y);
+  public void adjustArmY(int y) { // shoulder seems to work slighty, elbow keeps raising until either joystick up or down it returns to a setpoint?
+    System.out.println("y " + y);
     if (y == 1) {
       this.goToElbowSetpoint(this.elbowCurrentAngle() + 1);
     } else if (y != 0) {
       this.goToElbowSetpoint(this.elbowCurrentAngle() - 1);
     }
-
+  }
+  public void adjustArmX(int x){
+    System.out.println("x " + x);
     if (x == 1) {
       this.goToShoulderSetpoint(this.shoulderCurrentAngle() + 1);
     } else if (x != 0) {
