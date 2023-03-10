@@ -25,7 +25,7 @@ public class ArmControl extends SubsystemBase {
   public static WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorID);
 
   // Starting position relitive to the straigt out form.
-  public double startPositionto90Elbow = -2269;
+  public double startPositionto90Elbow = -2269 * 3; // Note that the *3 is from the gear ratio. It was not measured.
   public double startPositionto90Shoulder = 45803;
   
   
@@ -218,7 +218,7 @@ public class ArmControl extends SubsystemBase {
 
      final double y1 = startPositionto90Elbow;
      final double x1 = 0; // we are defining sticking straigt out as 0 degrees.
-     final double m = 2006 / 90;
+     final double m = 2006 * 3 / 90; // FROM TIM: The *3 is from the gear ratio
 
      return (m * (degrees - x1)) + y1;
 
@@ -247,7 +247,7 @@ public class ArmControl extends SubsystemBase {
     // x = (y-y1)/m + x1
     final double y1 = startPositionto90Elbow;
     final double x1 = 0; // we are defining sticking straigt out as 0 degrees.
-    final double m = 2006 / 90;
+    final double m = 2006 * 3 / 90; // FROM TIM: The *3 is from the gear ratio
     
     return (tic - y1)/m + x1;
 
