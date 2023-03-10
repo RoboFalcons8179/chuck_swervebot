@@ -144,15 +144,30 @@ public class ArmControl extends SubsystemBase {
   }
 
   public boolean panelMoveDecision (double panelDegree) {
-    if (panelDegree > -0.01 ){return true;}
-    else  {return false;}
+    
+    return panelDegree > -0.01;
     
   }
 
   public boolean panelMove (double panelDegree) {
-    if (panelDegree > -0.01 && panelDegree < -0.01 ){return true;}
-    else {return false;}
     
+    return (panelDegree != -0.01);
+    
+  }
+
+  public void adjustArm(int x, int y) { // shoulder seems to work slighty, elbow keeps raising until either joystick up or down it returns to a setpoint?
+    System.out.println(x + " " + y);
+    if (y == 1) {
+      this.goToElbowSetpoint(this.elbowCurrentAngle() + 1);
+    } else if (y != 0) {
+      this.goToElbowSetpoint(this.elbowCurrentAngle() - 1);
+    }
+
+    if (x == 1) {
+      this.goToShoulderSetpoint(this.shoulderCurrentAngle() + 1);
+    } else if (x != 0) {
+      this.goToShoulderSetpoint(this.shoulderCurrentAngle() - 1);
+    }
   }
 
   public void goToShoulderSetpoint(double degree) {

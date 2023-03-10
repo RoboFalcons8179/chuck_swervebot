@@ -18,7 +18,7 @@ public class balanceAuto extends SequentialCommandGroup {
   public balanceAuto(Swerve s_Swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-
+    if (!s_Swerve.isRobotLevel()) {
     addCommands(
 
       new InstantCommand(() -> System.out.println("------------------")),
@@ -36,6 +36,13 @@ public class balanceAuto extends SequentialCommandGroup {
             
       
       );
+    } else { // check if the robot is level when running the command
+      addCommands(
+      new InstantCommand(() -> System.out.println("did not run, robot is still")),
+
+      new WaitCommand(1.00)
+      );
+    } // 3114377531
       
 
       // From Tim: consider an add in a turn the wheels apart (or 90 degrees) 

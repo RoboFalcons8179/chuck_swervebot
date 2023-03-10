@@ -170,8 +170,8 @@ public class RobotContainer {
         );
 
         // arm will look at holding the position.
-        arm.setDefaultCommand(new defaultArm(arm));
-
+        arm.setDefaultCommand(new defaultArm(arm, board));
+        
         // No default for gripper - it will run a command until it is done
         // or interupted.
 
@@ -215,24 +215,26 @@ public class RobotContainer {
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
         slowForward.whileTrue(new gotoArmGeneralLocation(arm,50,90).repeatedly());
+        
 
-        while(arm.panelMove(panel.getRawAxis(panelY))){
+        /*while(arm.panelMove(panel.getRawAxis(panelY))){
             if (arm.panelMoveDecision(panel.getRawAxis(panelY))) {
-                arm.goToElbowSetpoint(arm.elbowCurrentAngle () + 5);
+                arm.goToElbowSetpoint(arm.elbowCurrentAngle() + 5);
             }else {
-                arm.goToElbowSetpoint(arm.elbowCurrentAngle () - 5);
+                arm.goToElbowSetpoint(arm.elbowCurrentAngle() - 5);
                 
             }
         }
 
         while(arm.panelMove(panel.getRawAxis(panelX))){
             if (arm.panelMoveDecision(panel.getRawAxis(panelX))) {
-                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle () + 5);
+                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() + 5);
             }else {
-                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle () - 5);
-                
+                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() - 5);
             }
-        }
+        }*/
+        
+        
 
         // goToTag.debounce(0.04).whileTrue(new chaseTagV2(vision.camera, s_Swerve));
             // This is reseved for later use.
@@ -337,24 +339,24 @@ public enum Alliance {
     Invalid,
 }
 
-public static void getAlliance() {
+/*public static void getAlliance() {
              
     AllianceStationID allianceID = DriverStationJNI.getAllianceStation();
     String test = "test";
     //numbers 1-3 are for red and numbers 4-6 are for blue
     //waiting for Tim
     boolean isRedAlliance = false;
-    int stationNumber =1;
+    int stationNumber = 1;
     switch (allianceID) {                 
         case Red1:                     
             isRedAlliance = true;
             stationNumber = 1;
             System.out.println(test);
             break;
-       case Red2:                    
-           isRedAlliance = true;
-           stationNumber = 2;
-           break;
+        case Red2:                    
+            isRedAlliance = true;
+            stationNumber = 2;
+            break;
         case Red3:                     
             isRedAlliance = true;
             stationNumber = 3;
@@ -374,7 +376,7 @@ public static void getAlliance() {
           default:
             //return Alliance.Invalid;
         }
-      }
+      }*/
 
 
     public Command getAutonomousCommand() {
@@ -386,8 +388,6 @@ public static void getAlliance() {
         else{
             return (new doPathTrajectory(s_Swerve, CenterB));
         }
-
-              
 
     }
 
