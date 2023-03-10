@@ -258,9 +258,9 @@ public class RobotContainer {
 
         // ARM commands
 
-        doArmCompetitionCommands();
+        //doArmCompetitionCommands();
 
-        doArmTestCommands();
+      //  doArmTestCommands();
 
 
 
@@ -319,7 +319,7 @@ public class RobotContainer {
         slowForward.whileTrue(new gotoArmGeneralLocation(arm,50,90).repeatedly());
         
 
-<<<<<<< HEAD
+
         /*while(arm.panelMove(panel.getRawAxis(panelY))){
 =======
     }
