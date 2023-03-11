@@ -198,8 +198,8 @@ public final class Constants {
 
     public static final class kBalance {
 
-        public static final double StillThreshold = 0.050000; // in G's
-        public static final double BalanceAccelThreshold = 0.00000003; // In angle's
+        public static final double StillThreshold = 0.05; // in G's
+        public static final double BalanceAccelThreshold = 1.0; // In angle's
         public static final double power = 0.7; // Speed demanded to the wheels, relitive to MAX Speed.
 
         // Averaging window for accels when determining if the robot is still. 
@@ -207,7 +207,7 @@ public final class Constants {
         // should absolutely be not be more than 30 (or 0.60 second averaging window).
         // Note that this is not the witing time - this is the amount of time it must be still
         // before it moves.
-        public static final int averageWindow = 15;
+        public static final int averageWindow = 20;
 
 
 

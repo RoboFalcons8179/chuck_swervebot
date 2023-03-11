@@ -25,8 +25,8 @@ public class defaultArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.lastElbowPosition = arm.elbowMotorLeft.getSelectedSensorPosition();
-    arm.lastShoulderPosition = arm.shoulderMotorLeft.getSelectedSensorPosition();
+    arm.lastElbowPosition = ArmControl.elbowMotorLeft.getSelectedSensorPosition();
+    arm.lastShoulderPosition = ArmControl.shoulderMotorLeft.getSelectedSensorPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,12 +34,52 @@ public class defaultArm extends CommandBase {
   public void execute() {
 
     /// TO ADD: IF SHOULDER HIGH, GO DOWN SLOWLY. TIM TO ADD
-    if ((int) board.getX() != 0 || (int) board.getY() != 0) { // checking if joystick on board is pushed somewhere
-      this.arm.adjustArm((int) board.getX(), (int) board.getY()); // casting to get rid of values that are not maximums
-    } else {
-      this.arm.holdPosition();
-    }
-  }
+
+    boolean forward = false;
+    boolean reverse = false;
+    boolean gripUp = false;
+    boolean gripDown = false;
+
+if ((int) board.getY() == 1){ forward = true;
+  System.out.print("Forward ");
+  System.out.print(forward);
+  arm.goToElbowSetpoint(arm.elbowCurrentAngle() + 5);
+};
+
+
+if ((int) board.getY() == -1){ reverse = true;
+  System.out.print("Reverse ");
+  System.out.print(reverse);
+  arm.goToElbowSetpoint(arm.elbowCurrentAngle() - 5);
+};
+
+if ((int) board.getX() == 1){ gripUp = true;
+  System.out.print("GripUp ");
+  System.out.print(gripUp);
+  arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() + 5);
+};
+
+if ((int) board.getX() == -1){ gripDown = true;
+  System.out.print("GripDown ");
+  System.out.print(gripDown);
+  arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() - 5);
+};
+
+
+
+
+
+
+
+
+
+
+  /*if ((int) board.getY() == 0 && (int) board.getX() == 0) {
+    arm.lastElbowPosition = ArmControl.elbowMotorLeft.getSelectedSensorPosition();
+    arm.lastShoulderPosition = ArmControl.shoulderMotorLeft.getSelectedSensorPosition();
+    this.arm.holdPosition();
+  }*/
+}
 
   // Called once the command ends or is interrupted.
   @Override

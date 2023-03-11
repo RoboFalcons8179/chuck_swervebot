@@ -145,7 +145,7 @@ public class RobotContainer {
     private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
     private final JoystickButton forwardElbow = new JoystickButton(board, 7);
     private final JoystickButton backwardElbow = new JoystickButton(board, 3);
-    private final JoystickButton grabForwardButton1 = new JoystickButton(panel, 1);
+   // private final JoystickButton grabForwardButton1 = new JoystickButton(panel, 1);
     private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
     private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
     // When we get a new switch change button number to what the switch is//

@@ -194,8 +194,7 @@ public class Swerve extends SubsystemBase {
 
         if (
             xAcc <= Constants.kBalance.StillThreshold &&
-            yAcc <= Constants.kBalance.StillThreshold && 
-            zAcc <= Constants.kBalance.StillThreshold) {
+            yAcc <= Constants.kBalance.StillThreshold) {
             out = true;
         }
 
@@ -205,12 +204,20 @@ public class Swerve extends SubsystemBase {
     public boolean isRobotLevel() {
         // remember zAcc is filtered.
         boolean out = false;
+        float ScaledPitch = 0;
+        float ScaledRoll = 0;
+        ScaledPitch = (Math.abs(gyro.getPitch()));
+        ScaledRoll = (Math.abs(gyro.getRoll()));
+
         
         if (
             // xAcc <= Constants.kBalance.BalanceAccelThreshold &&
             // yAcc <= Constants.kBalance.BalanceAccelThreshold )
             Math.abs(gyro.getPitch()) <= Constants.kBalance.BalanceAccelThreshold &&
             Math.abs(gyro.getRoll()) <= Constants.kBalance.BalanceAccelThreshold )
+
+            System.out.println(ScaledPitch);
+            System.out.println(ScaledRoll);
             {
             out = true;
         }
