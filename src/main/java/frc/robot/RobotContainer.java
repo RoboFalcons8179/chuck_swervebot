@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
-import frc.robot.commands.armStuff.defaultArm;
+import frc.robot.commands.armStuff.*;
 import frc.robot.commands.armStuff.goto30;
 import frc.robot.commands.armStuff.gotoArmGeneralLocation;
 import frc.robot.subsystems.*;
@@ -84,7 +84,7 @@ public class RobotContainer {
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
-
+    private final JoystickButton clawClose = new JoystickButton(driver, XboxController.Button.kB.value);
     
     
     
@@ -143,12 +143,16 @@ public class RobotContainer {
     // Control Board Stuff//
     private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
     private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
-    private final JoystickButton forwardElbow = new JoystickButton(board, 7);
+    private final JoystickButton forwardElbow = new JoystickButton(board, 4);
     private final JoystickButton backwardElbow = new JoystickButton(board, 3);
    // private final JoystickButton grabForwardButton1 = new JoystickButton(panel, 1);
-    private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
-    private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
+    //private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
+    //private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
     private final JoystickButton carryButton = new JoystickButton(board, 10);
+    private final JoystickButton coneHigh = new JoystickButton(board, 5);
+    private final JoystickButton coneMid = new JoystickButton(board, 6);
+    private final JoystickButton pickup = new JoystickButton(board, 12);
+    private final JoystickButton zero = new JoystickButton(board, 11);
 
     // When we get a new switch change button number to what the switch is//
     private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
@@ -295,7 +299,6 @@ public class RobotContainer {
 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-
     }
 
 
@@ -317,9 +320,29 @@ public class RobotContainer {
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
-        slowForward.onTrue(new updateHoldPosition(20, 60, arm));
+        slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
+
+        slowForward.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
         
-        carryButton.onTrue(new updateHoldPosition(0, 30, arm));
+        carryButton.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
+
+        carryButton.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
+
+        forwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
+
+        backwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() - 5), () -> arm.getHoldElbow(), arm));
+
+        forwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() + 2), arm));
+
+        backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() - 2), arm));
+
+        coneHigh.onTrue(new updateHoldPosition(() -> 130+26, () -> 174, arm));
+
+        coneMid.onTrue(new updateHoldPosition(() -> 94+26, () -> 121, arm));
+
+        pickup.onTrue(new updateHoldPosition(() -> 40, () -> 120, arm));
+
+        zero.onTrue(new updateHoldPosition(() -> -8, () -> 80, arm));
 
         /*while(arm.panelMove(panel.getRawAxis(panelY))){
 =======
@@ -375,7 +398,9 @@ public class RobotContainer {
     private void doGripperTestCommands(){
 
        // CLAW COMMANDS
-       clawOpen.debounce(0.04).whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+       clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+       //clawClose.whileTrue(new i(claw).withTimeout(Constants.kGrabber.openTimeout));
+
     }
 
 

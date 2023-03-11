@@ -236,10 +236,10 @@ public final class Constants {
         public static double kShoulderF = 0.00005;
         public static double kShoulderG = 0.085; // From Tims experiments on 3/5*/
 
-        public static double kShoulderP = 0.06;
+        public static double kShoulderP = 0.2;
         public static double kShoulderI = 0;//0.0005;
-        public static double kShoulderD = 0;//0.01;
-        public static double kShoulderF = 0;//0.00005;
+        public static double kShoulderD = 0.03;//0.01;
+        public static double kShoulderF = 0.002;//0.00005;
         public static double kShoulderG = 0; // From Tims experiments on 3/5
 
         public static final double kGElbowOnShoulder = 0.002;
@@ -268,15 +268,15 @@ public final class Constants {
         public static final boolean elbowLeftPhase = false;
     
         //Elbow PIDG//
-        public static double kElbowP = 1.5;
+        public static double kElbowP = 3;
         public static double kElbowI = 0.02;
         public static double kElbowD = 4.0;
         public static double kElbowF = 0;        
-        public static double kElbowG = 0.35; // From Tim Experiments on 3/5
+        public static double kElbowG = 0;//.35 // From Tim Experiments on 3/5
 
         // Shoulder Motion Magic
-        public static double elbowAccel = 2000;
-        public static double elbowVel = 800;
+        public static double elbowAccel = 5000;
+        public static double elbowVel = 5000;
 
         //Setting Elbow Motor Values//
         public static double kElbowForward = 0;

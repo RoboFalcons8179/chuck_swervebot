@@ -103,13 +103,21 @@ public class ArmControl extends SubsystemBase {
   private double holdShoulder = 0;
   private double holdElbow = 75;
 
+  public double getHoldShoulder() {
+    return holdShoulder;
+  }
   public void setHoldShoulder(double value) {
     holdShoulder = value;
   }
+  
 
+  public double getHoldElbow() {
+    return holdElbow;
+  }
   public void setHoldElbow(double value) {
     holdElbow = value;
   }
+  
   public void holdPosition() {
     // This is the default command to hold position. It WILL NOT be perfect, but it will be good enough to stay still enough.
 
