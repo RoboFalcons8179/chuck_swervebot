@@ -257,6 +257,15 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
 
+        double[] encoderValues = ArmControl.getEncoderValues();
+
+        SmartDashboard.putNumber("shoulderMotorLeft Encoder", encoderValues[0]);
+        SmartDashboard.putNumber("shoulderMotorRight Encoder", encoderValues[1]);
+        SmartDashboard.putNumber("Elbow Encoder", encoderValues[2]);
+        SmartDashboard.putNumber("left deg", ArmControl.shoulderEncoder2Angle(encoderValues[0]));
+        SmartDashboard.putNumber("right deg", ArmControl.shoulderEncoder2Angle(encoderValues[1]));
+        SmartDashboard.putNumber("elbow deg", ArmControl.elbowEncoder2Angle(encoderValues[2]));
+
         SmartDashboard.putNumber("Overall X", swerveOdometry.getPoseMeters().getX());
         SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
         SmartDashboard.putNumber("Overall Theta", gyro.getYaw());

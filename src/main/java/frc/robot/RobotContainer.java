@@ -148,6 +148,8 @@ public class RobotContainer {
    // private final JoystickButton grabForwardButton1 = new JoystickButton(panel, 1);
     private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
     private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
+    private final JoystickButton carryButton = new JoystickButton(board, 10);
+
     // When we get a new switch change button number to what the switch is//
     private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
 
@@ -315,9 +317,9 @@ public class RobotContainer {
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
-        slowForward.whileTrue(new gotoArmGeneralLocation(arm,50,90).repeatedly());
+        slowForward.whileTrue(new gotoArmGeneralLocation(arm,0,60).repeatedly().until(() -> (arm.elbowCurrentAngle() >= 59 && arm.elbowCurrentAngle() <= 61)));
         
-
+        carryButton.onTrue(new gotoArmGeneralLocation(arm, 0, 30).repeatedly().until(() -> (arm.elbowCurrentAngle() >= 29 && arm.elbowCurrentAngle() <= 31)));
 
         /*while(arm.panelMove(panel.getRawAxis(panelY))){
 =======

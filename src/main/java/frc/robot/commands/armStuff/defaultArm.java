@@ -40,51 +40,37 @@ public class defaultArm extends CommandBase {
     boolean gripUp = false;
     boolean gripDown = false;
 
-if ((int) board.getY() == 1){ forward = true;
-  System.out.print("Forward ");
-  System.out.print(forward);
-  arm.goToElbowSetpoint(arm.elbowCurrentAngle() + 5);
-};
+  /*if ((int) board.getY() == 1){ forward = true;
+    System.out.print("Forward ");
+    System.out.print(forward);
+    arm.goToElbowSetpoint(arm.elbowCurrentAngle() + 5);
+  };
 
 
-if ((int) board.getY() == -1){ reverse = true;
-  System.out.print("Reverse ");
-  System.out.print(reverse);
-  arm.goToElbowSetpoint(arm.elbowCurrentAngle() - 5);
-};
+  if ((int) board.getY() == -1){ reverse = true;
+    System.out.print("Reverse ");
+    System.out.print(reverse);
+    arm.goToElbowSetpoint(arm.elbowCurrentAngle() - 5);
+  };
 
-if ((int) board.getX() == 1){ gripUp = true;
-  System.out.print("GripUp ");
-  System.out.print(gripUp);
-  arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() + 5);
-};
+  if ((int) board.getX() == 1){ gripUp = true;
+    System.out.print("GripUp ");
+    System.out.print(gripUp);
+    arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() + 5);
+  };
 
-if ((int) board.getX() == -1){ gripDown = true;
-  System.out.print("GripDown ");
-  System.out.print(gripDown);
-  arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() - 5);
-};
+  if ((int) board.getX() == -1){ gripDown = true;
+    System.out.print("GripDown ");
+    System.out.print(gripDown);
+    arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() - 5);
+  };*/
 
-
-
-
-
-
-
-
-
-
-  /*if ((int) board.getY() == 0 && (int) board.getX() == 0) {
-    arm.lastElbowPosition = ArmControl.elbowMotorLeft.getSelectedSensorPosition();
-    arm.lastShoulderPosition = ArmControl.shoulderMotorLeft.getSelectedSensorPosition();
-    this.arm.holdPosition();
-  }*/
+  this.arm.holdPosition();
 }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
     this.arm.shoulderMotorRight.follow(arm.shoulderMotorLeft);
   }
 

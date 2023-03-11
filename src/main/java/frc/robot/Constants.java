@@ -244,7 +244,6 @@ public final class Constants {
 
         public static final double kGElbowOnShoulder = 0.002;
 
-
         // Shoulder Motion Magic
         public static double shoulderAccel = 10000;
         public static double shoulderVel = 15000;
@@ -266,7 +265,7 @@ public final class Constants {
         public static final InvertType elbowMotorLeftInvert = InvertType.None;
 
         // Elbow Phase//
-        public static final boolean elbowLeftPhase = true;
+        public static final boolean elbowLeftPhase = false;
     
         //Elbow PIDG//
         public static double kElbowP = 1.5;

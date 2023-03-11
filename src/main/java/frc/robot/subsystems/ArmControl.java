@@ -25,8 +25,8 @@ public class ArmControl extends SubsystemBase {
   public static WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorID);
 
   // Starting position relitive to the straigt out form.
-  public double startPositionto90Elbow = -2269 * 3; // Note that the *3 is from the gear ratio. It was not measured.
-  public double startPositionto90Shoulder = 45803;
+  public static final double startPositionto90Elbow = -1650 * 3; // Note that the *3 is from the gear ratio. It was not measured. // 0 reference has changed from straight down to straight up
+  public static final double startPositionto90Shoulder = 45803/3;
   
   
   public ArmControl() {
@@ -104,7 +104,7 @@ public class ArmControl extends SubsystemBase {
   public void holdPosition() {
     // This is the default command to hold position. It WILL NOT be perfect, but it will be good enough to stay still enough.
 
-    boolean activeHold = true;
+    boolean activeHold = false;
     //TODO make boolean for seeing if arm is inside robot if this is true make no grav compensation//
     //TODO increase the value of the error zone of the shoulder control loop, increase the maximum intergal accumalation//
 
@@ -130,9 +130,9 @@ public class ArmControl extends SubsystemBase {
 
     double shoulderAngle = shoulderMotorLeft.getSelectedSensorPosition();
   
-      double shoulderAngleDegree = shoulderEncoder2Angle(shoulderAngle);
+    double shoulderAngleDegree = shoulderEncoder2Angle(shoulderAngle);
 
-      return shoulderAngleDegree;
+    return shoulderAngleDegree;
   }
 
   public double elbowCurrentAngle(){
@@ -197,7 +197,7 @@ public class ArmControl extends SubsystemBase {
   }
 
   
-  public double elbowAngle2encoder(double degrees) {
+  public static double elbowAngle2encoder(double degrees) {
     // mapping our desired anglular input to the right angular input.
 
     // Matching zeros for elbow: 0 degrees is equal to our experimental value. See the 
@@ -225,22 +225,22 @@ public class ArmControl extends SubsystemBase {
 
   }
 
-  public double shoulderAngle2encoder(double degrees) {
+  static final int shoulderAdjust = 90;
+  public static double shoulderAngle2encoder(double degrees) {
     // mapping our desired anglular input to the right angular input.
     // see function above
 
     final double y1 = startPositionto90Shoulder;
     final double x1 = 90; // we are defining sticking straigt out as +90 degrees.
-    final double m = startPositionto90Shoulder / 90; // units encoder tics per degres.
+    final double m  = startPositionto90Shoulder / shoulderAdjust; // units encoder tics per degres. Has changed
 
     // Two points are (0,0) and (90,startPositionto90Shoulder)
 
     return (m * (degrees - x1)) + y1;
 
-    
   }
 
-  public double elbowEncoder2Angle(double tic) {
+  public static double elbowEncoder2Angle(double tic) {
 
     // reverse of the functions above. 
 
@@ -253,11 +253,11 @@ public class ArmControl extends SubsystemBase {
 
   }
   
-  public double shoulderEncoder2Angle(double tic) {
+  public static double shoulderEncoder2Angle(double tic) {
 
     final double y1 = startPositionto90Shoulder;
     final double x1 = 90; // we are defining sticking straigt out as +90 degrees.
-    final double m = startPositionto90Shoulder / 90; // units encoder tics per degres.
+    final double m = startPositionto90Shoulder / shoulderAdjust; // units encoder tics per degres.
 
     return (tic - y1)/m + x1;
 
@@ -373,5 +373,10 @@ public class ArmControl extends SubsystemBase {
 
     }
 
+  }
+
+  public static double[] getEncoderValues() {
+    double[] ret = {shoulderMotorLeft.getSelectedSensorPosition(), shoulderMotorRight.getSelectedSensorPosition(), elbowMotorLeft.getSelectedSensorPosition()};
+    return ret;
   }
 }

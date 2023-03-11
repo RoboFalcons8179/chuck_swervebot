@@ -40,7 +40,7 @@ public class gotoArmGeneralLocation extends CommandBase {
   public void execute() {
 
     arm.goToElbowSetpoint(elbowSet);
-    arm.goToShoulderSetpoint(shoulderSet);
+    //arm.goToShoulderSetpoint(shoulderSet);
   }
 
   // Called once the command ends or is interrupted.
