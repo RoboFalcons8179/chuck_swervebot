@@ -100,18 +100,33 @@ public class ArmControl extends SubsystemBase {
   public double shoulderAuxInputGrav = 0; // The arb inputs to account for gravity. they get updated every robot cycle.
   public double elbowAuxInputGrav = 0; 
   
-  
+  private double holdShoulder = 0;
+  private double holdElbow = 75;
+
+  public void setHoldShoulder(double value) {
+    holdShoulder = value;
+  }
+
+  public void setHoldElbow(double value) {
+    holdElbow = value;
+  }
   public void holdPosition() {
     // This is the default command to hold position. It WILL NOT be perfect, but it will be good enough to stay still enough.
 
-    boolean activeHold = false;
+    // https://v5.docs.ctr-electronics.com/en/stable/ch16_ClosedLoop.html#gravity-offset-arm
+
+    //boolean activeHold = false;
     //TODO make boolean for seeing if arm is inside robot if this is true make no grav compensation//
     //TODO increase the value of the error zone of the shoulder control loop, increase the maximum intergal accumalation//
 
     // change this if you want to actively hold/float the values or
     // just have the arm sit there.
 
-    if(activeHold){
+    goToElbowSetpoint(holdElbow);
+    goToShoulderSetpoint(holdShoulder);
+
+    /*if(activeHold){
+
       shoulderMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, shoulderAuxInputGrav);//this is redundant since left is set to follow right?
       shoulderMotorRight.set(ControlMode.PercentOutput, 0);
       //elbowMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, elbowAuxInputGrav);
@@ -123,7 +138,7 @@ public class ArmControl extends SubsystemBase {
       shoulderMotorRight.set(0);
 
       elbowMotorLeft.set(0);
-    }
+    }*/
   }
 
   public double shoulderCurrentAngle(){

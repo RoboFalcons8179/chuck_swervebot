@@ -317,9 +317,9 @@ public class RobotContainer {
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
-        slowForward.whileTrue(new gotoArmGeneralLocation(arm,0,60).repeatedly().until(() -> (arm.elbowCurrentAngle() >= 59 && arm.elbowCurrentAngle() <= 61)));
+        slowForward.onTrue(new updateHoldPosition(20, 60, arm));
         
-        carryButton.onTrue(new gotoArmGeneralLocation(arm, 0, 30).repeatedly().until(() -> (arm.elbowCurrentAngle() >= 29 && arm.elbowCurrentAngle() <= 31)));
+        carryButton.onTrue(new updateHoldPosition(0, 30, arm));
 
         /*while(arm.panelMove(panel.getRawAxis(panelY))){
 =======

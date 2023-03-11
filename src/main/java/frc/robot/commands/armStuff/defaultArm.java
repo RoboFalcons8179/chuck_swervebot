@@ -64,7 +64,7 @@ public class defaultArm extends CommandBase {
     System.out.print(gripDown);
     arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() - 5);
   };*/
-
+  
   this.arm.holdPosition();
 }
 

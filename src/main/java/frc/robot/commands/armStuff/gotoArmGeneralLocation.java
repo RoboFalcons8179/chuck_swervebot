@@ -40,7 +40,7 @@ public class gotoArmGeneralLocation extends CommandBase {
   public void execute() {
 
     arm.goToElbowSetpoint(elbowSet);
-    //arm.goToShoulderSetpoint(shoulderSet);
+    arm.goToShoulderSetpoint(shoulderSet);
   }
 
   // Called once the command ends or is interrupted.
@@ -55,9 +55,9 @@ public class gotoArmGeneralLocation extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    if (Math.abs(arm.shoulderMotorLeft.getSelectedSensorPosition() - arm.shoulderAngle2encoder(shoulderSet)) < 10000 && Math.abs(arm.elbowMotorLeft.getSelectedSensorPosition() - arm.elbowAngle2encoder(elbowSet)) < 200) {
+    /*if (Math.abs(arm.shoulderMotorLeft.getSelectedSensorPosition() - arm.shoulderAngle2encoder(shoulderSet)) < 10000 && Math.abs(arm.elbowMotorLeft.getSelectedSensorPosition() - arm.elbowAngle2encoder(elbowSet)) < 200) {
       return true;
-    }
+    } free zoom meeting ended :( */
     return false;
   }
 }
