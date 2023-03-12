@@ -322,8 +322,8 @@ public final class Constants {
         public static final double kSquareRelease = 0;
 
         //Power Levels//
-        public static final double backPower = 0;
-        public static final double squeezeCurrent = 0;
+        public static final double backPower = -1;
+        public static final double squeezeCurrent = 1;
 
         //Safety Limit Currenting//
         public static final int ampLimit = 5;

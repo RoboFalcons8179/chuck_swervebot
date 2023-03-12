@@ -85,6 +85,7 @@ public class RobotContainer {
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton clawClose = new JoystickButton(driver, XboxController.Button.kB.value);
+    private final JoystickButton pickupAbove = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
     
     
     
@@ -103,6 +104,10 @@ public class RobotContainer {
     // FROM TIM: This is how you do the commmand on the joystick for adjusting the shoulder.
     //      repeat this for the shoulder.
 
+    // From Tim: See this. This is how to do this.
+        // shoulderAdjUp.debounce(0.04).onTrue( new {Your Command here})
+        // shoulderAdjDown.debounce(0.04).onTrue ( new {Your command here})
+
     private final BooleanSupplier isArmAdjustUp = new BooleanSupplier() {
         // This part makes the thing that passes up the true false
 
@@ -117,7 +122,7 @@ public class RobotContainer {
         
     };
 
-    private final Trigger shoulderAdjUp = new Trigger(isArmAdjustUp);
+    private final Trigger elbowAdjUp = new Trigger(isArmAdjustUp);
         // This part makes it work with the command archetecture.
 
 
@@ -134,7 +139,41 @@ public class RobotContainer {
         
     };
 
-    private final Trigger shoulderAdjDown = new Trigger(isArmAdjustDown);
+    private final Trigger elbowAdjDown = new Trigger(isArmAdjustDown);
+
+
+    private final BooleanSupplier isShoudlerAdjustUp = new BooleanSupplier() {
+        // This part makes the thing that passes up the true false
+
+        @Override
+        public boolean getAsBoolean() {
+
+            if(panel.getRawAxis(panelY) == -1)
+                return true;
+            else
+                return false;
+        }
+        
+    };
+
+    private final Trigger shoulderAdjUp = new Trigger(isShoudlerAdjustUp);
+        // This part makes it work with the command archetecture.
+
+
+    private final BooleanSupplier isShoulderAdjustDown = new BooleanSupplier() {
+
+        @Override
+        public boolean getAsBoolean() {
+
+            if(panel.getRawAxis(panelY) == 1)
+                return true;
+            else
+                return false;
+        }
+        
+    };
+
+    private final Trigger shoulderAdjDown = new Trigger(isShoulderAdjustDown);
 
 
     //private final Joystick manualShoulder = new JoystickButton(panel, rotationAxis);
@@ -232,7 +271,7 @@ public class RobotContainer {
         // Default Commands
 
         // swerve will look at the driver for its info
-        s_Swerve.setDefaultCommand(
+         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
                 () -> -driver.getRawAxis(translationAxis), 
@@ -336,57 +375,17 @@ public class RobotContainer {
 
         backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() - 2), arm));
 
-        coneHigh.onTrue(new updateHoldPosition(() -> 130+26, () -> 174, arm));
+        coneHigh.onTrue(new updateHoldPosition(() -> 145, () -> 165, arm));
 
-        coneMid.onTrue(new updateHoldPosition(() -> 94+26, () -> 121, arm));
+        coneMid.onTrue(new updateHoldPosition(() -> 115, () ->arm.getHoldElbow(), arm));
+        coneMid.onFalse(new updateHoldPosition(() -> 115, () -> 141, arm));
 
-        pickup.onTrue(new updateHoldPosition(() -> 40, () -> 120, arm));
+        pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
 
-        zero.onTrue(new updateHoldPosition(() -> -8, () -> 80, arm));
+        pickupAbove.onTrue(new updateHoldPosition(() -> 95, () -> 225, arm));
 
-        /*while(arm.panelMove(panel.getRawAxis(panelY))){
-=======
-    }
-
-
-    /////////////ARM
-
-    private void doArmCompetitionCommands() {
-
-
-
-
-    }
-
-    private void doArmTestCommands() {
-
-
-        // From Tim: See this. This is how to do this.
-        // shoulderAdjUp.debounce(0.04).onTrue( new {Your Command here})
-        // shoulderAdjDown.debounce(0.04).onTrue ( new {Your command here})
-
-        while(arm.panelMove(panel.getRawAxis(panelY))){
->>>>>>> e3e1d35e21d0cfcc429fe8a8d439fdc4685db846
-            if (arm.panelMoveDecision(panel.getRawAxis(panelY))) {
-                arm.goToElbowSetpoint(arm.elbowCurrentAngle() + 5);
-            }else {
-                arm.goToElbowSetpoint(arm.elbowCurrentAngle() - 5);
-                
-            }
-        }
-
-
-        while(arm.panelMove(panel.getRawAxis(panelX))){
-            if (arm.panelMoveDecision(panel.getRawAxis(panelX))) {
-                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() + 5);
-            }else {
-                arm.goToShoulderSetpoint(arm.shoulderCurrentAngle() - 5);
-            }
-        }*/
+        zero.onTrue(new updateHoldPosition(() -> 0, () -> 74, arm));
         
-        
-
-
     }
 
     ///// GRABBER
@@ -399,7 +398,9 @@ public class RobotContainer {
 
        // CLAW COMMANDS
        clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
-       //clawClose.whileTrue(new i(claw).withTimeout(Constants.kGrabber.openTimeout));
+       clawClose.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+       
+       //clawClose.whileTrue(new i(claw).withTimeout(Constants.kGrabbr.openTimeout));
 
     }
 
