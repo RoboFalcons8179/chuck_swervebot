@@ -255,6 +255,13 @@ public class RobotContainer {
     
     PathPlannerTrajectory RightS = PathPlanner.loadPath("RIGHTS", new PathConstraints(2, 2));
 
+    PathPlannerTrajectory StraightL = PathPlanner.loadPath("STRAIGHTL", new PathConstraints(2, 2));
+
+    PathPlannerTrajectory StraightC = PathPlanner.loadPath("STRAIGHTC", new PathConstraints(2, 2));
+
+    PathPlannerTrajectory StraightR = PathPlanner.loadPath("STRAIGHTR", new PathConstraints(2, 2));
+
+
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
     // public BooleanEvent povUp(EventLoop loop){
@@ -566,7 +573,8 @@ public enum Alliance {
 
 
     public Command getAutonomousCommand() {
-        return new backAndForth(s_Swerve, arm, claw);
+        return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
+        //return new backAndForth(s_Swerve, arm, claw);
 
         /*if (test.getAsBoolean() == true){
            return new doPathTrajectory(s_Swerve, CenterS);
@@ -577,8 +585,4 @@ public enum Alliance {
         }*/
 
     }
-
-    //            return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
-
-
 }
