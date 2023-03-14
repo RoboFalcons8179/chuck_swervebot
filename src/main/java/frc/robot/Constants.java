@@ -331,7 +331,7 @@ public final class Constants {
 
         // Timeout for the open claw command. Needed if the 
         // limit switch breaks.
-        public static final double openTimeout = 5;
+        public static final double openTimeout = 1.5;
 
 
 

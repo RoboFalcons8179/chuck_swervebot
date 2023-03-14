@@ -32,7 +32,7 @@ public class Balance extends CommandBase {
   }
 
   private double angleTarget;
-  private double backwards;
+  private int backwards;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -53,14 +53,14 @@ public class Balance extends CommandBase {
     if (angleTarget < 0){
       angleTarget = angleTarget + Math.toRadians(180);
     }
-
+    System.out.println(Math.toDegrees(angleTarget) + " angleTarget degrees to forward");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
-    s_Swerve.drive_Manually(Constants.kBalance.power*backwards, new Rotation2d(angleTarget));
+    //s_Swerve.drive_Manually(Constants.kBalance.power * backwards, new Rotation2d(angleTarget));
     
 
     

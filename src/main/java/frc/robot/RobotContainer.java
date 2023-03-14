@@ -70,6 +70,8 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int rightTrigger = XboxController.Axis.kRightTrigger.value;
+    private final int leftTrigger = XboxController.Axis.kLeftTrigger.value;
 
 
     /* Driver Buttons and Triggers - RESERVED FOR COMPETITION*/
@@ -287,6 +289,9 @@ public class RobotContainer {
         
         // No default for gripper - it will run a command until it is done
         // or interupted.
+        // default command for gripper using analog triggers
+
+        claw.setDefaultCommand(new updateGripperSpeed(claw, () -> driver.getRawAxis(leftTrigger), () -> driver.getRawAxis(rightTrigger)));
 
         ///// COMMAND BUTTONS
 
@@ -334,12 +339,12 @@ public class RobotContainer {
      * TODO: TEST GRIPPER AND ARM CODE TO BE ABLE TO MOVE IT UP TO THE 
      * COMPETITION CODE SECTION
     */
+
     private void doDriverCompetitionCommands() {
 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
     }
-
 
     /* This is for testing driving commands */
     private void doDriverTestCommands() {
@@ -377,7 +382,7 @@ public class RobotContainer {
 
         coneHigh.onTrue(new updateHoldPosition(() -> 145, () -> 165, arm));
 
-        coneMid.onTrue(new updateHoldPosition(() -> 115, () ->arm.getHoldElbow(), arm));
+        coneMid.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm));
         coneMid.onFalse(new updateHoldPosition(() -> 115, () -> 141, arm));
 
         pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
@@ -397,8 +402,8 @@ public class RobotContainer {
     private void doGripperTestCommands(){
 
        // CLAW COMMANDS
-       clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
-       clawClose.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+       clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 8
+       clawClose.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 7
        
        //clawClose.whileTrue(new i(claw).withTimeout(Constants.kGrabbr.openTimeout));
 
@@ -561,14 +566,15 @@ public enum Alliance {
 
 
     public Command getAutonomousCommand() {
+        return new backAndForth(s_Swerve, arm, claw);
 
-        if (test.getAsBoolean() == true){
+        /*if (test.getAsBoolean() == true){
            return new doPathTrajectory(s_Swerve, CenterS);
         }
 
         else{
             return (new doPathTrajectory(s_Swerve, CenterB));
-        }
+        }*/
 
     }
 

@@ -48,6 +48,10 @@ public class Grabber extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void setSpeed(double amps) {
+    grabberMotor.set(ControlMode.Current, amps);
+  }
+
   public void openClawSubsystem() {
 
     // Open until we hit the back limit switch
@@ -63,7 +67,6 @@ public class Grabber extends SubsystemBase {
 
 
   }
-
 
   public void stopClaw() {
     grabberMotor.set(0);

@@ -1,0 +1,47 @@
+3/10/2023 -> 3/13/2023 --
+
+3/13/23
+
+    ROBOT ELBOW JOINT BROKEN, MANY THINGS MAY NOT BE VERIFIED AS WORKING, WHICH IS WHY changelog.txt WAS CREATED
+
+    New updateGripperSpeed.java -
+    
+        Default command for claw
+
+        Allows for triggers to control the gripper movement, X and B buttons still move grippers via request.
+        Uses direct current control, since the motors used are not Talons and WPI's talon interface is used, percent output may break motor 
+        (supplies up to 40A, and the motors are rated for 12A)
+
+    New changelog.txt -
+        I added this for more verbose update logs, change if want.
+
+    backAndForth changes-
+        Made this auton code move the arm too, values in code, should still follow original path.
+    
+    Balance.java -
+        No longer moves the robot due to its tendency to launch the robot the wrong way.
+            arctan and arccos have different shapes, check desmos for differences between original arccos(f(x,y)) = 1 and arctan(g(x,y)) = 1
+
+3/11/23
+
+    Arm changes
+
+        updateHoldPosition.java & ArmControl.java - 
+
+            restructuring of the logic behind hold positions
+
+            Instead of using a setpoint in the command, it updates two positions in ArmControl, which defaultArm now tries to constantly set the arm to.
+            Default arm position is now (0, 75) via encoder default value changes.
+
+            PID changed, G variable added too much complexity and made the arm motion 'break'
+
+3/10/23
+    
+    Arm changes
+
+        updateHoldPosition.java - 
+
+            sets setpoints for arm and elbow based on parameters, in degrees
+
+            3:1 gearbox removed from shoulder motors.
+            encoder values and interpreted degree values now logged in shuffleboard.

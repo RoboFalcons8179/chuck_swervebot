@@ -214,7 +214,7 @@ public class Swerve extends SubsystemBase {
             // xAcc <= Constants.kBalance.BalanceAccelThreshold &&
             // yAcc <= Constants.kBalance.BalanceAccelThreshold )
             Math.abs(gyro.getPitch()) <= Constants.kBalance.BalanceAccelThreshold &&
-            Math.abs(gyro.getRoll()) <= Constants.kBalance.BalanceAccelThreshold )
+            Math.abs(gyro.getRoll())  <= Constants.kBalance.BalanceAccelThreshold )
 
             System.out.println(ScaledPitch);
             System.out.println(ScaledRoll);
