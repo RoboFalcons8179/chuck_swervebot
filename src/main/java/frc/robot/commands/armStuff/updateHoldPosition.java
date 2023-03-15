@@ -23,10 +23,9 @@ public class updateHoldPosition extends InstantCommand {
     this.arm = arm;
     System.out.println(setShoulder + " " + holdShoulder);
     System.out.println(setElbow + " " + holdElbow);
-
   }
 
-  // Called when the command is initially scheduled.
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
     arm.setHoldElbow(holdElbow.getAsDouble());

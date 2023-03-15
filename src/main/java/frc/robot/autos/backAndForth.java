@@ -20,33 +20,42 @@ public class backAndForth extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new closeClaw(claw),
+
+      new closeClaw(claw).withTimeout(0.5),
     
-      new doTrajectory(s_Swerve, traj.makeZ),
+      //new doTrajectory(s_Swerve, traj.makeZ),
 
-      new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm),
+      new updateHoldPosition(() -> -6, () -> 45, arm),
 
-      new WaitCommand(2),
+      new WaitCommand(.5),
 
-      new updateHoldPosition(() -> 115, () -> 141, arm),
+      new updateHoldPosition(() -> 115, () -> 45, arm),
       
       new WaitCommand(1),
+      new updateHoldPosition(() -> 115, () -> 150, arm),
 
-      new openClaw(claw).withTimeout(1.5),
+      new WaitCommand(1.5),
+
+      new openClaw(claw).withTimeout(1),
+
+      new updateHoldPosition(() -> 115, () -> 65, arm),
 
       new closeClaw(claw).withTimeout(1.5),
 
-      new updateHoldPosition(() -> 115, () -> 75, arm),
       
-      new WaitCommand(1),
+      
+      //new WaitCommand(1.5),
 
-      new updateHoldPosition(() -> 0, () -> 75, arm)
+      new updateHoldPosition(() -> -6, () -> 65, arm),
+
+      new closeClaw(claw).withTimeout(1)
       
       );
 
 
 
-    addCommands( new doTrajectory(s_Swerve, traj.makeZFlipped));
+    //addCommands( new doTrajectory(s_Swerve, traj.makeZFlipped));
 
   }
 }
+

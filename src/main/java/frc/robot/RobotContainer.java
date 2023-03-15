@@ -1,6 +1,7 @@
 package frc.robot;
 
 import java.util.Map;
+import java.util.concurrent.DelayQueue;
 import java.util.function.BooleanSupplier;
 
 import com.pathplanner.lib.PathConstraints;
@@ -194,6 +195,11 @@ public class RobotContainer {
     private final JoystickButton coneMid = new JoystickButton(board, 6);
     private final JoystickButton pickup = new JoystickButton(board, 12);
     private final JoystickButton zero = new JoystickButton(board, 11);
+   // private final JoystickButton clawOpenBoard = new JoystickButton(board, 8);
+    //private final JoystickButton clawCloseBoard = new JoystickButton(board, 7);
+    private final JoystickButton pickupAboveBoard = new JoystickButton(board, 9);
+    private final JoystickButton pickupPlayer = new JoystickButton(board, 8);
+   
 
     // When we get a new switch change button number to what the switch is//
     private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
@@ -387,7 +393,8 @@ public class RobotContainer {
 
         backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() - 2), arm));
 
-        coneHigh.onTrue(new updateHoldPosition(() -> 145, () -> 165, arm));
+        coneHigh.onTrue(new updateHoldPosition(() -> 142, () -> arm.getHoldElbow(), arm));
+        coneHigh.onFalse(new updateHoldPosition(() -> 142, () -> 165, arm));
 
         coneMid.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm));
         coneMid.onFalse(new updateHoldPosition(() -> 115, () -> 141, arm));
@@ -396,7 +403,11 @@ public class RobotContainer {
 
         pickupAbove.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
 
+        pickupAboveBoard.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
+
         zero.onTrue(new updateHoldPosition(() -> -6, () -> 75, arm));
+
+        pickupPlayer.onTrue(new updateHoldPosition(() -> 110, () -> 147, arm));
         
     }
 
@@ -411,7 +422,9 @@ public class RobotContainer {
        // CLAW COMMANDS
        clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 8
        clawClose.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 7
-       
+       //clawCloseBoard.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+       //clawOpenBoard.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
+
        //clawClose.whileTrue(new i(claw).withTimeout(Constants.kGrabbr.openTimeout));
 
     }
@@ -573,8 +586,13 @@ public enum Alliance {
 
 
     public Command getAutonomousCommand() {
-        return new doPathTrajectory(s_Swerve, CenterS).andThen(new doPathTrajectory(s_Swerve, CenterB));
-        //return new backAndForth(s_Swerve, arm, claw);
+       return new backAndForth(s_Swerve, arm, claw);
+
+
+       // return new doPathTrajectory(s_Swerve, STRAIGHTL);//.andThen(new doPathTrajectory(s_Swerve, CenterB));
+
+
+
 
         /*if (test.getAsBoolean() == true){
            return new doPathTrajectory(s_Swerve, CenterS);

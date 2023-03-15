@@ -21,6 +21,7 @@ public class updateGripperSpeed extends CommandBase {
     this.claw = claw;
     this.leftTriggerSupplier = leftTriggerSupplier;
     this.rightTriggerSupplier = rightTriggerSupplier;
+    addRequirements(claw);
   }
 
   // Called when the command is initially scheduled.
