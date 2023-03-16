@@ -221,7 +221,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final pVision vision = new pVision();
     private final Grabber claw = new Grabber();
-    private final ArmControl arm = new ArmControl();
+    public final ArmControl arm = new ArmControl();
 
     /* Troubleshooting, Auto, and Shuffleboard */
     private final SendableChooser<Command> commandChooser = new SendableChooser<>();
@@ -269,7 +269,7 @@ public class RobotContainer {
 
     PathPlannerTrajectory StraightR = PathPlanner.loadPath("STRAIGHTR", new PathConstraints(2, 2));
 
-
+    PathPlannerTrajectory StraightBR = PathPlanner.loadPath("STRAIGHTBR", new PathConstraints(2, 2));
 
 
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
@@ -592,17 +592,19 @@ public enum Alliance {
     public Command getAutonomousCommand() {
 
         //center
-       return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightC));
+       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightC));
 
-        //bottom
+        //right blue 
        //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightR));
 
-        //top right
+        //right red
        //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightLR));
-        //top blue
+        //left blue
        //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightL));
 
-       // return new doPathTrajectory(s_Swerve, STRAIGHTL);//.andThen(new doPathTrajectory(s_Swerve, CenterB));
+       //left red
+       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightBR));
+       return new doPathTrajectory(s_Swerve, StraightBR);
 
 
 
