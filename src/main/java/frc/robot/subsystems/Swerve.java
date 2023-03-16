@@ -230,9 +230,9 @@ public class Swerve extends SubsystemBase {
     // In RADs
     public double pointingUpAngle() {
 
-            //return Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2)));
-            return Math.atan(gyro.getRawAccelY()/gyro.getRawAccelX());
-
+            return Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2)));
+            //return Math.atan(gyro.getRawAccelY()/gyro.getRawAccelX());// THIS HAS DIFFERENT SIGNS
+            
     }
 
 

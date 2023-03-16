@@ -44,15 +44,7 @@ public class Balance extends CommandBase {
     // else{
     //   backwards = -1;
     // }
-    if(gyro.getRawAccelY() < 0){
-      backwards=1;
-    }
-    else{
-      backwards=-1;
-    }
-    if (angleTarget < 0){
-      angleTarget = angleTarget + Math.toRadians(180);
-    }
+    
     System.out.println(Math.toDegrees(angleTarget) + " angleTarget degrees to forward");
   }
 
@@ -60,7 +52,7 @@ public class Balance extends CommandBase {
   @Override
   public void execute() {
     
-    //s_Swerve.drive_Manually(Constants.kBalance.power * backwards, new Rotation2d(angleTarget));
+    s_Swerve.drive_Manually(Constants.kBalance.power * backwards, new Rotation2d(angleTarget));
     
 
     

@@ -21,6 +21,8 @@ public class backAndForth extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
+      new WaitCommand(1),
+
       new closeClaw(claw).withTimeout(0.5),
     
       //new doTrajectory(s_Swerve, traj.makeZ),

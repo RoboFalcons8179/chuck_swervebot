@@ -263,9 +263,13 @@ public class RobotContainer {
 
     PathPlannerTrajectory StraightL = PathPlanner.loadPath("STRAIGHTL", new PathConstraints(2, 2));
 
+    PathPlannerTrajectory StraightLR = PathPlanner.loadPath("STRAIGHTLR", new PathConstraints(2, 2));
+
     PathPlannerTrajectory StraightC = PathPlanner.loadPath("STRAIGHTC", new PathConstraints(2, 2));
 
     PathPlannerTrajectory StraightR = PathPlanner.loadPath("STRAIGHTR", new PathConstraints(2, 2));
+
+
 
 
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
@@ -586,8 +590,17 @@ public enum Alliance {
 
 
     public Command getAutonomousCommand() {
-       return new backAndForth(s_Swerve, arm, claw);
 
+        //center
+       return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightC));
+
+        //bottom
+       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightR));
+
+        //top right
+       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightLR));
+        //top blue
+       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightL));
 
        // return new doPathTrajectory(s_Swerve, STRAIGHTL);//.andThen(new doPathTrajectory(s_Swerve, CenterB));
 
@@ -602,5 +615,10 @@ public enum Alliance {
             return (new doPathTrajectory(s_Swerve, CenterB));
         }*/
 
+
+
+    }
+    public Swerve getSwervePointer(){
+        return s_Swerve;
     }
 }

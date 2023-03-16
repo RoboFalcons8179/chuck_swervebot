@@ -1,3 +1,19 @@
+
+3/15/23
+
+    Swerve module broke :(, unverified--
+        added auto paths
+        changed balance arctan -> arccos because sign issues
+
+        ** zeroed wheels in RobotContainer
+
+        added a wait to auton
+
+        found live share!!!!!!! :)
+            basically google docs but for vscode
+
+        
+
 3/10/2023 -> 3/13/2023 --
 
 3/13/23
