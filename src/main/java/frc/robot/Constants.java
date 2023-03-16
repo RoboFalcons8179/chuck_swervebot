@@ -29,8 +29,8 @@ public final class Constants {
             COTSFalconSwerveConstants.SWERVEX(COTSFalconSwerveConstants.driveGearRatios.SWERVEX_L2);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(10.625); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(18.5); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(23.5); //TODO: This must be tuned to specific robot
+        public static final double wheelBase = Units.inchesToMeters(23.5); //TODO: This must be tuned to specific robot
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 

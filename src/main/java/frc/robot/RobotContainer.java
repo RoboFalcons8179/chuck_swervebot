@@ -271,6 +271,19 @@ public class RobotContainer {
 
     PathPlannerTrajectory StraightBR = PathPlanner.loadPath("STRAIGHTBR", new PathConstraints(2, 2));
 
+    PathPlannerTrajectory compLeftRed = PathPlanner.loadPath("COMPLEFTRED", new PathConstraints(5, 5));
+
+    PathPlannerTrajectory compRightRed = PathPlanner.loadPath("COMPRIGHTRED", new PathConstraints(2, .5));
+
+    PathPlannerTrajectory compMiddleRed = PathPlanner.loadPath("COMPMIDDLERED", new PathConstraints(5, 5));
+
+    PathPlannerTrajectory compLeftBlue = PathPlanner.loadPath("COMPLEFTBLUE", new PathConstraints(5, 5));
+
+    PathPlannerTrajectory compRightBlue = PathPlanner.loadPath("COMPRIGHTBLUE", new PathConstraints(5, 5));
+    
+    PathPlannerTrajectory compMiddleBlue = PathPlanner.loadPath("COMPMIDDLEBLUE", new PathConstraints(5, 5));
+
+
 
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
@@ -591,21 +604,28 @@ public enum Alliance {
 
     public Command getAutonomousCommand() {
 
-        //center
-       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightC));
+
+        
+        
+        //center Blue
+      //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve,compMiddleBlue ));
+
+        //center Red
+      //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compMiddleRed));
+
 
         //right blue 
-       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightR));
+         return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compRightBlue));
 
         //right red
-       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightLR));
-        //left blue
-       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightL));
+      // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compRightRed));
+        
+       //left blue
+      // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compLeftBlue));
 
        //left red
-       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, StraightBR));
-       return new doPathTrajectory(s_Swerve, StraightBR);
-
+      // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compLeftRed));
+     
 
 
 
