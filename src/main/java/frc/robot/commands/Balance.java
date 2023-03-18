@@ -25,10 +25,8 @@ public class Balance extends CommandBase {
     this.s_Swerve = s_Swerve;
     gyro = s_Swerve.gyro;
     
-    // addRequirements(s_Swerve);
+    addRequirements(s_Swerve);
 
-
-    
   }
 
   private double angleTarget;
@@ -51,8 +49,8 @@ public class Balance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    s_Swerve.drive_Manually(Constants.kBalance.power * backwards, new Rotation2d(angleTarget));
+    System.out.println("Balance.java" + s_Swerve.isRobotLevel());
+    s_Swerve.drive_Manually(Constants.kBalance.power, new Rotation2d(angleTarget));
     
 
     

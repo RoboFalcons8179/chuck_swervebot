@@ -18,13 +18,14 @@ public class balanceAuto extends SequentialCommandGroup {
   public balanceAuto(Swerve s_Swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    System.out.println("-------------------" + s_Swerve.isRobotLevel());
     if (!s_Swerve.isRobotLevel()) {
+      System.out.println("the robot is not balanced, trying to balanced");
     addCommands(
 
       new InstantCommand(() -> System.out.println("------------------")),
 
       new InstantCommand(() -> System.out.println(s_Swerve.isRobotLevel())),
-
          
       new Balance(s_Swerve).withTimeout(0.425),
 
@@ -34,7 +35,6 @@ public class balanceAuto extends SequentialCommandGroup {
 
       new WaitCommand(10).until(() -> (s_Swerve.isRobotStill()))
             
-      
       );
     } else { // check if the robot is level when running the command
       addCommands(

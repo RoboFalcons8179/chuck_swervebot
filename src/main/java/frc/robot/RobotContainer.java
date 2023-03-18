@@ -271,17 +271,17 @@ public class RobotContainer {
 
     PathPlannerTrajectory StraightBR = PathPlanner.loadPath("STRAIGHTBR", new PathConstraints(2, 2));
 
-    PathPlannerTrajectory compLeftRed = PathPlanner.loadPath("COMPLEFTRED", new PathConstraints(5, 5));
+    PathPlannerTrajectory compLeftRed = PathPlanner.loadPath("COMPLEFTRED", new PathConstraints(2, 2));
 
-    PathPlannerTrajectory compRightRed = PathPlanner.loadPath("COMPRIGHTRED", new PathConstraints(2, .5));
+    PathPlannerTrajectory compRightRed = PathPlanner.loadPath("COMPRIGHTRED", new PathConstraints(2, 2));
 
-    PathPlannerTrajectory compMiddleRed = PathPlanner.loadPath("COMPMIDDLERED", new PathConstraints(5, 5));
+    PathPlannerTrajectory compMiddleRed = PathPlanner.loadPath("COMPSTRAIGHTRED", new PathConstraints(2, 2));
 
-    PathPlannerTrajectory compLeftBlue = PathPlanner.loadPath("COMPLEFTBLUE", new PathConstraints(5, 5));
+    PathPlannerTrajectory compLeftBlue = PathPlanner.loadPath("COMPLEFTBLUE", new PathConstraints(2, 2));
 
-    PathPlannerTrajectory compRightBlue = PathPlanner.loadPath("COMPRIGHTBLUE", new PathConstraints(5, 5));
+    PathPlannerTrajectory compRightBlue = PathPlanner.loadPath("COMPRIGHTBLUE", new PathConstraints(2, 2));
     
-    PathPlannerTrajectory compMiddleBlue = PathPlanner.loadPath("COMPMIDDLEBLUE", new PathConstraints(5, 5));
+    PathPlannerTrajectory compMiddleBlue = PathPlanner.loadPath("COMPSTRAIGHTBLUE", new PathConstraints(2, 2));
 
 
 
@@ -418,13 +418,13 @@ public class RobotContainer {
 
         pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
 
-        pickupAbove.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
+        //pickupAbove.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
 
         pickupAboveBoard.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
 
         zero.onTrue(new updateHoldPosition(() -> -6, () -> 75, arm));
 
-        pickupPlayer.onTrue(new updateHoldPosition(() -> 110, () -> 147, arm));
+        pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 155, arm));
         
     }
 
@@ -603,19 +603,37 @@ public enum Alliance {
 
 
     public Command getAutonomousCommand() {
+//right
 
-
-        
-        
-        //center Blue
-      //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve,compMiddleBlue ));
+return new backAndForth(s_Swerve, arm, claw);
+ //left
+    /*   
+    return new backAndForth(s_Swerve, arm, claw).andThen( new InstantCommand(()-> s_Swerve.zeroGyro())).andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute())).andThen(new TeleopSwerve(
+    s_Swerve, 
+    () -> 0, 
+    () -> .75, 
+    () -> 0, 
+    () -> true,
+    () -> goSpeed.getAsBoolean()                
+)).withTimeout(.5)
+.andThen(new TeleopSwerve(
+    s_Swerve, 
+    () -> 1, 
+    () -> 0, 
+    () -> 0, 
+    () -> true,
+    () -> goSpeed.getAsBoolean()                
+)).withTimeout(2);
+    */
+          // return new doPathTrajectory(s_Swerve,compMiddleBlue);
+        //centerBlue 
+    //.andThen(new WaitCommand(0.75)).andThen(new doPathTrajectory(s_Swerve, compMiddleBlue));
 
         //center Red
       //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compMiddleRed));
 
-
         //right blue 
-         return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compRightBlue));
+        //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compRightBlue));
 
         //right red
       // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compRightRed));
@@ -624,7 +642,7 @@ public enum Alliance {
       // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compLeftBlue));
 
        //left red
-      // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compLeftRed));
+     // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compLeftRed));
      
 
 

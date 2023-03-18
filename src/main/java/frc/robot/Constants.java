@@ -88,9 +88,9 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 1.5; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 2.25; //1.5 //TODO: This must be tuned to specific robot
         /** Radians per Second */
-        public static final double maxAngularVelocity = 3.0; //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 2; //2 //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;//break
@@ -199,7 +199,7 @@ public final class Constants {
     public static final class kBalance {
 
         public static final double StillThreshold = 0.05; // in G's
-        public static final double BalanceAccelThreshold = 1.0; // In angle's
+        public static final double BalanceAccelThreshold = 3.0; // In angle's DEGREES
         public static final double power = 0.7; // Speed demanded to the wheels, relitive to MAX Speed.
 
         // Averaging window for accels when determining if the robot is still. 
