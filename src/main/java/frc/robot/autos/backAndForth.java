@@ -117,7 +117,7 @@ s_Swerve,
 () -> 0, 
 () -> true,
 () -> false        
-).withTimeout(3),//3.5
+).withTimeout(3.5),//3.5
 new TeleopSwerve(
 s_Swerve, 
 () -> 0, 
@@ -125,7 +125,7 @@ s_Swerve,
 () -> 0, 
 () -> true,
 () -> false        
-).withTimeout(1.25),//2
+).withTimeout(1),//2
 new TeleopSwerve(
 s_Swerve, 
 () -> -.8, 
@@ -133,7 +133,7 @@ s_Swerve,
 () -> 0, 
 () -> true,
 () -> false          
-).withTimeout(2),//2.3
+).withTimeout(2.5),//2.3
 new TeleopSwerve(
 s_Swerve, 
 () -> 0, 

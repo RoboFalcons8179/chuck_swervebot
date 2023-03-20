@@ -424,7 +424,7 @@ public class RobotContainer {
 
         zero.onTrue(new updateHoldPosition(() -> -6, () -> 75, arm));
 
-        pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 155, arm));
+        pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 149, arm));
         
     }
 
