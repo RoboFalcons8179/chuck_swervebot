@@ -79,6 +79,7 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value); // reserved for swerve
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
+    private final JoystickButton testinpathpla = new JoystickButton(driver, XboxController.Button.kBack.value);
 
 
 
@@ -283,6 +284,8 @@ public class RobotContainer {
     
     PathPlannerTrajectory compMiddleBlue = PathPlanner.loadPath("COMPSTRAIGHTBLUE", new PathConstraints(2, 2));
 
+    PathPlannerTrajectory newPath = PathPlanner.loadPath("New Path", new PathConstraints(2, 2));
+
 
 
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
@@ -391,6 +394,8 @@ public class RobotContainer {
         }
 
         /* Driver Buttons */
+        testinpathpla.whileTrue(new doPathTrajectory(s_Swerve, newPath));
+        // testinpathpla.whileTrue(new doTrajectory(s_Swerve, traj.makeZ));
 
         counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
@@ -605,7 +610,10 @@ public enum Alliance {
     public Command getAutonomousCommand() {
 //right
 
-return new backAndForth(s_Swerve, arm, claw);
+// return new backAndForth(s_Swerve, arm, claw);
+
+return new doPathTrajectory(s_Swerve, CenterPSTraj);
+
  //left
     /*   
     return new backAndForth(s_Swerve, arm, claw).andThen( new InstantCommand(()-> s_Swerve.zeroGyro())).andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute())).andThen(new TeleopSwerve(
