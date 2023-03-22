@@ -69,7 +69,7 @@ public final class Constants {
         public static final double closedLoopRamp = 1.0;
 
         /* Angle Motor PID Values */
-        public static final double angleKP = 0.27;
+        public static final double angleKP = 0.25;
         public static final double angleKI = 0;
         public static final double angleKD = 0;
         public static final double angleKF = 0;
@@ -88,9 +88,9 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 2.25; //1.5 //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 1.75; //1.5 //TODO: This must be tuned to specific robot
         /** Radians per Second */
-        public static final double maxAngularVelocity = 2; //2 //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 1.75; //2 //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;//break
