@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.Limelight.rotateToAngle;
 import frc.robot.commands.armStuff.*;
 import frc.robot.commands.armStuff.goto30;
 import frc.robot.commands.armStuff.gotoArmGeneralLocation;
@@ -398,8 +399,10 @@ public class RobotContainer {
         }
 
         /* Driver Buttons */
-        testinpathpla.whileTrue(new grabCube(s_Swerve, arm, claw));
+        // testinpathpla.whileTrue(new grabCube(s_Swerve, arm, claw));
         // testinpathpla.whileTrue(new doTrajectory(s_Swerve, traj.makeZ));
+
+        testinpathpla.whileTrue(new rotateToAngle(s_Swerve, 90));
 
         //counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
