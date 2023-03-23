@@ -18,31 +18,29 @@ public class balanceAuto extends SequentialCommandGroup {
   public balanceAuto(Swerve s_Swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    System.out.println("-------------------" + s_Swerve.isRobotLevel());
     if (!s_Swerve.isRobotLevel()) {
-      System.out.println("the robot is not balanced, trying to balanced");
-    addCommands(
+      addCommands(
 
-      new InstantCommand(() -> System.out.println("------------------")),
+        new InstantCommand(() -> System.out.println("------------------")),
 
-      new InstantCommand(() -> System.out.println(s_Swerve.isRobotLevel())),
-         
-      new Balance(s_Swerve).withTimeout(0.425),
+        new InstantCommand(() -> System.out.println(s_Swerve.isRobotLevel())),
+          
+        new Balance(s_Swerve).withTimeout(0.425),
 
-      new InstantCommand(() -> s_Swerve.stop()),
-      
-      new WaitCommand(1.0),
+        new InstantCommand(() -> s_Swerve.stop()),
+        
+        new WaitCommand(1.0),
 
-      new WaitCommand(10).until(() -> (s_Swerve.isRobotStill()))
+        new WaitCommand(10).until(() -> (s_Swerve.isRobotStill()))
             
       );
     } else { // check if the robot is level when running the command
       addCommands(
-      new InstantCommand(() -> System.out.println("did not run, robot is balanced")),
+        new InstantCommand(() -> System.out.println("did not run, robot is balanced")),
 
-      new WaitCommand(1.00)
+        new WaitCommand(1.00)
       );
-    } // 3114377531
+    }
       
 
       // From Tim: consider an add in a turn the wheels apart (or 90 degrees) 

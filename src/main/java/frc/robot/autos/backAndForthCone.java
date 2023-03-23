@@ -18,72 +18,20 @@ import frc.robot.subsystems.Swerve;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class backAndForth extends SequentialCommandGroup {
+public class backAndForthCone extends SequentialCommandGroup {
   /** Creates a new backAndForth. */
-  public backAndForth(Swerve s_Swerve, ArmControl arm, Grabber claw) {
+  public backAndForthCone(Swerve s_Swerve, ArmControl arm, Grabber claw) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      /* 
-      new closeClaw(claw).withTimeout(0.5),
-    
-      //new doTrajectory(s_Swerve, traj.makeZ),
 
-      new updateHoldPosition(() -> -6, () -> 45, arm),
+new updateHoldPosition(() -> -6, () -> 45, arm),
 
-      new WaitCommand(.5),
-
-      new updateHoldPosition(() -> 115, () -> 45, arm),
-      
-      new WaitCommand(1),
-      new updateHoldPosition(() -> 115, () -> 150, arm),
-
-      new WaitCommand(1.5),
-
-      new openClaw(claw).withTimeout(1),
-
-      new updateHoldPosition(() -> 115, () -> 65, arm),
-
-      new closeClaw(claw).withTimeout(1.5),
-
-      
-      
-      //new WaitCommand(1.5),
-
-      new updateHoldPosition(() -> -6, () -> 65, arm),
-
-      new closeClaw(claw).withTimeout(1),
-
-      new InstantCommand(()-> s_Swerve.zeroGyro()),
-       
-      new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()),
-
-
-      //left =.75
-      //right = -.75
-      new TeleopSwerve(
-    s_Swerve, 
-    () -> 0, 
-    () ->-.8, 
-    () -> 0, 
-    () -> true,
-    () -> false        
-).withTimeout(.5),
-new TeleopSwerve(
-    s_Swerve, 
-    () -> .8, 
-    () -> 0, 
-    () -> 0, 
-    () -> true,
-    () -> false          
-).withTimeout(3));
-*/
- 
 new closeClaw(claw).until(() -> claw.grabberMotor.getStatorCurrent() > 4),
     
 //new doTrajectory(s_Swerve, traj.makeZ),
 
-new updateHoldPosition(() -> -6, () -> 45, arm).repeatedly().until(() -> arm.elbowIsAtSetpoint()),// elbow is out if the way
+// elbow is out if the way
 
 // new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
@@ -102,7 +50,7 @@ new closeClaw(claw).withTimeout(0.2),
 new updateHoldPosition(() -> 115, () -> 65, arm).repeatedly().until(() -> arm.elbowIsAtSetpoint()), // doWith or Parrallel
                             // ^potentally tto 70
 
-new updateHoldPosition(() -> -6, () -> 45, arm),
+new updateHoldPosition(() -> -6, () -> 65, arm),
 
 //new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 

@@ -57,8 +57,8 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_robotContainer.arm.setHoldElbow(75);
-    m_robotContainer.arm.setHoldShoulder(0);
+    m_robotContainer.arm.setHoldElbow(m_robotContainer.arm.getHoldElbow());
+    m_robotContainer.arm.setHoldShoulder(m_robotContainer.arm.getHoldShoulder());
   }
 
   @Override

@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.pathplanner.lib.server.PathPlannerServer;
 import com.pathplanner.lib.server.PathPlannerServerThread;
 import frc.robot.subsystems.Swerve;
@@ -26,19 +27,24 @@ public class doPathTrajectory extends SequentialCommandGroup {
       addRequirements(s_Swerve);
   
       var thetaController =
-      new ProfiledPIDController(
-          Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+      new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+      
       thetaController.enableContinuousInput(-Math.PI, Math.PI);
   
-      SwerveControllerCommand swerveControllerCommand =
-          new SwerveControllerCommand(
+      PPSwerveControllerCommand swerveControllerCommand =
+          new PPSwerveControllerCommand(
               traj,
               s_Swerve::getPose,
               Constants.Swerve.swerveKinematics,
-              new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-              new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-              thetaController,
+              // new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+              // new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+              // thetaController,
+
+              new PIDController(0, 0, 0),
+              new PIDController(0, 0, 0),
+              new PIDController(0, 0, 0),
               s_Swerve::setModuleStates,
+              true,
               s_Swerve);
   
   

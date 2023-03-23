@@ -276,7 +276,7 @@ public final class Constants {
 
         // Shoulder Motion Magic
         public static double elbowAccel = 5000;
-        public static double elbowVel = 5000;
+        public static double elbowVel = 7500;
 
         //Setting Elbow Motor Values//
         public static double kElbowForward = 0;

@@ -68,7 +68,7 @@ public class Grabber extends SubsystemBase {
 
   }
 
-  public void stopClaw() {
+  public void stop() {
     grabberMotor.set(0);
   }
 }

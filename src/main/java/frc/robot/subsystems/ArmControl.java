@@ -149,6 +149,25 @@ public class ArmControl extends SubsystemBase {
     }*/
   }
 
+  public boolean isAtSetpoints() {
+    return ((Math.abs(elbowCurrentAngle() - getHoldElbow()) < 2) && (Math.abs(shoulderCurrentAngle() - getHoldShoulder()) < 5));
+  }
+
+  public boolean shoulderIsAtSetpoint() {
+    return Math.abs(shoulderCurrentAngle() - getHoldShoulder()) < 5;
+  }
+
+  public boolean shoulderIsAtDegree(double degree) {
+    return Math.abs(shoulderCurrentAngle() - degree) < 5;
+  }
+
+  public boolean elbowIsAtSetpoint() {
+    return Math.abs(elbowCurrentAngle() - getHoldElbow()) < 2;
+  }
+
+  public boolean elbowIsAtDegree(double degree) {
+    return Math.abs(elbowCurrentAngle() - degree) < 2;
+  }
   public double shoulderCurrentAngle(){
 
     double shoulderAngle = shoulderMotorLeft.getSelectedSensorPosition();

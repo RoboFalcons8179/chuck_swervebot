@@ -85,7 +85,7 @@ public class RobotContainer {
 
     /* Extra Driver Remote buttons for testing */
 
-    private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
+    //private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton clawClose = new JoystickButton(driver, XboxController.Button.kB.value);
@@ -286,6 +286,10 @@ public class RobotContainer {
 
     PathPlannerTrajectory newPath = PathPlanner.loadPath("New Path", new PathConstraints(2, 2));
 
+    PathPlannerTrajectory balance15M1 = PathPlanner.loadPath("15BALANCEM1", new PathConstraints(3, 2));
+
+    PathPlannerTrajectory balance15M2 = PathPlanner.loadPath("15BALANCEM2", new PathConstraints(3, 2));
+
 
 
     //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
@@ -394,10 +398,10 @@ public class RobotContainer {
         }
 
         /* Driver Buttons */
-        testinpathpla.whileTrue(new doPathTrajectory(s_Swerve, newPath));
+        testinpathpla.whileTrue(new grabCube(s_Swerve, arm, claw));
         // testinpathpla.whileTrue(new doTrajectory(s_Swerve, traj.makeZ));
 
-        counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
+        //counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
         slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
 
@@ -608,11 +612,18 @@ public enum Alliance {
 
 
     public Command getAutonomousCommand() {
-//right
+
+        return new backAndForth(s_Swerve, arm, claw)
+        .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))
+        .andThen(new doPathTrajectory(s_Swerve, balance15M1))
+        .andThen(new grabCube(s_Swerve, arm, claw))
+        .andThen(new doTrajectory(s_Swerve, balance15M2))
+        .andThen(new backAndForth(s_Swerve, arm, claw));
+//right     
 
 // return new backAndForth(s_Swerve, arm, claw);
 
-return new doPathTrajectory(s_Swerve, CenterPSTraj);
+// return new doPathTrajectory(s_Swerve, CenterPSTraj);
 
  //left
     /*   

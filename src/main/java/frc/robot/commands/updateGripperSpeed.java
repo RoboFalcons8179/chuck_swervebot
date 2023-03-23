@@ -41,6 +41,7 @@ public class updateGripperSpeed extends CommandBase {
     if (Math.abs(leftTriggerValue) < 0.1) {
       leftTriggerValue = 0;
     }
+
     claw.setSpeed((rightTriggerValue - leftTriggerValue) * 5);
   }
 

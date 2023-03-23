@@ -30,20 +30,12 @@ public class Balance extends CommandBase {
   }
 
   private double angleTarget;
-  private int backwards;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     
     angleTarget = s_Swerve.pointingUpAngle();
-    // if (angleTarget > 90 && angleTarget < 270){
-    //   backwards = 1; 
-    // }
-    // else{
-    //   backwards = -1;
-    // }
     
-    System.out.println(Math.toDegrees(angleTarget) + " angleTarget degrees to forward");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
