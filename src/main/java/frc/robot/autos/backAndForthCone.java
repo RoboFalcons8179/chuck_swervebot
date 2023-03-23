@@ -25,9 +25,9 @@ public class backAndForthCone extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-new updateHoldPosition(() -> -6, () -> 45, arm),
+new updateHoldPosition(() -> -6, () -> 65, arm),
 
-new closeClaw(claw).until(() -> claw.grabberMotor.getStatorCurrent() > 4),
+new closeClaw(claw).withTimeout(0.65),//until(() -> claw.grabberMotor.getStatorCurrent() > 4),
     
 //new doTrajectory(s_Swerve, traj.makeZ),
 
@@ -35,11 +35,11 @@ new closeClaw(claw).until(() -> claw.grabberMotor.getStatorCurrent() > 4),
 
 // new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
-new updateHoldPosition(() -> 115, () -> 45, arm).repeatedly().until(() -> arm.shoulderIsAtDegree(60)), // shoulder poition is high enough for us to move the elbow
+new updateHoldPosition(() -> 125, () -> 45, arm).repeatedly().until(() -> arm.shoulderIsAtDegree(60)), // shoulder poition is high enough for us to move the elbow
 
 //new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
-new updateHoldPosition(() -> 115, () -> 150, arm),
+new updateHoldPosition(() -> 125, () -> 155, arm),
 
 new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
@@ -47,18 +47,11 @@ new openClaw(claw).withTimeout(0.6), // do quick open to get it out
 
 new closeClaw(claw).withTimeout(0.2),
 
-new updateHoldPosition(() -> 115, () -> 65, arm).repeatedly().until(() -> arm.elbowIsAtSetpoint()), // doWith or Parrallel
-                            // ^potentally tto 70
+// From Tim - TEST THIS LINE. IT NEEDS TO TRIGGER US TO DRIVE. you might have to change this degree\/
+new updateHoldPosition(() -> 125, () -> 65, arm).repeatedly().until(() -> arm.elbowIsAtDegree(100))
 
-new updateHoldPosition(() -> -6, () -> 65, arm),
+);
 
-//new WaitCommand(4).until(() -> arm.isAtSetpoints()),
-
-new InstantCommand(() -> claw.stop()),
-
-new InstantCommand(()-> s_Swerve.zeroGyro()),
- 
-new InstantCommand(() -> s_Swerve.resetModulesToAbsolute())
 
 // left =.75
 // right = -.75
@@ -94,7 +87,7 @@ new InstantCommand(() -> s_Swerve.resetModulesToAbsolute())
 // () -> true,
 // () -> false        
 // ).withTimeout(5)
-);
+
       
 
 

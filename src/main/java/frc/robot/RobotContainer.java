@@ -613,12 +613,21 @@ public enum Alliance {
 
     public Command getAutonomousCommand() {
 
-        return new backAndForth(s_Swerve, arm, claw)
-        .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))
-        .andThen(new doPathTrajectory(s_Swerve, balance15M1))
-        .andThen(new grabCube(s_Swerve, arm, claw))
-        .andThen(new doTrajectory(s_Swerve, balance15M2))
-        .andThen(new backAndForth(s_Swerve, arm, claw));
+        return
+        // Robot Initalization
+        new InstantCommand(()-> s_Swerve.zeroGyro())
+        .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
+
+        // Actual Auton
+        .andThen(new backAndForthCone(s_Swerve, arm, claw))
+        .andThen(new doPathTrajectory(s_Swerve, balance15M1)
+                .alongWith(new backAndForthCleanup(arm, claw)
+                            .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)))
+                );
+
+        //.andThen(new grabCube(s_Swerve, arm, claw))
+        //.andThen(new doTrajectory(s_Swerve, balance15M2))
+       //.andThen(new backAndForth(s_Swerve, arm, claw));
 //right     
 
 // return new backAndForth(s_Swerve, arm, claw);

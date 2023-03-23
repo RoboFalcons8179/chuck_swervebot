@@ -150,7 +150,7 @@ public class ArmControl extends SubsystemBase {
   }
 
   public boolean isAtSetpoints() {
-    return ((Math.abs(elbowCurrentAngle() - getHoldElbow()) < 2) && (Math.abs(shoulderCurrentAngle() - getHoldShoulder()) < 5));
+    return ((Math.abs(elbowCurrentAngle() - getHoldElbow()) < 3.5) && (Math.abs(shoulderCurrentAngle() - getHoldShoulder()) < 5));
   }
 
   public boolean shoulderIsAtSetpoint() {
@@ -162,11 +162,11 @@ public class ArmControl extends SubsystemBase {
   }
 
   public boolean elbowIsAtSetpoint() {
-    return Math.abs(elbowCurrentAngle() - getHoldElbow()) < 2;
+    return Math.abs(elbowCurrentAngle() - getHoldElbow()) < 3.5;
   }
 
   public boolean elbowIsAtDegree(double degree) {
-    return Math.abs(elbowCurrentAngle() - degree) < 2;
+    return Math.abs(elbowCurrentAngle() - degree) < 3.5;
   }
   public double shoulderCurrentAngle(){
 
