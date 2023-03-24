@@ -23,15 +23,16 @@ public class balanceAuto extends SequentialCommandGroup {
 
         new InstantCommand(() -> System.out.println("------------------")),
 
-        new InstantCommand(() -> System.out.println(s_Swerve.isRobotLevel())),
+        // new InstantCommand(() -> System.out.println(s_Swerve.isRobotLevel())),
           
-        new Balance(s_Swerve).withTimeout(0.425),
+//        new Balance(s_Swerve).withTimeout(0.425),
+        new Balance(s_Swerve),
 
-        new InstantCommand(() -> s_Swerve.stop()),
+        new InstantCommand(() -> s_Swerve.stop())
         
-        new WaitCommand(1.0),
+        // new WaitCommand(1.0),
 
-        new WaitCommand(10).until(() -> (s_Swerve.isRobotStill()))
+        // new WaitCommand(10).until(() -> (s_Swerve.isRobotStill()))
             
       );
     } else { // check if the robot is level when running the command

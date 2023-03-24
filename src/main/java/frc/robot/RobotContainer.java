@@ -80,13 +80,13 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value); // reserved for swerve
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
-    private final JoystickButton testinpathpla = new JoystickButton(driver, XboxController.Button.kBack.value);
+    //private final JoystickButton testinpathpla = new JoystickButton(driver, XboxController.Button.kBack.value);
 
 
 
     /* Extra Driver Remote buttons for testing */
 
-    //private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
+    private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
     private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton clawClose = new JoystickButton(driver, XboxController.Button.kB.value);
@@ -402,9 +402,12 @@ public class RobotContainer {
         // testinpathpla.whileTrue(new grabCube(s_Swerve, arm, claw));
         // testinpathpla.whileTrue(new doTrajectory(s_Swerve, traj.makeZ));
 
-        testinpathpla.whileTrue(new rotateToAngle(s_Swerve, 90));
+        //testinpathpla.whileTrue(new rotateToAngle(s_Swerve, 90));
 
-        //counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
+        // counterAccel.debounce(0.04).onTrue(new balanceAuto(s_Swerve).until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
+//        counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
+
+        counterAccel.debounce(0.04).whileTrue(new balancev4(s_Swerve));
 
         slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
 

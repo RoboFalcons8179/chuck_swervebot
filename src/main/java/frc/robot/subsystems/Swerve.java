@@ -219,9 +219,9 @@ public class Swerve extends SubsystemBase {
             out = true;
             
         }
-        System.out.println("PITCH, YAW, out\n" + ScaledPitch);
-        System.out.println(ScaledRoll);
-        System.out.println(out);
+        // System.out.println("PITCH, YAW, out\n" + ScaledPitch);
+        // System.out.println(ScaledRoll);
+        // System.out.println(out);
         return out;
     }
 
@@ -230,7 +230,19 @@ public class Swerve extends SubsystemBase {
     // In RADs
     public double pointingUpAngle() {
 
-            return Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2)));
+            // Zach your signs are wrong too.
+            // double angle = Math.acos(gyro.getRawAccelX() / Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2)));
+
+
+            double angle = Math.atan(gyro.getRawAccelY()/gyro.getRawAccelX());
+
+            if (gyro.getRawAccelX() > 0){
+                angle = angle + Math.PI;
+            }
+
+            System.out.println("==========================");
+            System.out.println(Math.toDegrees(angle));
+            return angle;
             //return Math.atan(gyro.getRawAccelY()/gyro.getRawAccelX());// THIS HAS DIFFERENT SIGNS
             
     }

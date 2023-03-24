@@ -19,6 +19,8 @@ public class Balance extends CommandBase {
   private Swerve s_Swerve;
   private AHRS gyro;
 
+  private double power = Constants.kBalance.power;
+
   /** Creates a new Balance. */
   public Balance(Swerve s_Swerve) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,15 +36,17 @@ public class Balance extends CommandBase {
   @Override
   public void initialize() {
     
-    angleTarget = s_Swerve.pointingUpAngle();
+    this.angleTarget = s_Swerve.pointingUpAngle();
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     System.out.println("Balance.java" + s_Swerve.isRobotLevel());
-    s_Swerve.drive_Manually(Constants.kBalance.power, new Rotation2d(angleTarget));
+    s_Swerve.drive_Manually(power, new Rotation2d(angleTarget));
+
     
 
     
@@ -71,6 +75,6 @@ public class Balance extends CommandBase {
   @Override
   public boolean isFinished() {
     // boolean isDone = s_Swerve.isRobotLevel(); // ALL ACCELERATION IN G's
-    return false;
+    return s_Swerve.isRobotLevel();
   }
 }

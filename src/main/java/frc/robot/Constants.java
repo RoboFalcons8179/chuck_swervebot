@@ -200,7 +200,6 @@ public final class Constants {
 
         public static final double StillThreshold = 0.05; // in G's
         public static final double BalanceAccelThreshold = 3.0; // In angle's DEGREES
-        public static final double power = 0.7; // Speed demanded to the wheels, relitive to MAX Speed.
 
         // Averaging window for accels when determining if the robot is still. 
         // total time of averaging ~= 0.02s * averageWindow.
@@ -208,6 +207,11 @@ public final class Constants {
         // Note that this is not the witing time - this is the amount of time it must be still
         // before it moves.
         public static final int averageWindow = 20;
+
+
+        public static final double power = 0.3; // Speed demanded to the wheels, relitive to MAX Speed.
+
+        public static final double MagnitudeAngle = 3;
 
 
 
