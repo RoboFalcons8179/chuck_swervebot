@@ -40,6 +40,7 @@ import frc.robot.commands.armStuff.*;
 import frc.robot.commands.armStuff.goto30;
 import frc.robot.commands.armStuff.gotoArmGeneralLocation;
 import frc.robot.subsystems.*;
+import frc.robot.commands.BalanceBasic.*;;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -407,7 +408,10 @@ public class RobotContainer {
         // counterAccel.debounce(0.04).onTrue(new balanceAuto(s_Swerve).until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 //        counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
 
-        counterAccel.debounce(0.04).whileTrue(new balancev4(s_Swerve));
+        //counterAccel.debounce(0.04).whileTrue(new balancev4(s_Swerve));
+
+        counterAccel.onTrue(new autoBalanceFromInternet(s_Swerve).withTimeout(20));
+
 
         slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
 
