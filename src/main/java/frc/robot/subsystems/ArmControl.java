@@ -82,7 +82,7 @@ public class ArmControl extends SubsystemBase {
 
     elbowMotorLeft.configMotionCruiseVelocity(Constants.kArm.elbowVel);
     elbowMotorLeft.configMotionAcceleration(Constants.kArm.elbowAccel);
-
+    elbowMotorLeft.configMotionSCurveStrength(5);
     
     
     shoulderMotorRight.follow(shoulderMotorLeft);
