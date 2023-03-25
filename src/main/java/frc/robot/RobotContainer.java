@@ -39,6 +39,8 @@ import frc.robot.commands.Limelight.rotateToAngle;
 import frc.robot.commands.armStuff.*;
 import frc.robot.commands.armStuff.goto30;
 import frc.robot.commands.armStuff.gotoArmGeneralLocation;
+import frc.robot.commands.grabCommands.closeClaw;
+import frc.robot.commands.grabCommands.openClaw;
 import frc.robot.subsystems.*;
 import frc.robot.commands.BalanceBasic.*;;
 
@@ -349,7 +351,7 @@ public class RobotContainer {
 
         //counterAccel.debounce(0.04).whileTrue(new balancev4(s_Swerve));
 
-        counterAccel.onTrue(new autoBalanceFromInternet(s_Swerve).withTimeout(20));
+        // counterAccel.onTrue(new autoBalanceFromInternet(s_Swerve).withTimeout(20));
 
 
         slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
@@ -397,8 +399,11 @@ public class RobotContainer {
     private void doGripperTestCommands(){
 
        // CLAW COMMANDS
+
        clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 8
-       clawClose.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 7
+
+
+       clawClose.onTrue(new closeClaw(claw)); // 7
 
        
        //clawCloseBoard.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout));

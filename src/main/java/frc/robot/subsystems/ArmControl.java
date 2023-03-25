@@ -83,6 +83,10 @@ public class ArmControl extends SubsystemBase {
     elbowMotorLeft.configMotionCruiseVelocity(Constants.kArm.elbowVel);
     elbowMotorLeft.configMotionAcceleration(Constants.kArm.elbowAccel);
     elbowMotorLeft.configMotionSCurveStrength(5);
+
+    elbowMotorLeft.configNominalOutputForward(0.45);
+    elbowMotorLeft.configNominalOutputReverse(-0.05);
+    elbowMotorLeft.configAllowableClosedloopError(0, 50);
     
     
     shoulderMotorRight.follow(shoulderMotorLeft);

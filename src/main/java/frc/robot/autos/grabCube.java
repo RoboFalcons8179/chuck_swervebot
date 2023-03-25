@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.armStuff.*;
+import frc.robot.commands.grabCommands.closeClaw;
+import frc.robot.commands.grabCommands.openClaw;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

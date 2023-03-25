@@ -55,7 +55,7 @@ public class Grabber extends SubsystemBase {
   public void openClawSubsystem() {
 
     // Open until we hit the back limit switch
-    grabberMotor.set(ControlMode.PercentOutput, Constants.kGrabber.backPower);
+    grabberMotor.set(ControlMode.PercentOutput, -1);
     
 
   }
@@ -63,7 +63,7 @@ public class Grabber extends SubsystemBase {
   public void closeClawSubsystem() {
 
     // close onto our current
-    grabberMotor.set(ControlMode.Current, Constants.kGrabber.squeezeCurrent);
+    grabberMotor.set(ControlMode.PercentOutput, 1);
 
 
   }

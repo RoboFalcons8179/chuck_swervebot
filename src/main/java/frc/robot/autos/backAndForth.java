@@ -9,6 +9,8 @@ import frc.robot.commands.*;
 import frc.robot.commands.TeleopSwerve;
 import java.util.function.BooleanSupplier;
 import frc.robot.commands.armStuff.*;
+import frc.robot.commands.grabCommands.closeClaw;
+import frc.robot.commands.grabCommands.openClaw;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj2.command.InstantCommand;

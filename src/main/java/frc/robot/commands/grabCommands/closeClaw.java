@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.grabCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Grabber;
@@ -18,6 +18,9 @@ public class closeClaw extends CommandBase {
     claw = claw_out;
 
     addRequirements(claw);
+
+    System.out.println("CLOSING!");
+
 
 
   }
@@ -39,7 +42,10 @@ public class closeClaw extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // test and see if we need to squeeze the whole time.
+    claw.stop();
+  }
 
   // Returns true when the command should end.
   @Override

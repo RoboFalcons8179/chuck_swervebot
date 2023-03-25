@@ -274,13 +274,13 @@ public final class Constants {
         //Elbow PIDG//
         public static double kElbowP = 3;
         public static double kElbowI = 0.001;
-        public static double kElbowD = 1;
+        public static double kElbowD = 0.5;
         public static double kElbowF = 0;        
         public static double kElbowG = 0;//.35 // From Tim Experiments on 3/5
 
         // Shoulder Motion Magic
-        public static double elbowAccel = 5000;
-        public static double elbowVel = 7500;
+        public static double elbowAccel = 1400;
+        public static double elbowVel = 700;
 
         //Setting Elbow Motor Values//
         public static double kElbowForward = 0;
@@ -338,6 +338,8 @@ public final class Constants {
 
 
         public static final double openTimeout = 1.5;
+
+        public static final double closeTimeout = 2;
 
 
 
