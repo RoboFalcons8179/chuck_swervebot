@@ -279,8 +279,8 @@ public final class Constants {
         public static double kElbowG = 0;//.35 // From Tim Experiments on 3/5
 
         // Shoulder Motion Magic
-        public static double elbowAccel = 1400;
-        public static double elbowVel = 700;
+        public static double elbowAccel = 15000;
+        public static double elbowVel = 7000;
 
         //Setting Elbow Motor Values//
         public static double kElbowForward = 0;

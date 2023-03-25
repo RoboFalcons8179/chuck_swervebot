@@ -186,10 +186,10 @@ public class RobotContainer {
     
     // private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
-    private final JoystickButton forwardShoulder = new JoystickButton(board, 2);
-    private final JoystickButton backwardShoulder = new JoystickButton(board, 1);
-    private final JoystickButton forwardElbow = new JoystickButton(board, 4);
-    private final JoystickButton backwardElbow = new JoystickButton(board, 3);
+    private final JoystickButton forwardShoulder = new JoystickButton(board, 1);
+    private final JoystickButton backwardShoulder = new JoystickButton(board, 2);
+    private final JoystickButton forwardElbow = new JoystickButton(board, 3);
+    private final JoystickButton backwardElbow = new JoystickButton(board, 4);
    // private final JoystickButton grabForwardButton1 = new JoystickButton(panel, 1);
     //private final JoystickButton invertSwitchButton1 = new JoystickButton (board, 4);
     //private final JoystickButton invertSwitchButton2 = new JoystickButton (board, 8);
@@ -205,7 +205,7 @@ public class RobotContainer {
    
 
     // When we get a new switch change button number to what the switch is//
-    private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
+    //private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
 
     
     // Stick buttons
