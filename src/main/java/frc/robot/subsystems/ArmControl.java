@@ -79,6 +79,8 @@ public class ArmControl extends SubsystemBase {
     elbowMotorLeft.config_kI(0, Constants.kArm.kElbowI);
     elbowMotorLeft.config_kD(0, Constants.kArm.kElbowD);
     elbowMotorLeft.config_kF(0, Constants.kArm.kElbowF);
+    elbowMotorLeft.configMaxIntegralAccumulator(0, 300);
+    elbowMotorLeft.configAllowableClosedloopError(0, 50);
 
     elbowMotorLeft.configMotionCruiseVelocity(Constants.kArm.elbowVel);
     elbowMotorLeft.configMotionAcceleration(Constants.kArm.elbowAccel);
@@ -86,7 +88,9 @@ public class ArmControl extends SubsystemBase {
 
     elbowMotorLeft.configNominalOutputForward(0.45);
     elbowMotorLeft.configNominalOutputReverse(-0.05);
+    elbowMotorLeft.configPeakOutputReverse(-0.5);
     elbowMotorLeft.configAllowableClosedloopError(0, 50);
+    elbowMotorLeft.configNeutralDeadband(0.02);
     
     
     shoulderMotorRight.follow(shoulderMotorLeft);
@@ -259,11 +263,27 @@ public class ArmControl extends SubsystemBase {
      * x  = our input
      * x1 = degree value at known point (constant)
      * 
+     * (encoder tics, degrees)
+     * (0, 70)
+     * 
+     * m = 2006 * 3 / 90 [encoder tics per degree]
+     * 
+     * y = mx + b
+     * 
+     * y = y1 + m * (x-x1)
+     * 
+     * encoder tics = 0 + m * (degree input - 75)
+     * 
+     * or
+     * 
+     * degree = encoder tics / m + 75
+     * 
+     * 
      * See the spreadsheet.
      */
 
-     final double y1 = startPositionto90Elbow;
-     final double x1 = 0; // we are defining sticking straigt out as 0 degrees.
+     final double y1 = 0;
+     final double x1 = 75; // we are defining sticking straigt out as 0 degrees.
      final double m = 2006 * 3 / 90; // FROM TIM: The *3 is from the gear ratio
 
      return (m * (degrees - x1)) + y1;
@@ -291,8 +311,8 @@ public class ArmControl extends SubsystemBase {
     // reverse of the functions above. 
 
     // x = (y-y1)/m + x1
-    final double y1 = startPositionto90Elbow;
-    final double x1 = 0; // we are defining sticking straigt out as 0 degrees.
+    final double y1 = 0;
+    final double x1 = 75; // we are defining sticking straigt out as 0 degrees.
     final double m = 2006 * 3 / 90; // FROM TIM: The *3 is from the gear ratio
     
     return (tic - y1)/m + x1;

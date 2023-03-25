@@ -269,12 +269,12 @@ public final class Constants {
         public static final InvertType elbowMotorLeftInvert = InvertType.None;
 
         // Elbow Phase//
-        public static final boolean elbowLeftPhase = true;
+        public static final boolean elbowLeftPhase = false;
     
         //Elbow PIDG//
-        public static double kElbowP = 3;
+        public static double kElbowP = 1;
         public static double kElbowI = 0.001;
-        public static double kElbowD = 0.5;
+        public static double kElbowD = 0;
         public static double kElbowF = 0;        
         public static double kElbowG = 0;//.35 // From Tim Experiments on 3/5
 

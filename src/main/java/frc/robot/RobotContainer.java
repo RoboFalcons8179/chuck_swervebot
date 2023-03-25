@@ -37,8 +37,6 @@ import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Limelight.rotateToAngle;
 import frc.robot.commands.armStuff.*;
-import frc.robot.commands.armStuff.goto30;
-import frc.robot.commands.armStuff.gotoArmGeneralLocation;
 import frc.robot.commands.grabCommands.closeClaw;
 import frc.robot.commands.grabCommands.openClaw;
 import frc.robot.subsystems.*;
@@ -358,9 +356,9 @@ public class RobotContainer {
 
         slowForward.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
         
-        carryButton.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
+        carryButton.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).andThen(new updateHoldPosition(() -> -6, () -> 45, arm)));
 
-        carryButton.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
+        // carryButton.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
 
         forwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
 
