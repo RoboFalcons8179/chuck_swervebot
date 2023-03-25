@@ -79,16 +79,14 @@ public class RobotContainer {
 
     /* Driver Buttons and Triggers - RESERVED FOR COMPETITION*/
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value); // reserved for swerve
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value); // reserved for swerve
     private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
-    //private final JoystickButton testinpathpla = new JoystickButton(driver, XboxController.Button.kBack.value);
-
+    private final JoystickButton turbo = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
 
     /* Extra Driver Remote buttons for testing */
 
     private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
-    private final JoystickButton holdBot = new JoystickButton(driver, XboxController.Button.kA.value); // currently for claw.
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton clawClose = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton pickupAbove = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
@@ -232,69 +230,8 @@ public class RobotContainer {
     private GenericEntry autoDelay;
     private GenericEntry autoHold;
 
-    PathPlannerTrajectory CenterRB = PathPlanner.loadPath("CENTERRB", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory CenterMO = PathPlanner.loadPath("CENTERMO", new PathConstraints(2,2));
     
-    PathPlannerTrajectory CenterPSTraj = PathPlanner.loadPath("CENTERPS", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory CenterS = PathPlanner.loadPath("CENTERS", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERSB", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory CenterSPTraj = PathPlanner.loadPath("CENTERSP", new PathConstraints(2, 2));
 
-    PathPlannerTrajectory LeaveC = PathPlanner.loadPath("LEAVEC", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory LeftBPPTraj = PathPlanner.loadPath("LEFTB", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory LeftP = PathPlanner.loadPath("LEFTP", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory LeftPS = PathPlanner.loadPath("LEFTPS", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory LeftSPPTraj = PathPlanner.loadPath("LEFTS", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory ReturnC = PathPlanner.loadPath("RETURNC", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory RightB = PathPlanner.loadPath("RIGHTB", new PathConstraints(2,2));
-    
-    PathPlannerTrajectory RightP = PathPlanner.loadPath("RIGHTP", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory RightPS = PathPlanner.loadPath("RIGHTPS", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory RightS = PathPlanner.loadPath("RIGHTS", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory StraightL = PathPlanner.loadPath("STRAIGHTL", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory StraightLR = PathPlanner.loadPath("STRAIGHTLR", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory StraightC = PathPlanner.loadPath("STRAIGHTC", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory StraightR = PathPlanner.loadPath("STRAIGHTR", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory StraightBR = PathPlanner.loadPath("STRAIGHTBR", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory compLeftRed = PathPlanner.loadPath("COMPLEFTRED", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory compRightRed = PathPlanner.loadPath("COMPRIGHTRED", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory compMiddleRed = PathPlanner.loadPath("COMPSTRAIGHTRED", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory compLeftBlue = PathPlanner.loadPath("COMPLEFTBLUE", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory compRightBlue = PathPlanner.loadPath("COMPRIGHTBLUE", new PathConstraints(2, 2));
-    
-    PathPlannerTrajectory compMiddleBlue = PathPlanner.loadPath("COMPSTRAIGHTBLUE", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory newPath = PathPlanner.loadPath("New Path", new PathConstraints(2, 2));
-
-    PathPlannerTrajectory balance15M1 = PathPlanner.loadPath("15BALANCEM1", new PathConstraints(3, 2));
-
-    PathPlannerTrajectory balance15M2 = PathPlanner.loadPath("15BALANCEM2", new PathConstraints(3, 2));
-
-
-
-    //PathPlannerTrajectory CenterB = PathPlanner.loadPath("CENTERB", new PathConstraints(2, 2));
 
     // public BooleanEvent povUp(EventLoop loop){
     //     return null;
@@ -319,7 +256,8 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> driver.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean(),
-                () -> goSpeed.getAsBoolean()                
+                () -> goSpeed.getAsBoolean(),
+                () -> turbo.getAsBoolean()                
             )
         );
 
@@ -330,7 +268,8 @@ public class RobotContainer {
         // or interupted.
         // default command for gripper using analog triggers
 
-        claw.setDefaultCommand(new updateGripperSpeed(claw, () -> driver.getRawAxis(leftTrigger), () -> driver.getRawAxis(rightTrigger)));
+        // Claw no longer has a defualt command.
+        // claw.setDefaultCommand(new updateGripperSpeed(claw, () -> driver.getRawAxis(leftTrigger), () -> driver.getRawAxis(rightTrigger)));
 
         ///// COMMAND BUTTONS
 
@@ -451,6 +390,8 @@ public class RobotContainer {
 
     private void doGripperCompetitionCommands(){
 
+
+
     }
 
     private void doGripperTestCommands(){
@@ -458,9 +399,10 @@ public class RobotContainer {
        // CLAW COMMANDS
        clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 8
        clawClose.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 7
+
+       
        //clawCloseBoard.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
        //clawOpenBoard.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
-
        //clawClose.whileTrue(new i(claw).withTimeout(Constants.kGrabbr.openTimeout));
 
     }
@@ -630,7 +572,7 @@ public enum Alliance {
 
         // Actual Auton
         .andThen(new backAndForthCone(s_Swerve, arm, claw))
-        .andThen(new doPathTrajectory(s_Swerve, balance15M1)
+        .andThen(new doPathTrajectory(s_Swerve, PPTRAJ.balance15M1)
                 .alongWith(new backAndForthCleanup(arm, claw)
                             .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)))
                 );

@@ -11,6 +11,8 @@ public class closeClaw extends CommandBase {
 
 
   Grabber claw;
+
+  
   public closeClaw(Grabber claw_out) {
 
     claw = claw_out;

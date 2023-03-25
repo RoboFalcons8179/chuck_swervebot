@@ -8,6 +8,7 @@ package frc.robot.commands.BalanceBasic;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import frc.robot.subsystems.Swerve;
 
 public class autoBalance {
     private int state;
@@ -22,13 +23,19 @@ public class autoBalance {
     private double singleTapTime;
     private double scoringBackUpTime;
     private double doubleTapTime;
+    private double angleUp;
 
     private boolean done;
 
     private AHRS gyro;
 
-    public autoBalance(AHRS gyro) {
-        this.gyro = gyro;
+    private Swerve s_Swerve;
+
+    public autoBalance(Swerve s_Swerve) {
+
+        this.s_Swerve = s_Swerve;
+        this.gyro = s_Swerve.gyro;
+
         state = 0;
         debounceCount = 0;
 
@@ -77,6 +84,9 @@ public class autoBalance {
         // used to exit the command that calls this
         done = false;
 
+        // default start angle
+        angleUp = Math.PI;
+
     }
 
     public double getPitch() {
@@ -116,7 +126,11 @@ public class autoBalance {
                 if (debounceCount > secondsToTicks(debounceTime)) {
                     state = 1;
                     debounceCount = 0;
-                    return robotSpeedSlow;
+                    
+                    angleUp = s_Swerve.pointingUpAngle();
+
+                    return robotSpeedMedium;
+
                 }
                 return robotSpeedFast;
 
@@ -125,7 +139,7 @@ public class autoBalance {
                 if (true) {
                     debounceCount++;
                 }
-                if (debounceCount > secondsToTicks(1.05)) {
+                if (debounceCount > secondsToTicks(1.01)) {
                     state = 2;
                     debounceCount = 0;
                     return 0;
@@ -165,68 +179,18 @@ public class autoBalance {
         return 0;
     }
 
-    // Same as auto balance above, but starts auto period by scoring
-    // a game piece on the back bumper of the robot
-    public double scoreAndBalance() {
-        switch (state) {
-            // drive back, then forwards, then back again to knock off and score game piece
-            case 0:
-                debounceCount++;
-                if (debounceCount < secondsToTicks(singleTapTime)) {
-                    return -robotSpeedFast;
-                } else if (debounceCount < secondsToTicks(singleTapTime + scoringBackUpTime)) {
-                    return robotSpeedFast;
-                } else if (debounceCount < secondsToTicks(singleTapTime + scoringBackUpTime + doubleTapTime)) {
-                    return -robotSpeedFast;
-                } else {
-                    debounceCount = 0;
-                    state = 1;
-                    return 0;
-                }
-                // drive forwards until on charge station
-            case 1:
-                if (getTilt() > onChargeStationDegree) {
-                    debounceCount++;
-                }
-                if (debounceCount > secondsToTicks(debounceTime)) {
-                    state = 2;
-                    debounceCount = 0;
-                    return robotSpeedSlow;
-                }
-                return robotSpeedFast;
-            // driving up charge station, drive slower, stopping when level
-            case 2:
-                if (getTilt() < levelDegree) {
-                    debounceCount++;
-                }
-                if (debounceCount > secondsToTicks(debounceTime)) {
-                    state = 3;
-                    debounceCount = 0;
-                    return 0;
-                }
-                return robotSpeedSlow;
-            // on charge station, ensure robot is flat, then end auto
-            case 3:
-                if (Math.abs(getTilt()) <= levelDegree / 2) {
-                    debounceCount++;
-                }
-                if (debounceCount > secondsToTicks(debounceTime)) {
-                    state = 4;
-                    debounceCount = 0;
-                    return 0;
-                }
-                if (getTilt() >= levelDegree) {
-                    return robotSpeedSlow / 2;
-                } else if (getTilt() <= -levelDegree) {
-                    return -robotSpeedSlow / 2;
-                }
-            case 4:
-                return 0;
-        }
-        return 0;
-    }
-
     public boolean getDone() {
         return done;
+    }
+
+    public double getDriveUpAngle() {
+
+        if (state >= 1 ) {
+            return angleUp;
+        }
+        else {
+            return Math.PI;
+        }
+        
     }
 }

@@ -20,6 +20,7 @@ public class TeleopSwerve extends CommandBase {
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
+    private BooleanSupplier turbo;
 
     // Troubleshooting
     private BooleanSupplier atSpeed;
@@ -30,11 +31,13 @@ public class TeleopSwerve extends CommandBase {
 
 
     public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, 
-        DoubleSupplier strafeSup, DoubleSupplier rotationSup, 
-        BooleanSupplier robotCentricSup, BooleanSupplier atSpeed) {
+        DoubleSupplier strafeSup, DoubleSupplier rotationSup,
+        BooleanSupplier robotCentricSup, BooleanSupplier atSpeed,
+        BooleanSupplier turbo
+        ) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
-
+        this.turbo = turbo;
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
@@ -56,7 +59,17 @@ public class TeleopSwerve extends CommandBase {
         double strafeVal = s_Swerve.filterInput(MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband));
         double rotationVal = s_Swerve.filterInput(MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband));
 
-        
+        // stick filtering
+        translationVal = Math.pow(translationVal, 3);
+        strafeVal = Math.pow(strafeVal, 3);
+
+        // Sam wanted Turbo
+         if(turbo.getAsBoolean()==true){
+
+            translationVal = 1.5 * translationVal;
+            strafeVal = 1.5 * strafeVal;
+            
+         }
         // Toggling Field Relitive
             // IF the last button does not equal this button, and the last mode was false
             // aka when the button is pressed, do this

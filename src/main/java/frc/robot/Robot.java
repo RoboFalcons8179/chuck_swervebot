@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     m_robotContainer.arm.setHoldElbow(m_robotContainer.arm.getHoldElbow());
     m_robotContainer.arm.setHoldShoulder(m_robotContainer.arm.getHoldShoulder());
+    
   }
 
   @Override

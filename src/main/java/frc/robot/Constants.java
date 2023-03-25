@@ -78,7 +78,7 @@ public final class Constants {
         public static final double driveKP = 0.005; //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
-        public static final double driveKF = 0.067;
+        public static final double driveKF = 0.06;//0.067;
 
         /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
@@ -122,7 +122,7 @@ public final class Constants {
             public static final int driveMotorID = 19;
             public static final int angleMotorID = 18;
             public static final int canCoderID = 17;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(66.27);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(66.797 );
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -330,11 +330,13 @@ public final class Constants {
         public static final double squeezeCurrent = 1;
 
         //Safety Limit Currenting//
-        public static final int ampLimit = 5;
+        public static final int ampLimit = 10;
         public static final int timeout = 500; //ms
 
         // Timeout for the open claw command. Needed if the 
         // limit switch breaks.
+
+
         public static final double openTimeout = 1.5;
 
 

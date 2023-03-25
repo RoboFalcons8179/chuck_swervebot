@@ -24,22 +24,25 @@ public class autoBalanceFromInternet extends CommandBase {
     this.s_Swerve = s_Swerve;
     addRequirements(s_Swerve);
 
-    autobalnce = new autoBalance(s_Swerve.gyro);
 
     
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    autobalnce = new autoBalance(s_Swerve);
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
     double speed = autobalnce.autoBalanceRoutine();
+    double angle = autobalnce.getDriveUpAngle();
 
-    s_Swerve.drive_Manually(speed, new Rotation2d(Math.PI));
+    s_Swerve.drive_Manually(speed, new Rotation2d(angle));
 
   }
 
