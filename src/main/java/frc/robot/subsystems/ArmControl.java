@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -27,6 +28,9 @@ public class ArmControl extends SubsystemBase {
   // Starting position relitive to the straigt out form.
   public static final double startPositionto90Elbow = -1650 * 3; // Note that the *3 is from the gear ratio. It was not measured. // 0 reference has changed from straight down to straight up
   public static final double startPositionto90Shoulder = 45803/3;
+
+  public double elbowSetpoint = 0;
+  public double shoulderSetpoint = 0;
   
   
   public ArmControl() {
@@ -86,9 +90,10 @@ public class ArmControl extends SubsystemBase {
     elbowMotorLeft.configMotionAcceleration(Constants.kArm.elbowAccel);
     elbowMotorLeft.configMotionSCurveStrength(5);
 
-    elbowMotorLeft.configNominalOutputForward(0.45);
-    elbowMotorLeft.configNominalOutputReverse(-0.05);
-    elbowMotorLeft.configPeakOutputReverse(-0.5);
+    elbowMotorLeft.configNominalOutputForward(0.05);
+    elbowMotorLeft.configNominalOutputReverse(-0.45);
+    elbowMotorLeft.configPeakOutputReverse(-1);
+    elbowMotorLeft.configPeakOutputForward(0.5);
     elbowMotorLeft.configAllowableClosedloopError(0, 50);
     elbowMotorLeft.configNeutralDeadband(0.02);
     
@@ -208,9 +213,9 @@ public class ArmControl extends SubsystemBase {
   public void adjustArm(int x, int y) { // shoulder seems to work slighty, elbow keeps raising until either joystick up or down it returns to a setpoint?
     System.out.println(x + " " + y);
     if (y == 1) {
-      this.goToElbowSetpoint(this.elbowCurrentAngle() + 1);
-    } else if (y != 0) {
       this.goToElbowSetpoint(this.elbowCurrentAngle() - 1);
+    } else if (y != 0) {
+      this.goToElbowSetpoint(this.elbowCurrentAngle() + 1);
     }
 
     if (x == 1) {
@@ -231,6 +236,8 @@ public class ArmControl extends SubsystemBase {
       shoulderAngle2encoder(degree),
       DemandType.ArbitraryFeedForward,
       shoulderAuxInputGrav);
+
+      shoulderSetpoint = degree;
   }
 
   public void goToElbowSetpoint(double degree) {
@@ -244,6 +251,10 @@ public class ArmControl extends SubsystemBase {
       elbowAngle2encoder(degree),
       DemandType.ArbitraryFeedForward,
       elbowAuxInputGrav);
+
+      elbowSetpoint = degree;
+
+      
   }
 
   
@@ -264,7 +275,7 @@ public class ArmControl extends SubsystemBase {
      * x1 = degree value at known point (constant)
      * 
      * (encoder tics, degrees)
-     * (0, 70)
+     * (0, 75)
      * 
      * m = 2006 * 3 / 90 [encoder tics per degree]
      * 
@@ -311,6 +322,7 @@ public class ArmControl extends SubsystemBase {
     // reverse of the functions above. 
 
     // x = (y-y1)/m + x1
+
     final double y1 = 0;
     final double x1 = 75; // we are defining sticking straigt out as 0 degrees.
     final double m = 2006 * 3 / 90; // FROM TIM: The *3 is from the gear ratio
@@ -338,6 +350,8 @@ public class ArmControl extends SubsystemBase {
 
     calculateGravAuxInput();
     //setNoGoZones();
+
+    SmartDashboard.putNumber("ElbowSetEnc", elbowSetpoint);
 
 
   }

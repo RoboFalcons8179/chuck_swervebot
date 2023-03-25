@@ -19,8 +19,6 @@ public class closeClaw extends CommandBase {
 
     addRequirements(claw);
 
-    System.out.println("CLOSING!");
-
 
 
   }

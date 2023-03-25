@@ -266,13 +266,13 @@ public final class Constants {
         public static final double centerDegreeShoulder = 0;
 
         // Elbow Invert/
-        public static final InvertType elbowMotorLeftInvert = InvertType.None;
+        public static final InvertType elbowMotorLeftInvert = InvertType.InvertMotorOutput;
 
         // Elbow Phase//
-        public static final boolean elbowLeftPhase = false;
+        public static final boolean elbowLeftPhase = true;
     
         //Elbow PIDG//
-        public static double kElbowP = 1;
+        public static double kElbowP = 1.1;
         public static double kElbowI = 0.001;
         public static double kElbowD = 0;
         public static double kElbowF = 0;        

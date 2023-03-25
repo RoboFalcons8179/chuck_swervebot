@@ -28,8 +28,6 @@ public class openClaw extends CommandBase {
   @Override
   public void initialize() {
 
-    System.out.println("Opening");
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
