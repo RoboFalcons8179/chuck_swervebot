@@ -272,8 +272,8 @@ public final class Constants {
         public static final boolean elbowLeftPhase = true;
     
         //Elbow PIDG//
-        public static double kElbowP = 1.1;
-        public static double kElbowI = 0.001;
+        public static double kElbowP = 0.35;
+        public static double kElbowI = 0;//0.00035;
         public static double kElbowD = 0;
         public static double kElbowF = 0;        
         public static double kElbowG = 0;//.35 // From Tim Experiments on 3/5

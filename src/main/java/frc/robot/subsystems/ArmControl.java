@@ -26,7 +26,9 @@ public class ArmControl extends SubsystemBase {
   public static WPI_TalonSRX elbowMotorLeft = new WPI_TalonSRX (Constants.kArm.kElbowMotorID);
 
   // Starting position relitive to the straigt out form.
-  public static final double startPositionto90Elbow = -1650 * 3; // Note that the *3 is from the gear ratio. It was not measured. // 0 reference has changed from straight down to straight up
+  public static final double m_elbow = (5027-0)/(180-75);
+    // (y1-y2)/(x1-x2), in encoder tics / degrees
+
   public static final double startPositionto90Shoulder = 45803/3;
 
   public double elbowSetpoint = 0;
@@ -83,22 +85,22 @@ public class ArmControl extends SubsystemBase {
     elbowMotorLeft.config_kI(0, Constants.kArm.kElbowI);
     elbowMotorLeft.config_kD(0, Constants.kArm.kElbowD);
     elbowMotorLeft.config_kF(0, Constants.kArm.kElbowF);
-    elbowMotorLeft.configMaxIntegralAccumulator(0, 300);
-    elbowMotorLeft.configAllowableClosedloopError(0, 50);
+    elbowMotorLeft.configMaxIntegralAccumulator(0, 0);
+    elbowMotorLeft.configAllowableClosedloopError(0, 0);
 
     elbowMotorLeft.configMotionCruiseVelocity(Constants.kArm.elbowVel);
     elbowMotorLeft.configMotionAcceleration(Constants.kArm.elbowAccel);
-    elbowMotorLeft.configMotionSCurveStrength(5);
+    elbowMotorLeft.configMotionSCurveStrength(8);
 
-    elbowMotorLeft.configNominalOutputForward(0.05);
-    elbowMotorLeft.configNominalOutputReverse(-0.45);
+    elbowMotorLeft.configNominalOutputForward(0.00);
+    elbowMotorLeft.configNominalOutputReverse(0.00);
     elbowMotorLeft.configPeakOutputReverse(-1);
-    elbowMotorLeft.configPeakOutputForward(0.5);
-    elbowMotorLeft.configAllowableClosedloopError(0, 50);
-    elbowMotorLeft.configNeutralDeadband(0.02);
+    elbowMotorLeft.configPeakOutputForward(0.4);
+    elbowMotorLeft.configAllowableClosedloopError(0, 0);
+    elbowMotorLeft.configNeutralDeadband(0.000001);
     
     
-    shoulderMotorRight.follow(shoulderMotorLeft);
+    // shoulderMotorRight.follow(shoulderMotorLeft);
 
   }
 
@@ -238,6 +240,7 @@ public class ArmControl extends SubsystemBase {
       shoulderAuxInputGrav);
 
       shoulderSetpoint = degree;
+
   }
 
   public void goToElbowSetpoint(double degree) {
@@ -247,7 +250,7 @@ public class ArmControl extends SubsystemBase {
      * 
      * THAT MEANS YOU MATTHEW
      */
-    elbowMotorLeft.set(ControlMode.MotionMagic, 
+    elbowMotorLeft.set(ControlMode.Position, 
       elbowAngle2encoder(degree),
       DemandType.ArbitraryFeedForward,
       elbowAuxInputGrav);
@@ -295,7 +298,7 @@ public class ArmControl extends SubsystemBase {
 
      final double y1 = 0;
      final double x1 = 75; // we are defining sticking straigt out as 0 degrees.
-     final double m = 2006 * 3 / 90; // FROM TIM: The *3 is from the gear ratio
+     final double m = m_elbow; // FROM TIM: The *3 is from the gear ratio
 
      return (m * (degrees - x1)) + y1;
 
@@ -325,7 +328,7 @@ public class ArmControl extends SubsystemBase {
 
     final double y1 = 0;
     final double x1 = 75; // we are defining sticking straigt out as 0 degrees.
-    final double m = 2006 * 3 / 90; // FROM TIM: The *3 is from the gear ratio
+    final double m = m_elbow; // FROM TIM: The *3 is from the gear ratio
     
     return (tic - y1)/m + x1;
 
@@ -350,6 +353,9 @@ public class ArmControl extends SubsystemBase {
 
     calculateGravAuxInput();
     //setNoGoZones();
+
+    // shoulderMotorRight.follow(shoulderMotorLeft);
+
 
     SmartDashboard.putNumber("ElbowSetEnc", elbowSetpoint);
 

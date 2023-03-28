@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.kBalance;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Limelight.rotateToAngle;
@@ -85,8 +86,8 @@ public class RobotContainer {
 
 
     /* Extra Driver Remote buttons for testing */
-
-    private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
+    private final JoystickButton zerothing = new JoystickButton(driver, XboxController.Button.kBack.value);
+    //private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
     private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton clawClose = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton pickupAbove = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
@@ -220,9 +221,9 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final pVision vision = new pVision();
     private final Grabber claw = new Grabber();
     public final ArmControl arm = new ArmControl();
+    public final Limelight lime = new Limelight();
 
     /* Troubleshooting, Auto, and Shuffleboard */
     private final SendableChooser<Command> commandChooser = new SendableChooser<>();
@@ -352,14 +353,25 @@ public class RobotContainer {
         // counterAccel.onTrue(new autoBalanceFromInternet(s_Swerve).withTimeout(20));
 
 
-        slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
+        // driver go to carry command
+        slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly()
+        .until(() -> arm.elbowCurrentAngle() < (60))
+        .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)));
 
-        slowForward.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
-        
-        carryButton.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).andThen(new updateHoldPosition(() -> -6, () -> 45, arm)));
+        // slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
+
+        // slowForward.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
+
+
+
+        // carry button on control board
+        carryButton.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly()
+        .until(() -> arm.elbowCurrentAngle() < 80)
+        .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)));
 
         // carryButton.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
 
+        // shoulder and elbow adjust
         forwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
 
         backwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() - 5), () -> arm.getHoldElbow(), arm));
@@ -368,13 +380,28 @@ public class RobotContainer {
 
         backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() - 2), arm));
 
-        coneHigh.onTrue(new updateHoldPosition(() -> 142, () -> arm.getHoldElbow(), arm));
-        coneHigh.onFalse(new updateHoldPosition(() -> 142, () -> 165, arm));
 
-        coneMid.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm));
-        coneMid.onFalse(new updateHoldPosition(() -> 115, () -> 141, arm));
+        // cone high button on control board
+        coneHigh.onTrue(new updateHoldPosition(() -> 142, () -> arm.getHoldElbow(), arm).repeatedly()
+            .until(() -> arm.shoulderCurrentAngle() > (90))
+            .andThen(new updateHoldPosition(() -> 142, () -> 165, arm)));
+        
+        // coneHigh.onFalse(new updateHoldPosition(() -> 142, () -> 165, arm));
 
-        pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
+
+        // cone mid on control board
+        coneMid.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
+            .until(() -> arm.shoulderCurrentAngle() > (90))
+            .andThen(new updateHoldPosition(() -> 115, () -> 141, arm)));
+
+        // coneMid.onFalse(new updateHoldPosition(() -> 115, () -> 141, arm));
+
+        // pickup and score low
+        pickup.onTrue(new updateHoldPosition(() -> 45, () -> arm.getHoldElbow(), arm).repeatedly()
+                .until(() -> arm.shoulderCurrentAngle() > (40))
+                .andThen(new updateHoldPosition(() -> 45, () -> 118, arm)));
+
+        // pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
 
         //pickupAbove.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
 
@@ -383,6 +410,9 @@ public class RobotContainer {
         zero.onTrue(new updateHoldPosition(() -> -6, () -> 75, arm));
 
         pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 149, arm));
+
+
+        zerothing.debounce(0.04).whileTrue(new zero(s_Swerve));
         
     }
 
@@ -478,7 +508,8 @@ public class RobotContainer {
 
         Shuffleboard.selectTab("MAIN");
         SmartDashboard.putData(s_Swerve);
-        SmartDashboard.putData(vision);
+        SmartDashboard.putData(arm);
+        SmartDashboard.putData(claw);
 
         // // This section will send commands to the shuffleboard. 
         // We will probably need to disable the bandwidth limitations.
@@ -567,6 +598,11 @@ public enum Alliance {
 
 
     public Command getAutonomousCommand() {
+
+
+
+        // If one button is on, return X.
+        // If aother switch is on, return Y.
 
         return
         // Robot Initalization
