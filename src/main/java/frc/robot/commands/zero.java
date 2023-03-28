@@ -51,7 +51,7 @@ public class zero extends CommandBase {
         Decided if we are close enough to the gyro point, then stop.
      */
 
-     System.out.println("-------------------------");
+    //  System.out.println("-------------------------");
 
       double target = 0;
 
@@ -67,10 +67,10 @@ public class zero extends CommandBase {
       }
 
 
-      System.out.println(currentAngle);
-      System.out.println(speed);
+      // System.out.println(currentAngle);
+      // System.out.println(speed);
 
-      System.out.println(Math.abs(currentAngle - target));
+      // System.out.println(Math.abs(currentAngle - target));
 
 
 

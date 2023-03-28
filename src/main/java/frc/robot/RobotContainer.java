@@ -81,7 +81,7 @@ public class RobotContainer {
     /* Driver Buttons and Triggers - RESERVED FOR COMPETITION*/
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value); // reserved for swerve
-    private final JoystickButton goSpeed = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
+    private final JoystickButton start = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
     private final JoystickButton turbo = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
 
@@ -257,7 +257,6 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> driver.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean(),
-                () -> goSpeed.getAsBoolean(),
                 () -> turbo.getAsBoolean()                
             )
         );
@@ -412,7 +411,16 @@ public class RobotContainer {
         pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 149, arm));
 
 
-        zerothing.debounce(0.04).whileTrue(new zero(s_Swerve));
+        zerothing.debounce(0.04).whileTrue(new InstantCommand(() -> lime.reflect_init())
+            .withTimeout(0.2)
+            .andThen(new zerolime(s_Swerve, lime)));
+        
+        start.debounce(0.04).whileTrue(
+            new 
+            InstantCommand(() -> lime.april_init())
+           // .andThen(new WaitCommand(0.02))
+            .andThen(new zero(s_Swerve))
+            .andThen(new zeroTag(s_Swerve, lime)));
         
     }
 

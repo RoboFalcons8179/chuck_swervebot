@@ -54,7 +54,7 @@ public class zerolime extends CommandBase {
         Decided if we are close enough to the gyro point, then stop.
      */
 
-     System.out.println("-------------------------");
+      System.out.println("-------------------------");
 
       double target = 0;
 
@@ -62,8 +62,8 @@ public class zerolime extends CommandBase {
 
 
       
-      double speed = .5;
-      double slowspeedscale = 0.33;
+      double speed = -0.5;
+      double slowspeedscale = 0.15;
 
       if (distanceFromLimeLightTarget > target) {
         speed = speed * -1;
@@ -80,11 +80,11 @@ public class zerolime extends CommandBase {
 
       // check our gyro
 
-      if ((Math.abs(distanceFromLimeLightTarget - target) > 30)) {
+      if ((Math.abs(distanceFromLimeLightTarget - target) > 5)) {
 
         swerve.drive(new Translation2d(0, speed), 0 , true, false);
       }
-      else if ((Math.abs(distanceFromLimeLightTarget - target) > 2)) {
+      else if ((Math.abs(distanceFromLimeLightTarget - target) > 0.75)) {
 
         swerve.drive(new Translation2d(0, slowspeedscale*speed), 0, true, false);
       
@@ -96,7 +96,7 @@ public class zerolime extends CommandBase {
         this.cancel();
       }
 
-     System.out.println("-------------------------");
+    //  System.out.println("-------------------------");
 
 
 

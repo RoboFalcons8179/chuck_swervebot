@@ -69,7 +69,7 @@ public final class Constants {
         public static final double closedLoopRamp = 1.0;
 
         /* Angle Motor PID Values */
-        public static final double angleKP = 0.25;
+        public static final double angleKP = 0.22;
         public static final double angleKI = 0;
         public static final double angleKD = 0;
         public static final double angleKF = 0;

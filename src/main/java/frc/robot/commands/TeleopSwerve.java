@@ -22,7 +22,6 @@ public class TeleopSwerve extends CommandBase {
     private BooleanSupplier turbo;
 
     // Troubleshooting
-    private BooleanSupplier atSpeed;
     private boolean robotCent;
     private boolean robotCenticSupLast;
 
@@ -31,7 +30,7 @@ public class TeleopSwerve extends CommandBase {
 
     public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, 
         DoubleSupplier strafeSup, DoubleSupplier rotationSup,
-        BooleanSupplier robotCentricSup, BooleanSupplier atSpeed,
+        BooleanSupplier robotCentricSup,
         BooleanSupplier turbo
         ) {
         this.s_Swerve = s_Swerve;
@@ -43,9 +42,6 @@ public class TeleopSwerve extends CommandBase {
         this.robotCentricSup = robotCentricSup;
         robotCent = false;
         
-        // Troubleshooting
-        this.atSpeed = atSpeed;
-
 
     }
 
@@ -88,20 +84,20 @@ public class TeleopSwerve extends CommandBase {
         boolean isOpenLoop = false;
 
         // go straight forward
-        if (atSpeed.getAsBoolean()) {
+        // if (atSpeed.getAsBoolean()) {
 
-            translationVal = 0.5;
-            strafeVal = 0;
-            rotationVal = 0;
-            isOpenLoop = false;
+        //     translationVal = 0.5;
+        //     strafeVal = 0;
+        //     rotationVal = 0;
+        //     isOpenLoop = false;
 
             
-            setDriveTranslate = new Translation2d(translationVal, strafeVal);
-            setDriveRotation = rotationVal * Constants.Swerve.maxAngularVelocity;
+        //     setDriveTranslate = new Translation2d(translationVal, strafeVal);
+        //     setDriveRotation = rotationVal * Constants.Swerve.maxAngularVelocity;
 
-            s_Swerve.drive_Manually(setDriveTranslate.getNorm(), setDriveTranslate.getAngle());
+        //     s_Swerve.drive_Manually(setDriveTranslate.getNorm(), setDriveTranslate.getAngle());
 
-        } else {
+        // } else {
 
 
     
@@ -113,6 +109,6 @@ public class TeleopSwerve extends CommandBase {
             !robotCent, 
             isOpenLoop
         );
-        }
+       // }
     }
 }

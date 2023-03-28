@@ -26,7 +26,7 @@ public class Limelight extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // This code needs to be testing. will pass it back to the driver pipeline if the pipeline is busted.
-    // int pipe = (int) table.getEntry("pipeline").getInteger(0);
+    // int pipe = (int) table.getEntry("getpipe").getInteger(0);
 
     // if (!(pipe == 1 || pipe == 2)) {
     //   this.goToDriverCam();
@@ -37,6 +37,8 @@ public class Limelight extends SubsystemBase {
   public void reflect_init() {
     // reflect pipeline is pipe 0.
     table.getEntry("pipeline").setNumber(0);
+    table.getEntry("tx").getDouble(0);
+
 
   }
 
@@ -48,6 +50,8 @@ public class Limelight extends SubsystemBase {
   public void april_init() {
     // apriltag pipeline is pipe 1.
     table.getEntry("pipeline").setNumber(1);
+    table.getEntry("tx").getDouble(0);
+
 
   }
 
