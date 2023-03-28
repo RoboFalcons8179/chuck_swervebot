@@ -354,7 +354,7 @@ public class ArmControl extends SubsystemBase {
     calculateGravAuxInput();
     //setNoGoZones();
 
-    // shoulderMotorRight.follow(shoulderMotorLeft);
+    shoulderMotorRight.follow(shoulderMotorLeft);
 
 
     SmartDashboard.putNumber("ElbowSetEnc", elbowSetpoint);
