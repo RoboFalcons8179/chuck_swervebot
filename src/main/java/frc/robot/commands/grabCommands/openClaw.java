@@ -28,6 +28,9 @@ public class openClaw extends CommandBase {
   @Override
   public void initialize() {
 
+    claw.isSqueezing = false;
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

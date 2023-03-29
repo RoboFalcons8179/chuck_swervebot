@@ -59,6 +59,11 @@ public class Limelight extends SubsystemBase {
     return table.getEntry("tx").getDouble(0);
   }
 
+  public double get_TagTY() {
+    return table.getEntry("ty").getDouble(0);
+
+  }
+
   public void goToDriverCam() {
     // driver pipe is pipe 2.
     table.getEntry("pipeline").setNumber(2);

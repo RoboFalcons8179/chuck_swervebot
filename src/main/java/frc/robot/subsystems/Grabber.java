@@ -10,13 +10,16 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Grabber extends SubsystemBase {
   /** Creates a new Grabber. */
   public static WPI_TalonSRX grabberMotor = new WPI_TalonSRX (Constants.kGrabber.kGrabberMotorID);
-  
+  public boolean isSqueezing;
+
+
   public Grabber() {
 
     //Setting Grabber Inverted//
@@ -41,10 +44,15 @@ public class Grabber extends SubsystemBase {
     // Limit switch
     grabberMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
+
+    isSqueezing = false;
   }
 
   @Override
   public void periodic() {
+
+    SmartDashboard.putBoolean("ClawCurrent", isSqueezing);
+
     // This method will be called once per scheduler run
   }
 

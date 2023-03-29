@@ -11,6 +11,7 @@ import java.util.function.BooleanSupplier;
 import frc.robot.commands.armStuff.*;
 import frc.robot.commands.grabCommands.closeClaw;
 import frc.robot.commands.grabCommands.openClaw;
+import frc.robot.commands.grabCommands.squeezeClaw;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -29,7 +30,7 @@ public class backAndForthCone extends SequentialCommandGroup {
 
 new updateHoldPosition(() -> -6, () -> 65, arm),
 
-new closeClaw(claw).withTimeout(0.65),//until(() -> claw.grabberMotor.getStatorCurrent() > 4),
+new squeezeClaw(claw).withTimeout(0.65),//until(() -> claw.grabberMotor.getStatorCurrent() > 4),
     
 //new doTrajectory(s_Swerve, traj.makeZ),
 
@@ -37,7 +38,7 @@ new closeClaw(claw).withTimeout(0.65),//until(() -> claw.grabberMotor.getStatorC
 
 // new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
-new updateHoldPosition(() -> 125, () -> 45, arm).repeatedly().until(() -> arm.shoulderIsAtDegree(60)), // shoulder poition is high enough for us to move the elbow
+new updateHoldPosition(() -> 125, () -> 45, arm).repeatedly().until(() -> arm.shoulderCurrentAngle() >  (60)), // shoulder poition is high enough for us to move the elbow
 
 //new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
@@ -45,12 +46,14 @@ new updateHoldPosition(() -> 125, () -> 155, arm),
 
 new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
-new openClaw(claw).withTimeout(0.6), // do quick open to get it out
+new openClaw(claw).withTimeout(0.5), // do quick open to get it out
 
-new closeClaw(claw).withTimeout(0.2),
+new squeezeClaw(claw).withTimeout(0.2),
 
 // From Tim - TEST THIS LINE. IT NEEDS TO TRIGGER US TO DRIVE. you might have to change this degree\/
-new updateHoldPosition(() -> 125, () -> 65, arm).repeatedly().until(() -> arm.elbowIsAtDegree(100))
+new updateHoldPosition(() -> 125, () -> 65, arm).repeatedly().until(() -> arm.elbowCurrentAngle() > (100)),
+
+new closeClaw(claw).withTimeout(0.002)
 
 );
 

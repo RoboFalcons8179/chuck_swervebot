@@ -28,6 +28,7 @@ public class closeClaw extends CommandBase {
   @Override
   public void initialize() {
 
+    claw.isSqueezing = false;
 
   }
 

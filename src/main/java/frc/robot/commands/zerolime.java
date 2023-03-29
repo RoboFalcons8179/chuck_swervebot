@@ -4,12 +4,8 @@
 
 package frc.robot.commands;
 
-import com.kauailabs.navx.IMUProtocol.GyroUpdate;
-
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 
@@ -18,6 +14,7 @@ public class zerolime extends CommandBase {
 
   Swerve swerve;
   Limelight lime;
+  boolean isDone;
 
   public zerolime(Swerve swerve, Limelight lime) {
 
@@ -32,7 +29,9 @@ public class zerolime extends CommandBase {
   @Override
   public void initialize() {
 
-    lime.reflect_init();
+    // lime.reflect_init();
+
+    isDone = false;
 
   }
 
@@ -54,7 +53,6 @@ public class zerolime extends CommandBase {
         Decided if we are close enough to the gyro point, then stop.
      */
 
-      System.out.println("-------------------------");
 
       double target = 0;
 
@@ -63,17 +61,18 @@ public class zerolime extends CommandBase {
 
       
       double speed = -0.5;
-      double slowspeedscale = 0.15;
+      double slowspeedscale = 0.5;
 
       if (distanceFromLimeLightTarget > target) {
         speed = speed * -1;
       }
 
+      // System.out.println("-------------------------");
 
-      System.out.println(distanceFromLimeLightTarget);
-      System.out.println(speed);
+      // System.out.println(distanceFromLimeLightTarget);
+      // System.out.println(speed);
 
-      System.out.println(Math.abs(distanceFromLimeLightTarget - target));
+      // System.out.println(Math.abs(distanceFromLimeLightTarget - target));
 
 
 
@@ -84,7 +83,7 @@ public class zerolime extends CommandBase {
 
         swerve.drive(new Translation2d(0, speed), 0 , true, false);
       }
-      else if ((Math.abs(distanceFromLimeLightTarget - target) > 0.75)) {
+      else if ((Math.abs(distanceFromLimeLightTarget - target) > 1.0)) {
 
         swerve.drive(new Translation2d(0, slowspeedscale*speed), 0, true, false);
       
@@ -93,6 +92,7 @@ public class zerolime extends CommandBase {
       else{
         // debounce, then end command.
         swerve.stop();
+        isDone = true;
         this.cancel();
       }
 
@@ -118,6 +118,6 @@ public class zerolime extends CommandBase {
 
     // if we are close enough to our target
 
-    return false;
+    return isDone;
   }
 }

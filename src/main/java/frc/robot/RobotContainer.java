@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.event.NetworkBooleanEvent;
@@ -40,6 +41,7 @@ import frc.robot.commands.Limelight.rotateToAngle;
 import frc.robot.commands.armStuff.*;
 import frc.robot.commands.grabCommands.closeClaw;
 import frc.robot.commands.grabCommands.openClaw;
+import frc.robot.commands.grabCommands.squeezeClaw;
 import frc.robot.subsystems.*;
 import frc.robot.commands.BalanceBasic.*;;
 
@@ -80,31 +82,33 @@ public class RobotContainer {
 
     /* Driver Buttons and Triggers - RESERVED FOR COMPETITION*/
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value); // reserved for swerve
-    private final JoystickButton start = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
-    private final JoystickButton turbo = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+        //Y
 
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value); // reserved for swerve
+        // A
+    
+    private final JoystickButton turbo = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+        // leftBumper
 
     /* Extra Driver Remote buttons for testing */
-    private final JoystickButton zerothing = new JoystickButton(driver, XboxController.Button.kBack.value);
     //private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
-    private final JoystickButton clawOpen = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton clawClose = new JoystickButton(driver, XboxController.Button.kB.value);
-    private final JoystickButton pickupAbove = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
+    private final JoystickButton driver_x = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton driver_b = new JoystickButton(driver, XboxController.Button.kB.value);
     
     
+    private final JoystickButton driver_start = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
+    private final JoystickButton driver_select = new JoystickButton(driver, XboxController.Button.kBack.value);
+
+    /* ARM BUTTONS/Triggers - Testing */
+    private final JoystickButton driver_rb = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
+
     
 
     /* Arm Axes - COMPERTITION */
 
     /* ARM Buttons/Triggers - COMPETITION */
     
-    /* ARM AXES - Testing */
-    private final int panelX = Joystick.kDefaultXChannel;
-    private final int panelY = Joystick.kDefaultYChannel;
 
-    /* ARM BUTTONS/Triggers - Testing */
-    private final JoystickButton slowForward = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
 
     // FROM TIM: This is how you do the commmand on the joystick for adjusting the shoulder.
     //      repeat this for the shoulder.
@@ -113,13 +117,13 @@ public class RobotContainer {
         // shoulderAdjUp.debounce(0.04).onTrue( new {Your Command here})
         // shoulderAdjDown.debounce(0.04).onTrue ( new {Your command here})
 
-    private final BooleanSupplier isArmAdjustUp = new BooleanSupplier() {
+    private BooleanSupplier driver_leftTriggerSupplier = new BooleanSupplier() {
         // This part makes the thing that passes up the true false
 
         @Override
         public boolean getAsBoolean() {
 
-            if(panel.getRawAxis(panelX) == -1)
+            if(driver.getRawAxis(2) > 0.2)
                 return true;
             else
                 return false;
@@ -127,16 +131,16 @@ public class RobotContainer {
         
     };
 
-    private final Trigger elbowAdjUp = new Trigger(isArmAdjustUp);
+    private final Trigger driver_LT = new Trigger(driver_leftTriggerSupplier);
         // This part makes it work with the command archetecture.
 
 
-    private final BooleanSupplier isArmAdjustDown = new BooleanSupplier() {
+    private final BooleanSupplier driver_rightTriggerSupplier = new BooleanSupplier() {
 
         @Override
         public boolean getAsBoolean() {
 
-            if(panel.getRawAxis(panelX) == 1)
+            if(driver.getRawAxis(3) > 0.2)
                 return true;
             else
                 return false;
@@ -144,41 +148,41 @@ public class RobotContainer {
         
     };
 
-    private final Trigger elbowAdjDown = new Trigger(isArmAdjustDown);
+    private final Trigger driver_RT = new Trigger(driver_rightTriggerSupplier);
 
 
-    private final BooleanSupplier isShoudlerAdjustUp = new BooleanSupplier() {
-        // This part makes the thing that passes up the true false
+    // private final BooleanSupplier isShoudlerAdjustUp = new BooleanSupplier() {
+    //     // This part makes the thing that passes up the true false
 
-        @Override
-        public boolean getAsBoolean() {
+    //     @Override
+    //     public boolean getAsBoolean() {
 
-            if(panel.getRawAxis(panelY) == -1)
-                return true;
-            else
-                return false;
-        }
+    //         if(panel.getRawAxis(panelY) == -1)
+    //             return true;
+    //         else
+    //             return false;
+    //     }
         
-    };
+    // };
 
-    private final Trigger shoulderAdjUp = new Trigger(isShoudlerAdjustUp);
-        // This part makes it work with the command archetecture.
+    // private final Trigger shoulderAdjUp = new Trigger(isShoudlerAdjustUp);
+    //     // This part makes it work with the command archetecture.
 
 
-    private final BooleanSupplier isShoulderAdjustDown = new BooleanSupplier() {
+    // private final BooleanSupplier isShoulderAdjustDown = new BooleanSupplier() {
 
-        @Override
-        public boolean getAsBoolean() {
+    //     @Override
+    //     public boolean getAsBoolean() {
 
-            if(panel.getRawAxis(panelY) == 1)
-                return true;
-            else
-                return false;
-        }
+    //         if(panel.getRawAxis(panelY) == 1)
+    //             return true;
+    //         else
+    //             return false;
+    //     }
         
-    };
+    // };
 
-    private final Trigger shoulderAdjDown = new Trigger(isShoulderAdjustDown);
+    // private final Trigger shoulderAdjDown = new Trigger(isShoulderAdjustDown);
 
 
     //private final Joystick manualShoulder = new JoystickButton(panel, rotationAxis);
@@ -199,9 +203,13 @@ public class RobotContainer {
     private final JoystickButton zero = new JoystickButton(board, 11);
    // private final JoystickButton clawOpenBoard = new JoystickButton(board, 8);
     //private final JoystickButton clawCloseBoard = new JoystickButton(board, 7);
-    private final JoystickButton pickupAboveBoard = new JoystickButton(board, 9);
     private final JoystickButton pickupPlayer = new JoystickButton(board, 8);
    
+        // Gripper buttons
+    private final JoystickButton openClawBoard = new JoystickButton(board, 9);
+    private final JoystickButton squeezeClawBoard = new JoystickButton(board, 7);
+
+
 
     // When we get a new switch change button number to what the switch is//
     //private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
@@ -226,10 +234,7 @@ public class RobotContainer {
     public final Limelight lime = new Limelight();
 
     /* Troubleshooting, Auto, and Shuffleboard */
-    private final SendableChooser<Command> commandChooser = new SendableChooser<>();
-    private GenericEntry autoCommand;
-    private GenericEntry autoDelay;
-    private GenericEntry autoHold;
+
 
     
 
@@ -301,8 +306,6 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
 
-        // run shuffleboard essentials
-        runShuffleboardGetInfo();
 
         // run the shuffleboard
         runTroubleshooting();
@@ -328,6 +331,17 @@ public class RobotContainer {
     private void doDriverTestCommands() {
 
         /// DRIVER BUTTONS
+
+        // open
+        driver_LT.whileTrue(new openClaw(claw));
+
+        // close
+        driver_RT.onTrue(new closeClaw(claw).withTimeout(1.2));
+
+        // squeeze
+        driver_x.onTrue(new squeezeClaw(claw));
+
+
         int pov = driver.getPOV(0);
 
         if (pov == 0){
@@ -339,38 +353,66 @@ public class RobotContainer {
         }
 
         /* Driver Buttons */
-        // testinpathpla.whileTrue(new grabCube(s_Swerve, arm, claw));
-        // testinpathpla.whileTrue(new doTrajectory(s_Swerve, traj.makeZ));
 
-        //testinpathpla.whileTrue(new rotateToAngle(s_Swerve, 90));
-
-        // counterAccel.debounce(0.04).onTrue(new balanceAuto(s_Swerve).until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
-//        counterAccel.whileTrue(new balanceAuto(s_Swerve).repeatedly().until(() -> s_Swerve.isRobotLevel()).andThen(new InstantCommand(() -> System.out.println("Balanced"))));
-
-        //counterAccel.debounce(0.04).whileTrue(new balancev4(s_Swerve));
 
         // counterAccel.onTrue(new autoBalanceFromInternet(s_Swerve).withTimeout(20));
 
 
         // driver go to carry command
-        slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly()
+        driver_rb.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
         .until(() -> arm.elbowCurrentAngle() < (60))
         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)));
 
-        // slowForward.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm));
-
-        // slowForward.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
-
-
 
         // carry button on control board
-        carryButton.onTrue(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly()
-        .until(() -> arm.elbowCurrentAngle() < 80)
+        carryButton.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+        .until(() -> arm.elbowCurrentAngle() < 60)
         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)));
 
-        // carryButton.onFalse(new updateHoldPosition(() -> -6, () -> 45, arm));
 
-        // shoulder and elbow adjust
+        // cone high button on control board
+        coneHigh.onTrue(new updateHoldPosition(() -> 142, () -> arm.getHoldElbow(), arm).repeatedly()
+            .until(() -> arm.shoulderCurrentAngle() > (90))
+            .andThen(new updateHoldPosition(() -> 142, () -> 165, arm)));
+        
+
+        // cone mid on control board
+        coneMid.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
+            .until(() -> arm.shoulderCurrentAngle() > (90))
+            .andThen(new updateHoldPosition(() -> 115, () -> 141, arm)));
+
+
+        // pickup and score low
+        pickup.onTrue(new updateHoldPosition(() -> 45, () -> arm.getHoldElbow(), arm).repeatedly()
+                .until(() -> arm.shoulderCurrentAngle() > (30))
+                .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)));
+
+        // pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
+
+        //pickupAbove.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
+
+        zero.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+            .until(() -> arm.elbowCurrentAngle() < (60))
+            .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))
+            .until(() -> arm.isAtSetpoints())
+            .andThen(new updateHoldPosition(() -> -6, () -> 75, arm))
+            .withTimeout(1).andThen(new InstantCommand(() -> claw.stop())));
+        
+        //zero.onTrue(new updateHoldPosition(() -> -6, () -> 75, arm));
+
+
+        // control board picking up from human player shelf
+        pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
+        .until(() -> arm.shoulderCurrentAngle() > (90))
+        .andThen(new updateHoldPosition(() -> 115, () -> 149, arm)
+            .alongWith(new openClaw(claw)).withTimeout(1.2)));
+    
+
+        //pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 149, arm));
+
+
+
+        // shoulder and elbow adjustments
         forwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
 
         backwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() - 5), () -> arm.getHoldElbow(), arm));
@@ -380,47 +422,39 @@ public class RobotContainer {
         backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() - 2), arm));
 
 
-        // cone high button on control board
-        coneHigh.onTrue(new updateHoldPosition(() -> 142, () -> arm.getHoldElbow(), arm).repeatedly()
-            .until(() -> arm.shoulderCurrentAngle() > (90))
-            .andThen(new updateHoldPosition(() -> 142, () -> 165, arm)));
-        
-        // coneHigh.onFalse(new updateHoldPosition(() -> 142, () -> 165, arm));
 
 
-        // cone mid on control board
-        coneMid.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
-            .until(() -> arm.shoulderCurrentAngle() > (90))
-            .andThen(new updateHoldPosition(() -> 115, () -> 141, arm)));
 
-        // coneMid.onFalse(new updateHoldPosition(() -> 115, () -> 141, arm));
+        // Conrol Board Grabber Buttons
+        openClawBoard.whileTrue(new openClaw(claw));
 
-        // pickup and score low
-        pickup.onTrue(new updateHoldPosition(() -> 45, () -> arm.getHoldElbow(), arm).repeatedly()
-                .until(() -> arm.shoulderCurrentAngle() > (40))
-                .andThen(new updateHoldPosition(() -> 45, () -> 118, arm)));
-
-        // pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
-
-        //pickupAbove.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
-
-        pickupAboveBoard.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
-
-        zero.onTrue(new updateHoldPosition(() -> -6, () -> 75, arm));
-
-        pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 149, arm));
+        squeezeClawBoard.onTrue(new squeezeClaw(claw));
 
 
-        zerothing.debounce(0.04).whileTrue(new InstantCommand(() -> lime.reflect_init())
-            .withTimeout(0.2)
+        // Auto driving stuff
+        driver_select.debounce(0.04).whileTrue(
+            (new 
+            InstantCommand(() -> lime.reflect_init())
+            .andThen(new WaitCommand(0.5)))
+            .alongWith(new zero(s_Swerve))
             .andThen(new zerolime(s_Swerve, lime)));
         
-        start.debounce(0.04).whileTrue(
-            new 
+        driver_start.debounce(0.04).whileTrue(
+            (new 
             InstantCommand(() -> lime.april_init())
-           // .andThen(new WaitCommand(0.02))
-            .andThen(new zero(s_Swerve))
+            .andThen(new WaitCommand(0.5)))
+            .alongWith(new zero(s_Swerve))
             .andThen(new zeroTag(s_Swerve, lime)));
+
+
+
+
+        if (claw.grabberMotor.getStatorCurrent() > 2) {
+
+            driver.setRumble(RumbleType.kBothRumble, 1);
+        } else {
+            driver.setRumble(RumbleType.kBothRumble, 0);
+        }
         
     }
 
@@ -434,12 +468,6 @@ public class RobotContainer {
 
     private void doGripperTestCommands(){
 
-       // CLAW COMMANDS
-
-       clawOpen.whileTrue(new openClaw(claw).withTimeout(Constants.kGrabber.openTimeout)); // 8
-
-
-       clawClose.onTrue(new closeClaw(claw)); // 7
 
        
        //clawCloseBoard.whileTrue(new closeClaw(claw).withTimeout(Constants.kGrabber.openTimeout));
@@ -518,52 +546,11 @@ public class RobotContainer {
         SmartDashboard.putData(s_Swerve);
         SmartDashboard.putData(arm);
         SmartDashboard.putData(claw);
-
-        // // This section will send commands to the shuffleboard. 
-        // We will probably need to disable the bandwidth limitations.
-
-        // commandChooser.setDefaultOption("Foo", new fooCommand());
-        // commandChooser.addOption("Bar", new BarCommand());
-        commandChooser.addOption("Lock Wheels", new swerveLockPosition(s_Swerve, 0.0));
-
-        SmartDashboard.putData(CommandScheduler.getInstance());
         
     }
 
 
-    private void runShuffleboardGetInfo() {
-        
-        autoCommand = Shuffleboard.getTab("MAIN")
-        .add("AUTON COMMAND", "ALPHA")
-        .withWidget(BuiltInWidgets.kComboBoxChooser)
-        .getEntry();
 
-        autoDelay = Shuffleboard.getTab("MAIN")
-        .add("AUTON DELAY", 0)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", 0, "max", 3))
-        .getEntry();
-      
-        autoHold = Shuffleboard.getTab("MAIN")
-        .add("AUTON LOCK WHEELS", false)
-        .withWidget(BuiltInWidgets.kToggleSwitch)
-        .getEntry();
-      
-                
-
-  
-    }
-
-// attempt to read alliance color and number
-public enum Alliance {
-    Red1,
-    Blue1,
-    Red2,
-    Blue2,
-    Red3,
-    Blue3,
-    Invalid,
-}
 
 /*public static void getAlliance() {
              
@@ -608,6 +595,19 @@ public enum Alliance {
     public Command getAutonomousCommand() {
 
 
+        boolean A;
+        boolean B;
+        boolean C;
+
+        A = panel.getRawButton(3);
+        // A:
+        //  Blue is on, so if A == true, we are on blue.
+
+        B = panel.getRawButton(2);
+
+
+        C = panel.getRawButton(1);
+
 
         // If one button is on, return X.
         // If aother switch is on, return Y.
@@ -619,10 +619,16 @@ public enum Alliance {
 
         // Actual Auton
         .andThen(new backAndForthCone(s_Swerve, arm, claw))
-        .andThen(new doPathTrajectory(s_Swerve, PPTRAJ.balance15M1)
-                .alongWith(new backAndForthCleanup(arm, claw)
-                            .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)))
-                );
+        .andThen(new backAndForthCleanup(arm, claw)
+        .alongWith(new autoBalanceFromInternet(s_Swerve)));
+
+        // From Sam's testing
+        // .andThen(new doPathTrajectory(s_Swerve, PPTRAJ.balance15M1)
+        //         .alongWith(new backAndForthCleanup(arm, claw)
+        //                     .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)))
+        
+        
+        //                     );
 
         //.andThen(new grabCube(s_Swerve, arm, claw))
         //.andThen(new doTrajectory(s_Swerve, balance15M2))

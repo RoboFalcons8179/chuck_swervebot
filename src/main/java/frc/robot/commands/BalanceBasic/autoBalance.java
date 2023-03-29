@@ -43,25 +43,25 @@ public class autoBalance {
          * CONFIG *
          **********/
         // Speed the robot drived while scoring/approaching station, default = 0.4
-        robotSpeedFast = 1.1;
+        robotSpeedFast = 0.7;
 
         robotSpeedMedium = 0.5;
 
         // Speed the robot drives while balancing itself on the charge station.
         // Should be roughly half the fast speed, to make the robot more accurate,
         // default = 0.2
-        robotSpeedSlow = 0.20;
+        robotSpeedSlow = 0.28; // 0.25
 
         // Final correction speed
-        robotSpeedCreep = 0.12;
+        robotSpeedCreep = 0.16;
 
         // Angle where the robot knows it is on the charge station, default = 13.0
-        onChargeStationDegree = 13.0;
+        onChargeStationDegree = 12;
 
         // Angle where the robot can assume it is level on the charging station
         // Used for exiting the drive forward sequence as well as for auto balancing,
         // default = 6.0
-        levelDegree = 6.0;
+        levelDegree = 7;
 
         // Amount of time a sensor condition needs to be met before changing states in
         // seconds
@@ -117,10 +117,16 @@ public class autoBalance {
     // returns a value from -1.0 to 1.0, which left and right motors should be set
     // to.
     public double autoBalanceRoutine() {
+
+        // System.out.print(state);
+        // System.out.print("    ");
+        // System.out.print(getTilt());
+        // System.out.println("");
+
         switch (state) {
             // drive forwards to approach station, exit when tilt is detected
             case 0:
-                if (getTilt() > onChargeStationDegree) {
+                if (Math.abs(getTilt()) > onChargeStationDegree) {
                     debounceCount++;
                 }
                 if (debounceCount > secondsToTicks(debounceTime)) {
@@ -129,49 +135,61 @@ public class autoBalance {
                     
                     angleUp = s_Swerve.pointingUpAngle();
 
+
+                    System.out.println("Ending High");
+
                     return robotSpeedMedium;
+
 
                 }
                 return robotSpeedFast;
 
-            // driving up charge station kind of fast for a set time
+            // // driving up charge station kind of fast for a set time
             case 1:
                 if (true) {
                     debounceCount++;
                 }
-                if (debounceCount > secondsToTicks(1.01)) {
+                if (debounceCount > secondsToTicks(0.4)) {
                     state = 2;
                     debounceCount = 0;
+
+                    System.out.println("Ending Medium");
+
+
                     return 0;
                 }
                 return robotSpeedMedium;  
             
             // approach, driving up charge station, drive slower, stopping when level
             case 2:
-            if (getTilt() < levelDegree) {
+            if (Math.abs(getTilt()) < levelDegree) {
                 debounceCount++;
             }
             if (debounceCount > secondsToTicks(debounceTime)) {
                 state = 3;
                 debounceCount = 0;
+
+                System.out.println("Ending Low");
+
                 return 0;
             }
             return robotSpeedSlow; 
             // on charge station, stop motors and wait for end of auto
             case 3:
-                if (Math.abs(getTilt()) <= levelDegree / 2) {
+                if (Math.abs(getTilt()) <= Math.abs(levelDegree) / 2) {
                     debounceCount++;
+                    return 0;
                 }
-                if (debounceCount > secondsToTicks(debounceTime)) {
+                if (debounceCount > 3*secondsToTicks(debounceTime)) {
                     state = 4;
                     debounceCount = 0;
                     done = true;
                     return 0;
                 }
                 if (getTilt() >= levelDegree) {
-                    return robotSpeedCreep;
-                } else if (getTilt() <= -levelDegree) {
                     return -robotSpeedCreep;
+                } else if (getTilt() <= -levelDegree) {
+                    return robotSpeedCreep;
                 }
             case 4:
                 return 0;

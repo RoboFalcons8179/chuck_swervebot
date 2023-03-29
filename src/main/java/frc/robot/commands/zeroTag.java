@@ -14,7 +14,12 @@ public class zeroTag extends CommandBase {
 
   Swerve swerve;
   Limelight lime;
+  boolean isDone;
 
+  // MUST TUNE THESE NUMBERS IN FIELD
+
+  final double ty_atTarget = -6.5;
+  final double ty_slowdown = ty_atTarget + 15;
   
   public zeroTag(Swerve swerve, Limelight lime) {
 
@@ -28,7 +33,9 @@ public class zeroTag extends CommandBase {
   @Override
   public void initialize() {
 
-    lime.april_init();
+    isDone = false;
+
+    // lime.april_init();
 
   }
 
@@ -38,39 +45,67 @@ public class zeroTag extends CommandBase {
 
     double target = 0;
 
-    double distanceFromLimeLightTarget = lime.get_reflectTX();
+    double distanceFromLimeLightTarget = lime.get_TagTX();
 
-
+    double vertToTarget = lime.get_TagTY();
     
+
+    // side to side speed
     double speed = -0.5;
-    double slowspeedscale = 0.15;
+    double slowspeedscale = 0.5;
+
 
     if (distanceFromLimeLightTarget > target) {
       speed = speed * -1;
     }
 
-    System.out.println("==============");
 
-    System.out.println(distanceFromLimeLightTarget);
-    System.out.println(speed);
-
-    System.out.println(Math.abs(distanceFromLimeLightTarget - target));
+    // forward speed
+    double movingForwardSpeed = -1.3;
 
 
-    if ((Math.abs(distanceFromLimeLightTarget - target) > 6)) {
+    if (vertToTarget < ty_slowdown) {
+      movingForwardSpeed = movingForwardSpeed * 0.5;
+    }
+    if (vertToTarget < ty_atTarget) { // aka forward enough
+      movingForwardSpeed = 0;
+    }
 
-      swerve.drive(new Translation2d(0, speed), 0 , true, false);
+    // System.out.println("==============");
+
+    // System.out.println(distanceFromLimeLightTarget);
+    // System.out.println(speed);
+
+    // System.out.println(Math.abs(distanceFromLimeLightTarget - target));
+
+    // System.out.println(vertToTarget);
+    // System.out.println(movingForwardSpeed);
+
+
+    if ((Math.abs(distanceFromLimeLightTarget - target) > 8)) {
+
+      swerve.drive(new Translation2d(movingForwardSpeed, speed), 0 , true, false);
     }
     else if ((Math.abs(distanceFromLimeLightTarget - target) > 2)) {
 
-      swerve.drive(new Translation2d(0, slowspeedscale*speed), 0, true, false);
+      swerve.drive(new Translation2d(movingForwardSpeed, slowspeedscale*speed), 0, true, false);
     
     }
 
     else{
+
+      // make sure that 
+      swerve.drive(new Translation2d(movingForwardSpeed, 0), 0, true, false);
+
+      if(Math.abs(movingForwardSpeed) < 0.05 || vertToTarget < -17){
       // debounce, then end command.
-      swerve.stop();
-      this.cancel();
+        swerve.stop();
+        isDone = true;
+        this.cancel();
+
+        System.out.print("aligned With Tag");
+      }
+
     }
 
   }
@@ -88,6 +123,6 @@ public class zeroTag extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

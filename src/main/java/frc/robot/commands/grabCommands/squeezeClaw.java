@@ -5,24 +5,45 @@
 package frc.robot.commands.grabCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Grabber;
 
 public class squeezeClaw extends CommandBase {
-  /** Creates a new squeezeClaw. */
-  public squeezeClaw() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+
+  Grabber claw;
+
+  
+  public squeezeClaw(Grabber claw_out) {
+
+    claw = claw_out;
+
+    addRequirements(claw);
+
+
+
   }
+  
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    claw.isSqueezing = true;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    claw.closeClawSubsystem();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // test and see if we need to squeeze the whole time.
+    
+  }
 
   // Returns true when the command should end.
   @Override

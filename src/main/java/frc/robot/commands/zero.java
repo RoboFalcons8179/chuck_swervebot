@@ -17,6 +17,8 @@ public class zero extends CommandBase {
   /** Creates a new zero. */
 
   Swerve swerve;
+  boolean isDone;
+
 
   public zero(Swerve swerve) {
 
@@ -29,6 +31,8 @@ public class zero extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    isDone = false;
 
 
   }
@@ -90,10 +94,11 @@ public class zero extends CommandBase {
       else{
         // debounce, then end command.
         swerve.stop();
+        isDone = true;
         this.cancel();
+
       }
 
-     System.out.println("-------------------------");
 
 
 
@@ -104,6 +109,8 @@ public class zero extends CommandBase {
   public void end(boolean interrupted) {
 
     // stop your drivetrain
+
+    System.out.println("Rotation Done!!");
     swerve.stop();
   }
 
@@ -113,6 +120,6 @@ public class zero extends CommandBase {
 
     // if we are close enough to our target
 
-    return false;
+    return isDone;
   }
 }

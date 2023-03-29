@@ -6,27 +6,28 @@ package frc.robot.autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.armStuff.updateHoldPosition;
 import frc.robot.commands.grabCommands.closeClaw;
+import frc.robot.commands.grabCommands.squeezeClaw;
 import frc.robot.subsystems.ArmControl;
 import frc.robot.subsystems.Grabber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class backAndForthCleanup extends ParallelCommandGroup {
+public class backAndForthCleanup extends SequentialCommandGroup {
   /** Creates a new backAndForthCleanup. */
   public backAndForthCleanup(ArmControl arm, Grabber claw) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-      new closeClaw(claw).withTimeout(0.1),
+      new squeezeClaw(claw).withTimeout(0.1),
     
-      new updateHoldPosition(() -> 60, () -> 65, arm).repeatedly().until(() -> arm.elbowIsAtSetpoint()), // doWith or Parrallel
+      //(new updateHoldPosition(() -> 60, () -> 65, arm).repeatedly()),//.until(() -> arm.elbowCurrentAngle() > (90)), // doWith or Parrallel
 
-
-      new updateHoldPosition(() -> -6, () -> 65, arm),
+      new updateHoldPosition(() -> -6, () -> 45, arm),
 
       //new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
