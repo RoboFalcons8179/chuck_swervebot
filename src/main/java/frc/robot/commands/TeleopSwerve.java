@@ -56,19 +56,25 @@ public class TeleopSwerve extends CommandBase {
         double rotationVal = s_Swerve.filterInput(MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband));
 
 
-        // Translation2d translation = new Translation2d(translationVal, strafeVal).getNorm();
+        Translation2d init = new Translation2d(translationVal, strafeVal);
+
+        double mag = init.getNorm();
+
+        mag = Math.pow(mag, 3);
 
 
 
-        // stick filtering
-        translationVal = Math.pow(translationVal, 3);
-        strafeVal = Math.pow(strafeVal, 3);
+        // // stick filtering
+        // translationVal = Math.pow(translationVal, 3);
+        // strafeVal = Math.pow(strafeVal, 3);
 
         // Sam wanted Turbo
          if(turbo.getAsBoolean()==true){
 
-            translationVal = 1.5 * translationVal;
-            strafeVal = 1.5 * strafeVal;
+            mag = mag * 1.5;
+
+            // translationVal = 1.5 * translationVal;
+            // strafeVal = 1.5 * strafeVal;
             
          }
         // Toggling Field Relitive
@@ -85,7 +91,10 @@ public class TeleopSwerve extends CommandBase {
         // Initalize Drive Translation 2D values. These are the speeds fed to the controller.
         // These are scaled by the MAX_SPEED and maxAngleVelocity in constants.        
         
-        Translation2d setDriveTranslate = new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed);
+//        Translation2d setDriveTranslate = new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed);
+
+
+        Translation2d setDriveTranslate = new Translation2d(mag, init.getAngle()).times(Constants.Swerve.maxSpeed);
         Double setDriveRotation = rotationVal * Constants.Swerve.maxAngularVelocity;
         boolean isOpenLoop = false;
 

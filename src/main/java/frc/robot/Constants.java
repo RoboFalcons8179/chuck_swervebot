@@ -68,7 +68,7 @@ public final class Constants {
         public static final double closedLoopRamp = 1.0;
 
         /* Angle Motor PID Values */
-        public static final double angleKP = 0.22;
+        public static final double angleKP = 0.205;
         public static final double angleKI = 0;
         public static final double angleKD = 0;
         public static final double angleKF = 0;
@@ -181,8 +181,8 @@ public final class Constants {
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 2;
         public static final double kMaxAccelerationMetersPerSecondSquared = 2;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*4;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 4;
+        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*8;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 8;
     
         public static final double kPXController = 1.6;
         public static final double kPYController = 1.6;

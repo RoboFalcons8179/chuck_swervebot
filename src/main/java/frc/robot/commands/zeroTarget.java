@@ -4,24 +4,35 @@
 
 package frc.robot.commands;
 
+import com.kauailabs.navx.IMUProtocol.GyroUpdate;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 
-public class zerolime extends CommandBase {
+public class zeroTarget extends CommandBase {
   /** Creates a new zero. */
 
   Swerve swerve;
-  Limelight lime;
   boolean isDone;
 
-  public zerolime(Swerve swerve, Limelight lime) {
+  Rotation2d targetR;
+  PIDController tcalc;
+
+  boolean special;
+
+
+  public zeroTarget(Swerve swerve, Rotation2d targetR) {
 
     this.swerve = swerve;
-    this.lime = lime;
+    this.targetR = targetR;
 
-    addRequirements(swerve, lime);
+    addRequirements(swerve);
     
   }
 
@@ -29,9 +40,20 @@ public class zerolime extends CommandBase {
   @Override
   public void initialize() {
 
-    // lime.reflect_init();
-
     isDone = false;
+
+
+    tcalc = new PIDController(1, 0, 0);
+    tcalc.enableContinuousInput(-180,180);
+
+    tcalc.setSetpoint(targetR.getDegrees());
+
+    special = false;
+
+    if (targetR.getDegrees() < -175 || targetR.getDegrees() > 175) {
+      special = true;
+    }
+
 
   }
 
@@ -53,36 +75,63 @@ public class zerolime extends CommandBase {
         Decided if we are close enough to the gyro point, then stop.
      */
 
+    //  System.out.println("-------------------------");
 
-      double target = 0;
+      double target = this.targetR.getDegrees();
 
-      double distanceFromLimeLightTarget = lime.get_reflectTX();
+      double currentAngle = swerve.gyro.getYaw();
+
+
+      // if (target < 181 && target > 179) {
+        
+      //   if (currentAngle < 0) {
+
+      //     currentAngle = currentAngle + 180;
+      //     target = 0;
+
+
+      //   }
+      // }
 
 
       
-      double speed = -0.5;
-      double slowspeedscale = 0.5;
+      double speed = 1.5;
+      double slowspeedscale = 0.33;
 
-      if (distanceFromLimeLightTarget > target) {
+      double direction = tcalc.calculate(currentAngle);
+
+      tcalc.reset();
+
+
+      if (!special && currentAngle > target) {
         speed = speed * -1;
       }
 
-      // System.out.println("-------------------------");
 
-      // System.out.println(distanceFromLimeLightTarget);
+      else if (special && direction < 0) {
+        speed = speed * -1;
+        System.out.println(direction);
+
+      }
+
+
+      // System.out.println(currentAngle);
       // System.out.println(speed);
 
-      // System.out.println(Math.abs(distanceFromLimeLightTarget - target));
+      // System.out.println(Math.abs(currentAngle - target));
 
 
 
-      if ((Math.abs(distanceFromLimeLightTarget - target) > 5)) {
 
-        swerve.drive(new Translation2d(0, speed), 0 , true, false);
+      // check our gyro
+
+      if ((Math.abs(currentAngle - target) > 30)) {
+
+        swerve.drive(new Translation2d(0,0), speed , true, false);
       }
-      else if ((Math.abs(distanceFromLimeLightTarget - target) > 1.0)) {
+      else if ((Math.abs(currentAngle - target) > 2)) {
 
-        swerve.drive(new Translation2d(0, slowspeedscale*speed), 0, true, false);
+        swerve.drive(new Translation2d(0,0), slowspeedscale * speed, true, false);
       
       }
 
@@ -91,9 +140,9 @@ public class zerolime extends CommandBase {
         swerve.stop();
         isDone = true;
         this.cancel();
+
       }
 
-    //  System.out.println("-------------------------");
 
 
 
@@ -104,9 +153,9 @@ public class zerolime extends CommandBase {
   public void end(boolean interrupted) {
 
     // stop your drivetrain
-    swerve.stop();
 
-    lime.goToDriverCam();
+    System.out.println("Rotation Done!!");
+    swerve.stop();
   }
 
   // Returns true when the command should end.

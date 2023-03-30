@@ -26,10 +26,10 @@ public class doPathTrajectory extends SequentialCommandGroup {
   
       addRequirements(s_Swerve);
   
-      var thetaController =
-      new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+      // var thetaController =
+      // new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
       
-      thetaController.enableContinuousInput(-Math.PI, Math.PI);
+      // thetaController.enableContinuousInput(-Math.PI, Math.PI);
   
       PPSwerveControllerCommand swerveControllerCommand =
           new PPSwerveControllerCommand(

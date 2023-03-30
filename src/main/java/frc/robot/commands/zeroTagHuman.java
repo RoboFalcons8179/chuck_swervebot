@@ -9,22 +9,27 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
-public class zeroTag extends CommandBase {
+public class zeroTagHuman extends CommandBase {
   /** Creates a new zeroTag. */
 
   Swerve swerve;
   Limelight lime;
   boolean isDone;
+  double txOffset;
 
   // MUST TUNE THESE NUMBERS IN FIELD
 
-  final double ty_atTarget = -15;
-  final double ty_slowdown = ty_atTarget + 20;
+  final double ta_atTarget = 1.1;
+  final double ta_slowdown = 0.9;
+
+  // final double ty_atTarget = 12;
+  // final double ty_slowdown = ty_atTarget + 15;
   
-  public zeroTag(Swerve swerve, Limelight lime) {
+  public zeroTagHuman(Swerve swerve, Limelight lime, double txOffset) {
 
     this.swerve = swerve;
     this.lime = lime;
+    this.txOffset=txOffset;
 
     addRequirements(swerve, lime);
   }
@@ -37,17 +42,25 @@ public class zeroTag extends CommandBase {
 
     // lime.april_init();
 
+    if (!lime.isTagInView()) {
+      isDone = true;
+      System.out.println("no tag seen");
+      this.cancel();
+
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    double target = 0;
+    double target = txOffset;
 
     double distanceFromLimeLightTarget = lime.get_TagTX();
 
-    double vertToTarget = lime.get_TagTY();
+
+    double vertToTarget = lime.get_TagTA();
     
 
     // side to side speed
@@ -55,19 +68,19 @@ public class zeroTag extends CommandBase {
     double slowspeedscale = 0.5;
 
 
-    if (distanceFromLimeLightTarget > target) {
+    if (distanceFromLimeLightTarget < target) {
       speed = speed * -1;
     }
 
 
     // forward speed
-    double movingForwardSpeed = -1.3;
+    double movingForwardSpeed = 1.3;
 
 
-    if (vertToTarget < ty_slowdown) {
+    if (vertToTarget > ta_slowdown) {
       movingForwardSpeed = movingForwardSpeed * 0.5;
     }
-    if (vertToTarget < ty_atTarget) { // aka forward enough
+    if (vertToTarget > ta_atTarget) { // aka forward enough
       movingForwardSpeed = 0;
     }
 
@@ -82,7 +95,7 @@ public class zeroTag extends CommandBase {
     // System.out.println(movingForwardSpeed);
 
 
-    if ((Math.abs(distanceFromLimeLightTarget - target) > 8)) {
+    if ((Math.abs(distanceFromLimeLightTarget - target) > 10)) {
 
       swerve.drive(new Translation2d(movingForwardSpeed, speed), 0 , true, false);
     }
@@ -126,3 +139,4 @@ public class zeroTag extends CommandBase {
     return isDone;
   }
 }
+

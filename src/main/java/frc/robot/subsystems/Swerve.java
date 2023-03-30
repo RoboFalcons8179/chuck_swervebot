@@ -96,9 +96,9 @@ public class Swerve extends SubsystemBase {
                                 );
 
 
-        SmartDashboard.putNumber("chassis forward", translation.getX());
-        SmartDashboard.putNumber("chassis strafe", translation.getY());
-        SmartDashboard.putNumber("chassis turn", rotation);
+        // SmartDashboard.putNumber("chassis forward", translation.getX());
+        // SmartDashboard.putNumber("chassis strafe", translation.getY());
+        // SmartDashboard.putNumber("chassis turn", rotation);
 
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
@@ -278,10 +278,10 @@ public class Swerve extends SubsystemBase {
         // SmartDashboard.putNumber("right deg", ArmControl.shoulderEncoder2Angle(encoderValues[1]));
         // SmartDashboard.putNumber("elbow deg", ArmControl.elbowEncoder2Angle(encoderValues[2]));
 
-        // SmartDashboard.putNumber("Overall X", swerveOdometry.getPoseMeters().getX());
-        // SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
-        // SmartDashboard.putNumber("Overall Theta", gyro.getYaw());
-        // SmartDashboard.putBoolean("Field Centric", fieldRel);
+        SmartDashboard.putNumber("Overall X", swerveOdometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("Overall Theta", swerveOdometry.getPoseMeters().getRotation().getDegrees());
+        SmartDashboard.putBoolean("Field Centric", fieldRel);
 
         // SmartDashboard.putNumber("GYRO X ACCEL", gyro.getRawAccelX());
         // SmartDashboard.putNumber("GYRO Y ACCEL", gyro.getRawAccelY());

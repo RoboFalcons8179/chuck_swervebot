@@ -46,7 +46,7 @@ public final class PPTRAJ {
     
     // public final static PathPlannerTrajectory RightS = PathPlanner.loadPath("RIGHTS", defaultPathCon);
 
-    // public final static PathPlannerTrajectory StraightL = PathPlanner.loadPath("STRAIGHTL", defaultPathCon);
+    public final static PathPlannerTrajectory StraightL = PathPlanner.loadPath("STRAIGHTL", defaultPathCon);
 
     // public final static PathPlannerTrajectory StraightLR = PathPlanner.loadPath("STRAIGHTLR", defaultPathCon);
 

@@ -358,6 +358,11 @@ public class ArmControl extends SubsystemBase {
 
 
     SmartDashboard.putNumber("ElbowSetEnc", elbowSetpoint);
+    SmartDashboard.putNumber("ElbowActual", elbowCurrentAngle());
+    
+    SmartDashboard.putNumber("ShoulderSetPt", shoulderSetpoint);
+    SmartDashboard.putNumber("ShoulderActual", shoulderCurrentAngle());
+    
 
 
   }

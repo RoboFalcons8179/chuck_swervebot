@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.NetworkButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.kBalance;
 import frc.robot.autos.*;
@@ -58,7 +59,7 @@ import frc.robot.commands.BalanceBasic.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
-    private final Joystick panel = new Joystick(2);
+    public  final Joystick panel = new Joystick(2);
     private final Joystick board = new Joystick(3);
     
     
@@ -106,7 +107,8 @@ public class RobotContainer {
     /* ARM BUTTONS/Triggers - Testing */
     private final JoystickButton driver_rb = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
 
-    
+    private final POVButton povLeft = new POVButton(driver, 270);
+    private final POVButton povRight = new POVButton(driver, 90);
 
     /* Arm Axes - COMPERTITION */
 
@@ -134,8 +136,7 @@ public class RobotContainer {
         
     };
 
-    private final Trigger driver_LT = new Trigger(driver_leftTriggerSupplier);
-        // This part makes it work with the command archetecture.
+
 
 
     private final BooleanSupplier driver_rightTriggerSupplier = new BooleanSupplier() {
@@ -152,6 +153,33 @@ public class RobotContainer {
     };
 
     private final Trigger driver_RT = new Trigger(driver_rightTriggerSupplier);
+
+
+    private final Trigger driver_LT = new Trigger(driver_leftTriggerSupplier);
+
+
+    //     // This part makes it work with the command archetecture.
+
+
+
+    // private final Trigger approachRight = new Trigger(approachRightSupplier);
+
+
+    // private final BooleanSupplier approachLeftSupplier = new BooleanSupplier() {
+
+    //     @Override
+    //     public boolean getAsBoolean() {
+
+    //         if(driver.getPOV() < 316 && driver.getPOV() > 271)
+    //             return true;
+    //         else
+    //             return false;
+    //     }
+        
+    // };
+
+    // private final Trigger approachLeft = new Trigger(approachLeftSupplier);
+
 
 
     // private final BooleanSupplier isShoudlerAdjustUp = new BooleanSupplier() {
@@ -227,8 +255,6 @@ public class RobotContainer {
     //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
 
     // Switch buttons
-     private final JoystickButton test = new JoystickButton(panel, 1);
-     //private final JoystickButton test2 = new JoystickButton(panel, 0);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -241,16 +267,8 @@ public class RobotContainer {
     /* Trajectories */
     
 
-
-    // public BooleanEvent povUp(EventLoop loop){
-    //     return null;
-    // }
-
-
-
    
-
-
+    
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -390,9 +408,27 @@ public class RobotContainer {
                 .until(() -> arm.shoulderCurrentAngle() > (30))
                 .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)));
 
-        // pickup.onTrue(new updateHoldPosition(() -> 45, () -> 118, arm));
 
-        //pickupAbove.onTrue(new updateHoldPosition(() -> 100, () -> 225, arm));
+        driver_b.onTrue((new updateHoldPosition(() -> -65, () -> 30, arm).repeatedly())
+                        .until(() -> arm.shoulderCurrentAngle()< (-50))
+                
+                .andThen(new openClaw(claw).withTimeout(1.2))
+                    .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
+                     .until(() -> arm.elbowCurrentAngle() > 90)
+                     .andThen(new updateHoldPosition(() -> -45, () -> 120, arm).repeatedly())
+                     .andThen(new closeClaw(claw).withTimeout(2))
+                );
+
+
+        driver_b.onFalse((new updateHoldPosition(() -> -75, () -> arm.getHoldElbow(), arm))
+            .until(() -> arm.shoulderCurrentAngle() < (-70))
+            .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+                        .until(() -> arm.elbowCurrentAngle() < 60)
+                .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)
+            .alongWith(new squeezeClaw(claw)))
+        );
+
+
 
         zero.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
             .until(() -> arm.elbowCurrentAngle() < (60))
@@ -416,13 +452,13 @@ public class RobotContainer {
 
 
         // shoulder and elbow adjustments
-        forwardShoulder. onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() - 5), () -> arm.getHoldElbow(), arm));
+        forwardShoulder. onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
 
-        backwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
+        backwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() - 5), () -> arm.getHoldElbow(), arm));
 
-        forwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() + 2), arm));
+        forwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() - 2), arm));
 
-        backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() - 2), arm));
+        backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() + 2), arm));
 
 
 
@@ -434,7 +470,7 @@ public class RobotContainer {
         squeezeClawBoard.onTrue(new squeezeClaw(claw));
 
 
-        // Auto driving stuff
+        // Auto driving up to tag stuff
         driver_select.debounce(0.04).whileTrue(
             (new 
             InstantCommand(() -> lime.reflect_init())
@@ -454,7 +490,37 @@ public class RobotContainer {
         driver_start.onFalse(new 
             InstantCommand(() -> lime.goToDriverCam()));
 
-        if (claw.grabberMotor.getStatorCurrent() > 2) {
+
+
+        
+        povLeft.debounce(0.04).whileTrue(
+            // new InstantCommand(() -> System.out.println(driver.getPOV(pov))));
+
+        (new 
+        InstantCommand(() -> lime.april_init())
+            .andThen(new WaitCommand(0.5)))
+            .alongWith(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(180)))
+            .andThen(new zeroTagHuman(s_Swerve, lime, 24.0)));
+
+        povLeft.onFalse(new 
+            InstantCommand(() -> lime.goToDriverCam()));
+
+
+        povRight.debounce(0.04).whileTrue(
+                // new InstantCommand(() -> System.out.println(driver.getPOV(pov))));
+    
+            (new 
+            InstantCommand(() -> lime.april_init())
+                .andThen(new WaitCommand(0.5)))
+                .alongWith(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(180)))
+                .andThen(new zeroTagHuman(s_Swerve, lime, -24.0)));
+    
+        povRight.onFalse(new 
+                InstantCommand(() -> lime.goToDriverCam()));
+
+
+
+        if (claw.isSqueezing) {
 
             driver.setRumble(RumbleType.kBothRumble, 1);
         } else {
@@ -547,60 +613,15 @@ public class RobotContainer {
     }
     private void runTroubleshooting() {
 
-        Shuffleboard.selectTab("MAIN");
         SmartDashboard.putData(s_Swerve);
         SmartDashboard.putData(arm);
         SmartDashboard.putData(claw);
-        
     }
 
 
 
 
-/*public static void getAlliance() {
-             
-    AllianceStationID allianceID = DriverStationJNI.getAllianceStation();
-    String test = "test";
-    //numbers 1-3 are for red and numbers 4-6 are for blue
-    //waiting for Tim
-    boolean isRedAlliance = false;
-    int stationNumber = 1;
-    switch (allianceID) {                 
-        case Red1:                     
-            isRedAlliance = true;
-            stationNumber = 1;
-            System.out.println(test);
-            break;
-        case Red2:                    
-            isRedAlliance = true;
-            stationNumber = 2;
-            break;
-        case Red3:                     
-            isRedAlliance = true;
-            stationNumber = 3;
-            break;
-        case Blue1:                     
-            isRedAlliance = false;
-            stationNumber = 4;
-            break;
-        case Blue2:                     
-            isRedAlliance = false;
-            stationNumber = 5;
-            break;
-        case Blue3:                     
-            isRedAlliance = false;
-            stationNumber = 6;
-            break;
-          default:
-            //return Alliance.Invalid;
-        }
-      }*/
-
-
     public Command getAutonomousCommand() {
-
-        // TODO SWITCHES
-
 
         
         boolean A;
@@ -621,21 +642,66 @@ public class RobotContainer {
         // If aother switch is on, return Y.
 
 
+        if (A == true) {
+
+            if (!B && !C) {
+                return twoferBlueCommand;
+            }
+
+            else if ( B && !C) {
+                return humpRed;
+            }
+
+
+            else if (!B && C) {
+                return basicBalance;
+            }
+
+            else if (B && C){
+                return spicyBalance;
+            }
+
+
+
+        } 
+        
+        else {
+
+            if      (!B && !C) {
+                return twoFerRed;
+            }
+
+            else if ( B && !C) {
+                return humpRed;
+            }
+
+            else if (!B && C) {
+                return basicBalance;
+            }
+
+            else if ( B &&  C){
+                return spicyBalance;
+            }
+
+
+        }
+
+        return basicBalance;
+
 
         // // IMPORTANT CODE FOR AUTOBALANCE - back up and autobalance.
-        return
-        // Robot Initalization
-        new InstantCommand(()-> s_Swerve.zeroGyro())
-        // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
+        // return
+        // // Robot Initalization
+        // new InstantCommand(()-> s_Swerve.zeroGyro())
+        // // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
 
-        // Actual Auton
-        .andThen(new backAndForthCone(s_Swerve, arm, claw))
-        .andThen(new backAndForthCleanup(arm, claw)
-        .alongWith(new autoBalanceFromInternet(s_Swerve, 0.0)));
+        // // Actual Auton
+        // .andThen(new backAndForthCone(s_Swerve, arm, claw))
+        // .andThen(new backAndForthCleanup(arm, claw)
+        // .alongWith(new autoBalanceFromInternet(s_Swerve, 0.0)));
 
         // .alongWith(new autoBalanceFromInternet(s_Swerve, 0.0))
-        // .andThen(new InstantCommand(() -> s_Swerve.drive_Manually(0.05, new Rotation2d(Math.toRadians(90)))).withTimeout(0.1))
-        // .andThen(new InstantCommand(() -> s_Swerve.stop()));
+
         // Go over the hump and autobalance
         // return
         // // Robot Initalization
@@ -797,4 +863,302 @@ public class RobotContainer {
     public Swerve getSwervePointer(){
         return s_Swerve;
     }
+
+
+     /* AUTO COMMANDS */
+
+     public Command basicBalance = 
+     // Robot Initalization
+     new InstantCommand(()-> s_Swerve.zeroGyro())
+     // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
+
+     // Actual Auton
+     .andThen(new backAndForthCone(s_Swerve, arm, claw))
+     .andThen(new backAndForthCleanup(arm, claw)
+     .alongWith(new autoBalanceFromInternet(s_Swerve, 0.0)));
+
+     // .andThen(new InstantCommand(() -> s_Swerve.drive_Manually(0.05, new Rotation2d(Math.toRadians(90)))).withTimeout(0.1))
+     // .andThen(new InstantCommand(() -> s_Swerve.stop()));
+
+
+ public Command spicyBalance = 
+
+     new InstantCommand(()-> s_Swerve.zeroGyro())
+     // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
+
+     // Actual Auton
+     .andThen(new backAndForthCone(s_Swerve, arm, claw))
+     .andThen( (new backAndForthCleanup(arm, claw))
+     .alongWith(new TeleopSwerve(
+         s_Swerve, 
+         () -> 0.915, //.93, 
+         () -> 0, 
+         () -> 0, 
+         () -> true,
+         () -> true                
+     )).withTimeout(3.20))
+
+     
+     
+     .andThen(new zero(s_Swerve))
+     .andThen(new autoBalanceFromInternet(s_Swerve, Math.PI));
+
+
+
+
+
+ public Command twoFerRed =
+ (
+ ((new InstantCommand(()-> s_Swerve.zeroGyro()))
+ 
+ // score first cone
+ .andThen(new backAndForthCone(s_Swerve, arm, claw))
+ .andThen(new backAndForthCleanup(arm, claw)
+
+ // move to next piece
+     .alongWith(new doTrajectory(s_Swerve, traj.rotate))))
+
+
+ .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(158)))
+
+ // pickup next piece
+ .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
+     .alongWith(new openClaw(claw)))
+     // .withTimeout(0.1)
+     .until(() -> arm.shoulderCurrentAngle() > (25))
+     .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+ .andThen(new squeezeClaw(claw).withTimeout(1.0))
+
+ // Rotate back, initalize the camera, and bring arm back to carry
+
+ 
+ // .andThen((new zero(s_Swerve))
+ //     .alongWith( 
+ //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+ //         .until(() -> arm.elbowCurrentAngle() < (60))
+ //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+ )
+
+// Either use above or below block. Use beloe for going to the april tag.
+
+ .andThen( new InstantCommand(() -> lime.april_init())
+     .alongWith(new zero(s_Swerve))
+     .alongWith( 
+         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+         .until(() -> arm.elbowCurrentAngle() < (60))
+         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+ // )
+ 
+ 
+ )
+
+ // zoom forward
+ .andThen(((new InstantCommand(() -> 
+
+     s_Swerve.drive(new Translation2d(-6,0.2), 
+         0,
+         true,
+         false)
+     
+     )).repeatedly()).withTimeout(0.9))
+
+ // .andThen(new zeroTag(s_Swerve, lime))
+
+ 
+ 
+ 
+ ;
+
+
+
+ public Command twoferBlueCommand = 
+
+ (
+     ((new InstantCommand(()-> s_Swerve.zeroGyro()))
+     
+     // score first cone
+     .andThen(new backAndForthCone(s_Swerve, arm, claw))
+     .andThen(new backAndForthCleanup(arm, claw)
+
+     // move to next piece
+         .alongWith(new doTrajectory(s_Swerve, traj.rotateBlue))))
+
+
+     .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(-158)))
+
+     // pickup next piece
+     .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
+         .alongWith(new openClaw(claw)))
+         // .withTimeout(0.1)
+         .until(() -> arm.shoulderCurrentAngle() > (25))
+         .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+     .andThen(new squeezeClaw(claw).withTimeout(1.0))
+
+     // Rotate back, initalize the camera, and bring arm back to carry
+ 
+     
+     // .andThen((new zero(s_Swerve))
+     //     .alongWith( 
+     //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+     //         .until(() -> arm.elbowCurrentAngle() < (60))
+     //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+     )
+
+ // Either use above or below block. Use beloe for going to the april tag.
+
+     .andThen( new InstantCommand(() -> lime.april_init())
+         .alongWith(new zero(s_Swerve))
+         .alongWith( 
+             ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+             .until(() -> arm.elbowCurrentAngle() < (60))
+             .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+     // )
+     
+     
+     )
+
+     // zoom forward
+     .andThen(((new InstantCommand(() -> 
+ 
+         s_Swerve.drive(new Translation2d(-6,-0.2), 
+             0,
+             true,
+             false)
+         
+         )).repeatedly()).withTimeout(0.9))
+
+         ;
+
+
+ public Command humpRed = 
+ (
+ ((new InstantCommand(()-> s_Swerve.zeroGyro()))
+ 
+ // score first cone
+ .andThen(new backAndForthCone(s_Swerve, arm, claw))
+ .andThen(new backAndForthCleanup(arm, claw)
+
+ // move to next piece
+     .alongWith(new doTrajectory(s_Swerve, traj.humpRed))))
+
+
+ .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(-170)))
+
+ // pickup next piece
+ .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
+     .alongWith(new openClaw(claw)))
+     // .withTimeout(0.1)
+     .until(() -> arm.shoulderCurrentAngle() > (25))
+     .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+ .andThen(new squeezeClaw(claw).withTimeout(1.0))
+
+ // Rotate back, initalize the camera, and bring arm back to carry
+
+ 
+ // .andThen((new zero(s_Swerve))
+ //     .alongWith( 
+ //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+ //         .until(() -> arm.elbowCurrentAngle() < (60))
+ //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+ )
+
+// Either use above or below block. Use beloe for going to the april tag.
+
+ .andThen( new InstantCommand(() -> lime.april_init())
+     .alongWith(new zero(s_Swerve))
+     .alongWith( 
+         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+         .until(() -> arm.elbowCurrentAngle() < (60))
+         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+ // )
+ 
+ 
+ )
+
+ // zoom forward
+ .andThen(((new InstantCommand(() -> 
+
+     s_Swerve.drive(new Translation2d(-3,0), 
+         0,
+         true,
+         false)
+     
+     )).repeatedly()).withTimeout(1.05))
+
+ // .andThen(new zeroTag(s_Swerve, lime))
+
+
+ ;
+
+ public Command humpBlue = 
+ (
+ ((new InstantCommand(()-> s_Swerve.zeroGyro()))
+ 
+ // score first cone
+ .andThen(new backAndForthCone(s_Swerve, arm, claw))
+ .andThen(new backAndForthCleanup(arm, claw)
+
+ // move to next piece
+     .alongWith(new doTrajectory(s_Swerve, traj.humpBlue))))
+
+
+ .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(-175)))
+
+ // pickup next piece
+ .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
+     .alongWith(new openClaw(claw)))
+     // .withTimeout(0.1)
+     .until(() -> arm.shoulderCurrentAngle() > (25))
+     .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+ .andThen(new squeezeClaw(claw).withTimeout(1.0))
+
+ // Rotate back, initalize the camera, and bring arm back to carry
+
+ 
+ // .andThen((new zero(s_Swerve))
+ //     .alongWith( 
+ //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+ //         .until(() -> arm.elbowCurrentAngle() < (60))
+ //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+ )
+
+// Either use above or below block. Use beloe for going to the april tag.
+
+ .andThen( new InstantCommand(() -> lime.april_init())
+     .alongWith(new zero(s_Swerve))
+     .alongWith( 
+         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+         .until(() -> arm.elbowCurrentAngle() < (60))
+         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+ // )
+ 
+ 
+ )
+
+ // zoom forward
+ .andThen(((new InstantCommand(() -> 
+
+     s_Swerve.drive(new Translation2d(-3,0), 
+         0,
+         true,
+         false)
+     
+     )).repeatedly()).withTimeout(0.9))
+
+ // .andThen(new zeroTag(s_Swerve, lime))
+ 
+ 
+ 
+ ;
+
+    
+
 }

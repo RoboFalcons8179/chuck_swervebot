@@ -59,9 +59,21 @@ public class Limelight extends SubsystemBase {
     return table.getEntry("tx").getDouble(0);
   }
 
+  public double get_TagTA() {
+    return table.getEntry("ta").getDouble(0);
+  }
+
   public double get_TagTY() {
     return table.getEntry("ty").getDouble(0);
 
+  }
+
+  public boolean isTagInView() {
+    double numTargets = table.getEntry("tv").getDouble(0);
+    if (numTargets < 0.5) 
+      return false;
+
+    return true;
   }
 
   public void goToDriverCam() {
