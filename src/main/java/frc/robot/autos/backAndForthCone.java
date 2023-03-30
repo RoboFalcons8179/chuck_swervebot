@@ -30,7 +30,7 @@ public class backAndForthCone extends SequentialCommandGroup {
 
 new updateHoldPosition(() -> -6, () -> 65, arm),
 
-new squeezeClaw(claw).withTimeout(0.65),//until(() -> claw.grabberMotor.getStatorCurrent() > 4),
+new squeezeClaw(claw).withTimeout(0.55),//until(() -> claw.grabberMotor.getStatorCurrent() > 4),
     
 //new doTrajectory(s_Swerve, traj.makeZ),
 

@@ -240,7 +240,7 @@ public class Swerve extends SubsystemBase {
                 angle = angle + Math.PI;
             }
 
-            System.out.println("==========================");
+            // System.out.println("==========================");
             System.out.println(Math.toDegrees(angle));
             return angle;
             //return Math.atan(gyro.getRawAccelY()/gyro.getRawAccelX());// THIS HAS DIFFERENT SIGNS
@@ -261,44 +261,44 @@ public class Swerve extends SubsystemBase {
 
 
         /// TROUBLESHOOTING
-        Shuffleboard.selectTab("SWERVE");
+        // Shuffleboard.selectTab("SWERVE");
 
-        for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
-        }
+        // for(SwerveModule mod : mSwerveMods){
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+        // }
 
         double[] encoderValues = ArmControl.getEncoderValues();
 
-        SmartDashboard.putNumber("shoulderMotorLeft Encoder", encoderValues[0]);
-        SmartDashboard.putNumber("shoulderMotorRight Encoder", encoderValues[1]);
-        SmartDashboard.putNumber("Elbow Encoder", encoderValues[2]);
-        SmartDashboard.putNumber("left deg", ArmControl.shoulderEncoder2Angle(encoderValues[0]));
-        SmartDashboard.putNumber("right deg", ArmControl.shoulderEncoder2Angle(encoderValues[1]));
-        SmartDashboard.putNumber("elbow deg", ArmControl.elbowEncoder2Angle(encoderValues[2]));
+        // SmartDashboard.putNumber("shoulderMotorLeft Encoder", encoderValues[0]);
+        // SmartDashboard.putNumber("shoulderMotorRight Encoder", encoderValues[1]);
+        // SmartDashboard.putNumber("Elbow Encoder", encoderValues[2]);
+        // SmartDashboard.putNumber("left deg", ArmControl.shoulderEncoder2Angle(encoderValues[0]));
+        // SmartDashboard.putNumber("right deg", ArmControl.shoulderEncoder2Angle(encoderValues[1]));
+        // SmartDashboard.putNumber("elbow deg", ArmControl.elbowEncoder2Angle(encoderValues[2]));
 
-        SmartDashboard.putNumber("Overall X", swerveOdometry.getPoseMeters().getX());
-        SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
-        SmartDashboard.putNumber("Overall Theta", gyro.getYaw());
-        SmartDashboard.putBoolean("Field Centric", fieldRel);
+        // SmartDashboard.putNumber("Overall X", swerveOdometry.getPoseMeters().getX());
+        // SmartDashboard.putNumber("Overall Y", swerveOdometry.getPoseMeters().getY());
+        // SmartDashboard.putNumber("Overall Theta", gyro.getYaw());
+        // SmartDashboard.putBoolean("Field Centric", fieldRel);
 
-        SmartDashboard.putNumber("GYRO X ACCEL", gyro.getRawAccelX());
-        SmartDashboard.putNumber("GYRO Y ACCEL", gyro.getRawAccelY());
-        SmartDashboard.putNumber("GYRO Z ACCEL", gyro.getRawAccelZ());
+        // SmartDashboard.putNumber("GYRO X ACCEL", gyro.getRawAccelX());
+        // SmartDashboard.putNumber("GYRO Y ACCEL", gyro.getRawAccelY());
+        // SmartDashboard.putNumber("GYRO Z ACCEL", gyro.getRawAccelZ());
 
-        SmartDashboard.putNumber("GYRO X WORLD ACCEL", gyro.getWorldLinearAccelX());
-        SmartDashboard.putNumber("GYRO Y WORLD ACCEL", gyro.getWorldLinearAccelY());
-        SmartDashboard.putNumber("GYRO Z WORLD ACCEL", gyro.getWorldLinearAccelZ());
+        // SmartDashboard.putNumber("GYRO X WORLD ACCEL", gyro.getWorldLinearAccelX());
+        // SmartDashboard.putNumber("GYRO Y WORLD ACCEL", gyro.getWorldLinearAccelY());
+        // SmartDashboard.putNumber("GYRO Z WORLD ACCEL", gyro.getWorldLinearAccelZ());
 
-        SmartDashboard.putNumber("AccelMag", Math.sqrt(
-            Math.pow(gyro.getRawAccelX(), 2) +
-            Math.pow(gyro.getRawAccelY(), 2) +
-            Math.pow(gyro.getRawAccelZ(), 2)));
+        // SmartDashboard.putNumber("AccelMag", Math.sqrt(
+        //     Math.pow(gyro.getRawAccelX(), 2) +
+        //     Math.pow(gyro.getRawAccelY(), 2) +
+        //     Math.pow(gyro.getRawAccelZ(), 2)));
   
-        SmartDashboard.putNumber("GYRO X FILTER", xAcc);
-        SmartDashboard.putNumber("GYRO Y FILTER", yAcc);
-        SmartDashboard.putNumber("GYRO Z FILTER", zAcc);
+        // SmartDashboard.putNumber("GYRO X FILTER", xAcc);
+        // SmartDashboard.putNumber("GYRO Y FILTER", yAcc);
+        // SmartDashboard.putNumber("GYRO Z FILTER", zAcc);
 
         SmartDashboard.putData(this);
 

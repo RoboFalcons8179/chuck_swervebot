@@ -10,6 +10,8 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -43,7 +45,9 @@ import frc.robot.commands.grabCommands.closeClaw;
 import frc.robot.commands.grabCommands.openClaw;
 import frc.robot.commands.grabCommands.squeezeClaw;
 import frc.robot.subsystems.*;
-import frc.robot.commands.BalanceBasic.*;;
+import frc.robot.commands.BalanceBasic.*;
+// import frc.robot.autos.PPTRAJ;
+// import frc.robot.autos.traj;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -108,7 +112,6 @@ public class RobotContainer {
 
     /* ARM Buttons/Triggers - COMPETITION */
     
-
 
     // FROM TIM: This is how you do the commmand on the joystick for adjusting the shoulder.
     //      repeat this for the shoulder.
@@ -235,7 +238,7 @@ public class RobotContainer {
 
     /* Troubleshooting, Auto, and Shuffleboard */
 
-
+    /* Trajectories */
     
 
 
@@ -402,10 +405,10 @@ public class RobotContainer {
 
 
         // control board picking up from human player shelf
-        pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
-        .until(() -> arm.shoulderCurrentAngle() > (90))
-        .andThen(new updateHoldPosition(() -> 115, () -> 149, arm)
-            .alongWith(new openClaw(claw)).withTimeout(1.2)));
+        pickupPlayer.onTrue((new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
+        .until(() -> arm.shoulderCurrentAngle() > (90)))
+        .andThen(new updateHoldPosition(() -> 130, () -> 175, arm)
+            .alongWith(new openClaw(claw).withTimeout(1.2))));
     
 
         //pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 149, arm));
@@ -413,9 +416,9 @@ public class RobotContainer {
 
 
         // shoulder and elbow adjustments
-        forwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
+        forwardShoulder. onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() - 5), () -> arm.getHoldElbow(), arm));
 
-        backwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() - 5), () -> arm.getHoldElbow(), arm));
+        backwardShoulder.onTrue(new updateHoldPosition(() -> (arm.getHoldShoulder() + 5), () -> arm.getHoldElbow(), arm));
 
         forwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() + 2), arm));
 
@@ -446,8 +449,10 @@ public class RobotContainer {
             .alongWith(new zero(s_Swerve))
             .andThen(new zeroTag(s_Swerve, lime)));
 
-
-
+        driver_select.onFalse(new 
+            InstantCommand(() -> lime.goToDriverCam()));
+        driver_start.onFalse(new 
+            InstantCommand(() -> lime.goToDriverCam()));
 
         if (claw.grabberMotor.getStatorCurrent() > 2) {
 
@@ -594,7 +599,10 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
 
+        // TODO SWITCHES
 
+
+        
         boolean A;
         boolean B;
         boolean C;
@@ -612,15 +620,110 @@ public class RobotContainer {
         // If one button is on, return X.
         // If aother switch is on, return Y.
 
+
+
+        // // IMPORTANT CODE FOR AUTOBALANCE - back up and autobalance.
         return
         // Robot Initalization
         new InstantCommand(()-> s_Swerve.zeroGyro())
-        .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
+        // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
 
         // Actual Auton
         .andThen(new backAndForthCone(s_Swerve, arm, claw))
         .andThen(new backAndForthCleanup(arm, claw)
-        .alongWith(new autoBalanceFromInternet(s_Swerve)));
+        .alongWith(new autoBalanceFromInternet(s_Swerve, 0.0)));
+
+        // .alongWith(new autoBalanceFromInternet(s_Swerve, 0.0))
+        // .andThen(new InstantCommand(() -> s_Swerve.drive_Manually(0.05, new Rotation2d(Math.toRadians(90)))).withTimeout(0.1))
+        // .andThen(new InstantCommand(() -> s_Swerve.stop()));
+        // Go over the hump and autobalance
+        // return
+        // // Robot Initalization
+        // new InstantCommand(()-> s_Swerve.zeroGyro())
+        // // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
+
+        // // Actual Auton
+        // .andThen(new backAndForthCone(s_Swerve, arm, claw))
+        // .andThen( (new backAndForthCleanup(arm, claw))
+        // .alongWith(new TeleopSwerve(
+        //     s_Swerve, 
+        //     () -> 0.915, //.93, 
+        //     () -> 0, 
+        //     () -> 0, 
+        //     () -> true,
+        //     () -> true                
+        // )).withTimeout(3.20))
+
+        
+        
+        // .andThen(new zero(s_Swerve))
+        // .andThen(new autoBalanceFromInternet(s_Swerve, Math.PI));
+
+
+
+        // return 
+
+        // new InstantCommand(()-> s_Swerve.zeroGyro())
+        // .andThen(new backAndForthCone(s_Swerve, arm, claw))
+        // .andThen(new backAndForthCleanup(arm, claw)
+        // .alongWith(new doPathTrajectory(s_Swerve, PPTRAJ.StraightR)))
+        // // .alongWith(new doTrajectory(s_Swerve, traj.wireBump)))
+
+        // .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
+        //     .alongWith(new openClaw(claw)))
+        //     // .withTimeout(0.1)
+        //     .until(() -> arm.shoulderCurrentAngle() > (25))
+        //     .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+        // .andThen(new squeezeClaw(claw).withTimeout(1.0))
+        // // should have the cube by now
+
+        // .andThen((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+        // .until(() -> arm.elbowCurrentAngle() < 60)
+        // .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)))
+        // // have the cube
+
+        // .andThen(new 
+        // InstantCommand(() -> lime.april_init())
+        // .andThen(new WaitCommand(0.5))
+        // .alongWith(new zero(s_Swerve)))
+        // .andThen((new InstantCommand(() -> 
+        
+        //     s_Swerve.drive(new Translation2d(-2,0), 
+        //     0,
+        //     true,
+        //     true)
+            
+        //     ).repeatedly()).withTimeout(0.8))
+        
+        //     //.andThen(new zero(s_Swerve))
+        // .andThen(new zeroTag(s_Swerve, lime))
+
+        // // put the cube on the thing
+
+        // // .andThen(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
+        // //     .until(() -> arm.shoulderCurrentAngle() > (90))
+        // // .andThen(new updateHoldPosition(() -> 115, () -> 141, arm).repeatedly())
+        // //     .until(() -> arm.isAtSetpoints()))
+        
+
+        // .alongWith((new updateHoldPosition(() -> 45, () -> arm.getHoldElbow(), arm).repeatedly()
+        //     .until(() -> arm.shoulderCurrentAngle() > (30))
+        //     .andThen(new updateHoldPosition(() -> 45, () -> 110, arm))).until(() -> arm.isAtSetpoints()))
+
+        // // .andThen(new openClaw(claw).withTimeout(1))
+
+        // // .andThen(new closeClaw(claw))
+
+        // // .andThen(((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+        // //     .alongWith(new squeezeClaw(claw)))
+        // // .until(() -> arm.elbowCurrentAngle() < 60))
+        // // .andThen(new updateHoldPosition(() -> -6, () -> 45, arm));
+
+
+        
+        
+
+
 
         // From Sam's testing
         // .andThen(new doPathTrajectory(s_Swerve, PPTRAJ.balance15M1)

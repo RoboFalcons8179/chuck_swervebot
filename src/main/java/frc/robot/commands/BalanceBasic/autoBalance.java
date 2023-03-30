@@ -24,6 +24,10 @@ public class autoBalance {
     private double scoringBackUpTime;
     private double doubleTapTime;
     private double angleUp;
+    private double scaleCreepSpeed;
+    private double DscaleCreepSpeed;
+    private double lastCreepSpeed;
+    private double dCreepSpeed;
 
     private boolean done;
 
@@ -31,10 +35,14 @@ public class autoBalance {
 
     private Swerve s_Swerve;
 
+    public boolean goToZeroAngle;
+
     public autoBalance(Swerve s_Swerve) {
 
         this.s_Swerve = s_Swerve;
         this.gyro = s_Swerve.gyro;
+
+        goToZeroAngle = false;
 
         state = 0;
         debounceCount = 0;
@@ -45,29 +53,31 @@ public class autoBalance {
         // Speed the robot drived while scoring/approaching station, default = 0.4
         robotSpeedFast = 0.7;
 
-        robotSpeedMedium = 0.5;
+        robotSpeedMedium = 0.535;
 
         // Speed the robot drives while balancing itself on the charge station.
         // Should be roughly half the fast speed, to make the robot more accurate,
         // default = 0.2
-        robotSpeedSlow = 0.28; // 0.25
+        robotSpeedSlow = 0.195; // 0.25
 
         // Final correction speed
-        robotSpeedCreep = 0.16;
+        robotSpeedCreep = 0.15;
 
+        scaleCreepSpeed = 0.0125;
+        DscaleCreepSpeed = 0.03;
         // Angle where the robot knows it is on the charge station, default = 13.0
-        onChargeStationDegree = 12;
+        onChargeStationDegree = 13;
 
         // Angle where the robot can assume it is level on the charging station
         // Used for exiting the drive forward sequence as well as for auto balancing,
         // default = 6.0
-        levelDegree = 7;
+        levelDegree = 9.2; // from 8.8
 
         // Amount of time a sensor condition needs to be met before changing states in
         // seconds
         // Reduces the impact of sensor noice, but too high can make the auto run
         // slower, default = 0.2
-        debounceTime = 0.2;
+        debounceTime = 0.15;
 
         // Amount of time to drive towards to scoring target when trying to bump the
         // game piece off
@@ -118,6 +128,10 @@ public class autoBalance {
     // to.
     public double autoBalanceRoutine() {
 
+        dCreepSpeed = lastCreepSpeed - scaleCreepSpeed* getTilt();
+        lastCreepSpeed = scaleCreepSpeed* getTilt();
+
+
         // System.out.print(state);
         // System.out.print("    ");
         // System.out.print(getTilt());
@@ -133,7 +147,7 @@ public class autoBalance {
                     state = 1;
                     debounceCount = 0;
                     
-                    angleUp = s_Swerve.pointingUpAngle();
+                    // angleUp = s_Swerve.pointingUpAngle();
 
 
                     System.out.println("Ending High");
@@ -149,7 +163,7 @@ public class autoBalance {
                 if (true) {
                     debounceCount++;
                 }
-                if (debounceCount > secondsToTicks(0.4)) {
+                if (debounceCount > secondsToTicks(1.16)) {
                     state = 2;
                     debounceCount = 0;
 
@@ -164,33 +178,56 @@ public class autoBalance {
             case 2:
             if (Math.abs(getTilt()) < levelDegree) {
                 debounceCount++;
+                return 0;
             }
-            if (debounceCount > secondsToTicks(debounceTime)) {
+            if (debounceCount > secondsToTicks(0.02)) {
                 state = 3;
                 debounceCount = 0;
 
                 System.out.println("Ending Low");
+
+                goToZeroAngle = true;
 
                 return 0;
             }
             return robotSpeedSlow; 
             // on charge station, stop motors and wait for end of auto
             case 3:
-                if (Math.abs(getTilt()) <= Math.abs(levelDegree) / 2) {
+                if (Math.abs(getTilt()) <= Math.abs(levelDegree)) {
                     debounceCount++;
+                    state = 4;
                     return 0;
+
                 }
-                if (debounceCount > 3*secondsToTicks(debounceTime)) {
+                if (debounceCount > 3 * secondsToTicks(debounceTime)) {
                     state = 4;
                     debounceCount = 0;
                     done = true;
+
+                    System.out.println("Done");
                     return 0;
                 }
+
+                double sign = -1;
+
+                if (getTilt() <= -levelDegree) {
+                     sign = 1;
+                }
+                
+
+                // return sign*scaleCreepSpeed * getTilt();
+
+
                 if (getTilt() >= levelDegree) {
                     return -robotSpeedCreep;
                 } else if (getTilt() <= -levelDegree) {
                     return robotSpeedCreep;
                 }
+
+
+
+
+
             case 4:
                 return 0;
         }

@@ -17,11 +17,15 @@ public class autoBalanceFromInternet extends CommandBase {
 
   Swerve s_Swerve;
   private autoBalance autobalnce;
+  double approachAngle;
 
 
-  public autoBalanceFromInternet(Swerve s_Swerve) {
+  public autoBalanceFromInternet(Swerve s_Swerve, Double approachAngle) {
 
-    this.s_Swerve = s_Swerve;
+    this.s_Swerve     = s_Swerve;
+    this.approachAngle = approachAngle;
+
+
     addRequirements(s_Swerve);
 
 
@@ -44,7 +48,16 @@ public class autoBalanceFromInternet extends CommandBase {
 
     double angle = Math.toRadians(0);
 
-    s_Swerve.drive_Manually(speed, new Rotation2d(angle));
+    boolean correct = autobalnce.goToZeroAngle;
+
+    if (correct) {
+      s_Swerve.drive_Manually(speed, new Rotation2d(0));
+
+    }
+    else {
+      s_Swerve.drive_Manually(speed, new Rotation2d(approachAngle));
+    }
+
 
   }
 
@@ -55,6 +68,6 @@ public class autoBalanceFromInternet extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return autobalnce.getDone();
   }
 }

@@ -1,0 +1,2 @@
+# PathPlanner CSV Format:
+# timeSeconds, xPositionMeters, yPositionMeters, headingDegrees, velocityMetersPerSecond, accelerationMetersPerSecondSq, curvatureRadPerMeter, holonomicRotationDegrees, angularVelocityDegreesPerSec, holonomicAngularVelocityDegreesPerSec
