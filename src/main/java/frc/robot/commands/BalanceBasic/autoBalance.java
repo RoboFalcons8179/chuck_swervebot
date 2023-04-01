@@ -58,7 +58,7 @@ public class autoBalance {
         // Speed the robot drives while balancing itself on the charge station.
         // Should be roughly half the fast speed, to make the robot more accurate,
         // default = 0.2
-        robotSpeedSlow = 0.195; // 0.25
+        robotSpeedSlow = 0.195;
 
         // Final correction speed
         robotSpeedCreep = 0.15;
@@ -163,7 +163,7 @@ public class autoBalance {
                 if (true) {
                     debounceCount++;
                 }
-                if (debounceCount > secondsToTicks(1.16)) {
+                if (debounceCount > secondsToTicks(1.16)) { // <----mEDIUM SPEED TIMING
                     state = 2;
                     debounceCount = 0;
 

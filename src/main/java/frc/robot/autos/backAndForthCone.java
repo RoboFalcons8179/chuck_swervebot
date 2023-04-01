@@ -46,9 +46,9 @@ new updateHoldPosition(() -> 125, () -> 155, arm),
 
 new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
-new openClaw(claw).withTimeout(0.5), // do quick open to get it out
+new openClaw(claw).withTimeout(1), // do quick open to get it out
 
-new squeezeClaw(claw).withTimeout(0.2),
+new squeezeClaw(claw).withTimeout(0.5),
 
 // From Tim - TEST THIS LINE. IT NEEDS TO TRIGGER US TO DRIVE. you might have to change this degree\/
 new updateHoldPosition(() -> 125, () -> 65, arm).repeatedly().until(() -> arm.elbowCurrentAngle() > (100)),

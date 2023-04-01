@@ -412,20 +412,22 @@ public class RobotContainer {
         driver_b.onTrue((new updateHoldPosition(() -> -65, () -> 30, arm).repeatedly())
                         .until(() -> arm.shoulderCurrentAngle()< (-50))
                 
-                .andThen(new openClaw(claw).withTimeout(1.2))
+                .alongWith(new openClaw(claw).withTimeout(1.2))
                     .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
-                     .until(() -> arm.elbowCurrentAngle() > 90)
+                     .until(() -> arm.elbowCurrentAngle() > 110)
                      .andThen(new updateHoldPosition(() -> -45, () -> 120, arm).repeatedly())
-                     .andThen(new closeClaw(claw).withTimeout(2))
+                     
                 );
 
 
-        driver_b.onFalse((new updateHoldPosition(() -> -75, () -> arm.getHoldElbow(), arm))
-            .until(() -> arm.shoulderCurrentAngle() < (-70))
-            .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
-                        .until(() -> arm.elbowCurrentAngle() < 60)
-                .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)
-            .alongWith(new squeezeClaw(claw)))
+        driver_b.onFalse(
+            (new squeezeClaw(claw))
+            // .andThen(new updateHoldPosition(() -> -75, () -> arm.getHoldElbow(), arm).repeatedly())
+            // .until(() -> arm.shoulderCurrentAngle() < (-70))
+            // .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+            // .until(() -> arm.elbowCurrentAngle() < 60)
+            // .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)
+            // .alongWith(new squeezeClaw(claw)))
         );
 
 
@@ -443,7 +445,7 @@ public class RobotContainer {
         // control board picking up from human player shelf
         pickupPlayer.onTrue((new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
         .until(() -> arm.shoulderCurrentAngle() > (90)))
-        .andThen(new updateHoldPosition(() -> 130, () -> 175, arm)
+        .andThen(new updateHoldPosition(() -> 133, () -> 175, arm)
             .alongWith(new openClaw(claw).withTimeout(1.2))));
     
 
@@ -873,7 +875,7 @@ public class RobotContainer {
      // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
 
      // Actual Auton
-     .andThen(new backAndForthCone(s_Swerve, arm, claw))
+     .andThen(new backAndForth(s_Swerve, arm, claw))
      .andThen(new backAndForthCleanup(arm, claw)
      .alongWith(new autoBalanceFromInternet(s_Swerve, 0.0)));
 
@@ -887,22 +889,22 @@ public class RobotContainer {
      // .andThen(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()))
 
      // Actual Auton
-     .andThen(new backAndForthCone(s_Swerve, arm, claw))
+     .andThen(new backAndForth(s_Swerve, arm, claw))
      .andThen( (new backAndForthCleanup(arm, claw))
      .alongWith(new TeleopSwerve(
          s_Swerve, 
-         () -> 0.915, //.93, 
+         () -> 0.7, //.915
          () -> 0, 
          () -> 0, 
-         () -> true,
+         () -> false,
          () -> true                
-     )).withTimeout(3.20))
+     )).withTimeout(3.5))//3.2
 
      
      
      .andThen(new zero(s_Swerve))
      .andThen(new autoBalanceFromInternet(s_Swerve, Math.PI));
-
+    
 
 
 
@@ -943,7 +945,7 @@ public class RobotContainer {
 // Either use above or below block. Use beloe for going to the april tag.
 
  .andThen( new InstantCommand(() -> lime.april_init())
-     .alongWith(new zero(s_Swerve))
+    //  .alongWith(new zero(s_Swerve))
      .alongWith( 
          ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
          .until(() -> arm.elbowCurrentAngle() < (60))
@@ -952,17 +954,19 @@ public class RobotContainer {
  // )
  
  
- )
+//  )
 
- // zoom forward
- .andThen(((new InstantCommand(() -> 
+//  // zoom forward
+//  .andThen(((new InstantCommand(() -> 
 
-     s_Swerve.drive(new Translation2d(-6,0.2), 
-         0,
-         true,
-         false)
+//      s_Swerve.drive(new Translation2d(-6,0.2), 
+//          0,
+//          true,
+//          false)
      
-     )).repeatedly()).withTimeout(0.9))
+//      )).repeatedly()).withTimeout(0.9))
+
+ );
 
  // .andThen(new zeroTag(s_Swerve, lime))
 
@@ -1010,7 +1014,7 @@ public class RobotContainer {
  // Either use above or below block. Use beloe for going to the april tag.
 
      .andThen( new InstantCommand(() -> lime.april_init())
-         .alongWith(new zero(s_Swerve))
+        //  .alongWith(new zero(s_Swerve))
          .alongWith( 
              ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
              .until(() -> arm.elbowCurrentAngle() < (60))
@@ -1022,14 +1026,14 @@ public class RobotContainer {
      )
 
      // zoom forward
-     .andThen(((new InstantCommand(() -> 
+    //  .andThen(((new InstantCommand(() -> 
  
-         s_Swerve.drive(new Translation2d(-6,-0.2), 
-             0,
-             true,
-             false)
+    //      s_Swerve.drive(new Translation2d(-6,-0.2), 
+    //          0,
+    //          true,
+    //          false)
          
-         )).repeatedly()).withTimeout(0.9))
+    //      )).repeatedly()).withTimeout(0.9))
 
          ;
 
@@ -1070,7 +1074,7 @@ public class RobotContainer {
 // Either use above or below block. Use beloe for going to the april tag.
 
  .andThen( new InstantCommand(() -> lime.april_init())
-     .alongWith(new zero(s_Swerve))
+    //  .alongWith(new zero(s_Swerve))
      .alongWith( 
          ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
          .until(() -> arm.elbowCurrentAngle() < (60))
@@ -1081,15 +1085,15 @@ public class RobotContainer {
  
  )
 
- // zoom forward
- .andThen(((new InstantCommand(() -> 
+//  // zoom forward
+//  .andThen(((new InstantCommand(() -> 
 
-     s_Swerve.drive(new Translation2d(-3,0), 
-         0,
-         true,
-         false)
+//      s_Swerve.drive(new Translation2d(-3,0), 
+//          0,
+//          true,
+//          false)
      
-     )).repeatedly()).withTimeout(1.05))
+//      )).repeatedly()).withTimeout(1.05))
 
  // .andThen(new zeroTag(s_Swerve, lime))
 
@@ -1132,7 +1136,7 @@ public class RobotContainer {
 // Either use above or below block. Use beloe for going to the april tag.
 
  .andThen( new InstantCommand(() -> lime.april_init())
-     .alongWith(new zero(s_Swerve))
+    //  .alongWith(new zero(s_Swerve))
      .alongWith( 
          ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
          .until(() -> arm.elbowCurrentAngle() < (60))
@@ -1144,14 +1148,14 @@ public class RobotContainer {
  )
 
  // zoom forward
- .andThen(((new InstantCommand(() -> 
+//  .andThen(((new InstantCommand(() -> 
 
-     s_Swerve.drive(new Translation2d(-3,0), 
-         0,
-         true,
-         false)
+//      s_Swerve.drive(new Translation2d(-3,0), 
+//          0,
+//          true,
+//          false)
      
-     )).repeatedly()).withTimeout(0.9))
+//      )).repeatedly()).withTimeout(0.9))
 
  // .andThen(new zeroTag(s_Swerve, lime))
  

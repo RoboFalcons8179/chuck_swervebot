@@ -6,9 +6,12 @@ import frc.robot.subsystems.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -51,18 +54,24 @@ public class TeleopSwerve extends CommandBase {
         
         
         /* Filter the control values*/
-        double translationVal = s_Swerve.filterInput(MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband));
-        double strafeVal = s_Swerve.filterInput(MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband));
-        double rotationVal = s_Swerve.filterInput(MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband));
+        // double translationVal = s_Swerve.filterInput(MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband));
+        // double strafeVal = s_Swerve.filterInput(MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband));
+        // double rotationVal = s_Swerve.filterInput(MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband));
 
+        double translationVal   = deadband(translationSup.getAsDouble());
+        double strafeVal        = deadband(strafeSup.getAsDouble());
+        double rotationVal      = deadband(rotationSup.getAsDouble());
 
         Translation2d init = new Translation2d(translationVal, strafeVal);
 
         double mag = init.getNorm();
 
+        if (mag > 1)
+            mag = 1;
+        
+
         mag = Math.pow(mag, 3);
-
-
+        
 
         // // stick filtering
         // translationVal = Math.pow(translationVal, 3);
@@ -125,5 +134,18 @@ public class TeleopSwerve extends CommandBase {
             isOpenLoop
         );
        // }
+
+
+
     }
+
+    private double deadband(double in) {
+
+        if ( in < Constants.stickDeadband && in > -Constants.stickDeadband)
+            {return 0;}
+        else
+            {return in;}
+
+
+   }
 }
