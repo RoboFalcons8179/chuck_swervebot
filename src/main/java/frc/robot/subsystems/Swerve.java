@@ -255,19 +255,19 @@ public class Swerve extends SubsystemBase {
         swerveOdometry.update(getYaw(), getModulePositions());  
 
         // SWERVE GYRO FILTERING - USED FOR BALANCING
-        xAcc = xAccfilter.calculate(gyro.getWorldLinearAccelX());
-        yAcc = yAccfilter.calculate(gyro.getWorldLinearAccelY());
-        zAcc = zAccfilter.calculate(gyro.getWorldLinearAccelZ());
+        // xAcc = xAccfilter.calculate(gyro.getWorldLinearAccelX());
+        // yAcc = yAccfilter.calculate(gyro.getWorldLinearAccelY());
+        // zAcc = zAccfilter.calculate(gyro.getWorldLinearAccelZ());
 
 
-        /// TROUBLESHOOTING
-        // Shuffleboard.selectTab("SWERVE");
+        // /// TROUBLESHOOTING
+        // // Shuffleboard.selectTab("SWERVE");
 
-        for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
-        }
+        // for(SwerveModule mod : mSwerveMods){
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+        // }
 
         double[] encoderValues = ArmControl.getEncoderValues();
 

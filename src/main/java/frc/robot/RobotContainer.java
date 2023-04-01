@@ -446,7 +446,7 @@ public class RobotContainer {
         pickupPlayer.onTrue((new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
         .until(() -> arm.shoulderCurrentAngle() > (90)))
         .andThen(new updateHoldPosition(() -> 133, () -> 175, arm)
-            .alongWith(new openClaw(claw).withTimeout(1.2))));
+            .alongWith(new openClaw(claw).withTimeout(0.7))));
     
 
         //pickupPlayer.onTrue(new updateHoldPosition(() -> 115, () -> 149, arm));
@@ -890,18 +890,36 @@ public class RobotContainer {
 
      // Actual Auton
      .andThen(new backAndForth(s_Swerve, arm, claw))
-     .andThen( (new backAndForthCleanup(arm, claw))
-     .alongWith(new TeleopSwerve(
-         s_Swerve, 
-         () -> 0.7, //.915
-         () -> 0, 
-         () -> 0, 
-         () -> false,
-         () -> true                
-     )).withTimeout(3.5))//3.2
+
+
+     .andThen( 
+        
+        // (new backAndForthCleanup(arm, claw))
+
+        ////
+
+        (new squeezeClaw(claw).withTimeout(0.1))
+        // new closeClaw(claw).withTimeout(0.5)
+        
+        .alongWith(new updateHoldPosition(() -> -6, () -> 45, arm))
+
+        /////
+
+
+
+        .alongWith(new TeleopSwerve(
+            s_Swerve, 
+            () -> 0.75, //.915
+            () -> 0, 
+            () -> 0, 
+            () -> false,
+            () -> true                
+        )).withTimeout(3.2)
+        
+    )//3.2
 
      
-     
+     .andThen(new InstantCommand(() -> claw.stop()))
      .andThen(new zero(s_Swerve))
      .andThen(new autoBalanceFromInternet(s_Swerve, Math.PI));
     

@@ -363,7 +363,8 @@ public class ArmControl extends SubsystemBase {
     SmartDashboard.putNumber("ShoulderSetPt", shoulderSetpoint);
     SmartDashboard.putNumber("ShoulderActual", shoulderCurrentAngle());
     
-
+    SmartDashboard.putNumber("LShoulder Temp", shoulderMotorLeft.getTemperature()*9/5+32);
+    SmartDashboard.putNumber("RShoulder Temp", shoulderMotorRight.getTemperature()*9/5+32);
 
   }
 

@@ -24,6 +24,7 @@ public class backAndForthCleanup extends SequentialCommandGroup {
     addCommands(
 
       new squeezeClaw(claw).withTimeout(0.1),
+      // new closeClaw(claw).withTimeout(0.5)
     
       //(new updateHoldPosition(() -> 60, () -> 65, arm).repeatedly()),//.until(() -> arm.elbowCurrentAngle() > (90)), // doWith or Parrallel
 

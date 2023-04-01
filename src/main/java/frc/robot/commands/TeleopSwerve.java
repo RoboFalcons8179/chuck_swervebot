@@ -89,6 +89,7 @@ public class TeleopSwerve extends CommandBase {
         // Toggling Field Relitive
             // IF the last button does not equal this button, and the last mode was false
             // aka when the button is pressed, do this
+
         if(robotCentricSup.getAsBoolean() != robotCenticSupLast && robotCenticSupLast == false) {
 
             robotCent = !robotCent;
@@ -96,6 +97,10 @@ public class TeleopSwerve extends CommandBase {
         }
 
         robotCenticSupLast = robotCentricSup.getAsBoolean();
+
+        // Sam request to delete robot centric
+
+        robotCent = false;
 
         // Initalize Drive Translation 2D values. These are the speeds fed to the controller.
         // These are scaled by the MAX_SPEED and maxAngleVelocity in constants.        

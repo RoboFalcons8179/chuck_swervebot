@@ -99,7 +99,7 @@ new WaitCommand(4).until(() -> arm.isAtSetpoints()),
 
 new openClaw(claw).withTimeout(1), // do quick open to get it out
 
-new closeClaw(claw).withTimeout(0.5),
+//new closeClaw(claw).withTimeout(0.5),
 
 new updateHoldPosition(() -> 115, () -> 65, arm).repeatedly().until(() -> arm.elbowIsAtSetpoint()), // doWith or Parrallel
                             // ^potentally tto 70
