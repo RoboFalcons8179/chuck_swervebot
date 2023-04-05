@@ -29,7 +29,7 @@ public class ArmControl extends SubsystemBase {
   public static final double m_elbow = (5027-0)/(180-75);
     // (y1-y2)/(x1-x2), in encoder tics / degrees
 
-  public static final double startPositionto90Shoulder = 45803/3;//TODO change for the shoulder gear ratio
+  public static final double startPositionto90Shoulder = 45803;//TODO change for the shoulder gear ratio did that -Mason
 
   public double elbowSetpoint = 0;
   public double shoulderSetpoint = 0;
