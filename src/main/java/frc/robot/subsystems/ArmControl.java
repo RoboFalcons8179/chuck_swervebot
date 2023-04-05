@@ -29,7 +29,7 @@ public class ArmControl extends SubsystemBase {
   public static final double m_elbow = (5027-0)/(180-75);
     // (y1-y2)/(x1-x2), in encoder tics / degrees
 
-  public static final double startPositionto90Shoulder = 45803;//TODO change for the shoulder gear ratio did that -Mason
+  public static final double startPositionto90Shoulder = ((45803)*20)/27;//TODO change for the shoulder gear ratio did that -Mason
 
   public double elbowSetpoint = 0;
   public double shoulderSetpoint = 0;
@@ -67,6 +67,8 @@ public class ArmControl extends SubsystemBase {
     shoulderMotorRight.config_kF(0, Constants.kArm.kShoulderF);
 
     shoulderMotorLeft.configMaxIntegralAccumulator(0, 100000);
+    shoulderMotorLeft.configMotionCruiseVelocity(Constants.kArm.shoulderVel);
+    shoulderMotorLeft.configMotionAcceleration(Constants.kArm.shoulderAccel);
 
 
 
@@ -143,7 +145,7 @@ public class ArmControl extends SubsystemBase {
     //TODO increase the value of the error zone of the shoulder control loop, increase the maximum intergal accumalation//
 
     // change this if you want to actively hold/float the values or
-    // just have the arm sit there.
+    // just have the arm sit there.crui
 
     goToElbowSetpoint(holdElbow);
     goToShoulderSetpoint(holdShoulder);

@@ -239,7 +239,7 @@ public final class Constants {
         public static double kShoulderF = 0.00005;
         public static double kShoulderG = 0.085; // From Tims experiments on 3/5*/
 
-        public static double kShoulderP = 0.2;
+        public static double kShoulderP = .2;//.2;
         public static double kShoulderI = 0;//0.0005;
         public static double kShoulderD = 0.03;//0.01;
         public static double kShoulderF = 0.002;//0.00005;
@@ -249,7 +249,7 @@ public final class Constants {
 
         // Shoulder Motion Magic
         public static double shoulderAccel = 10000;
-        public static double shoulderVel = 15000;
+        public static double shoulderVel =15000;
 
         //Shoulders//
         public static double kShoulderForward = 0;
