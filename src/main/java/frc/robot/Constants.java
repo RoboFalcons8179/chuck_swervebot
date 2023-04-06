@@ -248,8 +248,8 @@ public final class Constants {
         public static final double kGElbowOnShoulder = 0.002;
 
         // Shoulder Motion Magic
-        public static double shoulderAccel = 10000;
-        public static double shoulderVel =15000;
+        public static double shoulderAccel = 20000;
+        public static double shoulderVel =21000;
 
         //Shoulders//
         public static double kShoulderForward = 0;
