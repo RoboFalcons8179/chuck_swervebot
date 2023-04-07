@@ -172,10 +172,13 @@ public final class traj {
 
         static List<Pose2d> humpRedList = 
         List.of(
-            new Pose2d(1.91, -1.63, zero), 
-            new Pose2d(2.44, -0.85, zero), 
-            new Pose2d(3.88, -0.85, zero), 
-            new Pose2d(6.6, -0.64, zero) 
+            // new Pose2d(1.91, -1.63, zero), 
+            // new Pose2d(2.44, -0.85, zero), 
+            // new Pose2d(3.88, -0.85, zero), 
+            // new Pose2d(6.6, -0.64, zero) 
+            new Pose2d(1.85, 4.4, zero), 
+            new Pose2d(2, 5, zero), 
+            new Pose2d(6.41, 5.177, zero)
 
         );
 

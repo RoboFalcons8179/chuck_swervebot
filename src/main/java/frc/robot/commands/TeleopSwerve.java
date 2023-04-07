@@ -80,7 +80,7 @@ public class TeleopSwerve extends CommandBase {
         // Sam wanted Turbo
          if(turbo.getAsBoolean()==true){
 
-            mag = mag * 1.5;
+            mag = mag * 1.7;
 
             // translationVal = 1.5 * translationVal;
             // strafeVal = 1.5 * strafeVal;

@@ -63,6 +63,8 @@ public class RobotContainer {
     private final Joystick board = new Joystick(3);
     
     
+    
+    
     /* BIG TODO FROM TIM:
      * Clean up the driver buttons and commands. Label them if they are for competition and/or reseved for a function later.
      * YOU ONLY MOVE A BUTTON TO THE RESERVED FOR COMPETION IF THE DRIVE TEAM OR MENTOR APPROVES.
@@ -239,6 +241,9 @@ public class RobotContainer {
         // Gripper buttons
     private final JoystickButton openClawBoard = new JoystickButton(board, 9);
     private final JoystickButton squeezeClawBoard = new JoystickButton(board, 7);
+    private final JoystickButton cubeCarry = new JoystickButton(panel, 4);
+    private final JoystickButton cubeSqueeze = new JoystickButton(panel, 6);
+    
 
 
 
@@ -386,7 +391,7 @@ public class RobotContainer {
 
 
         // carry button on control board
-        carryButton.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+        carryButton.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
         .until(() -> arm.elbowCurrentAngle() < 60)
         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)));
 
@@ -394,13 +399,21 @@ public class RobotContainer {
         // cone high button on control board
         coneHigh.onTrue(new updateHoldPosition(() -> 142, () -> arm.getHoldElbow(), arm).repeatedly()
             .until(() -> arm.shoulderCurrentAngle() > (90))
-            .andThen(new updateHoldPosition(() -> 142, () -> 165, arm)));
+            .andThen(new updateHoldPosition(() -> 135, () -> 165, arm)));
+
+        coneHigh.onFalse(new updateHoldPosition(() -> 142, () -> arm.getHoldElbow(), arm).repeatedly()
+            .until(() -> arm.shoulderCurrentAngle() > (90))
+            .andThen(new updateHoldPosition(() -> 128, () -> 165, arm)));    
         
 
         // cone mid on control board
         coneMid.onTrue(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
-            .until(() -> arm.shoulderCurrentAngle() > (90))
+            .until(() -> arm.shoulderCurrentAngle() > (65))
             .andThen(new updateHoldPosition(() -> 115, () -> 141, arm)));
+            
+        coneMid.onFalse(new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
+            .until(() -> arm.shoulderCurrentAngle() > (65))
+            .andThen(new updateHoldPosition(() -> 105, () -> 141, arm)));
 
 
         // pickup and score low
@@ -410,29 +423,27 @@ public class RobotContainer {
 
 
         driver_b.onTrue((new updateHoldPosition(() -> -65, () -> 30, arm).repeatedly())
-                        .until(() -> arm.shoulderCurrentAngle()< (-50))
-                
-                .alongWith(new openClaw(claw).withTimeout(1.2))
+                    .until(() -> arm.shoulderCurrentAngle()< (-50))
                     .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
-                     .until(() -> arm.elbowCurrentAngle() > 110)
-                     .andThen(new updateHoldPosition(() -> -45, () -> 120, arm).repeatedly())
-                     
+                    .until(() -> arm.elbowCurrentAngle() > 110)
+                    .andThen(new updateHoldPosition(() -> 5, () -> 250, arm))
+                    .andThen(new openClaw(claw).withTimeout(1.2))                     
                 );
 
 
         driver_b.onFalse(
-            (new squeezeClaw(claw))
-            // .andThen(new updateHoldPosition(() -> -75, () -> arm.getHoldElbow(), arm).repeatedly())
-            // .until(() -> arm.shoulderCurrentAngle() < (-70))
-            // .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
-            // .until(() -> arm.elbowCurrentAngle() < 60)
-            // .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)
-            // .alongWith(new squeezeClaw(claw)))
+            (new squeezeClaw(claw).withTimeout(.75))
+            .andThen(new updateHoldPosition(() -> -60, () -> arm.getHoldElbow(), arm).repeatedly())
+            .until(() -> arm.shoulderCurrentAngle() < (-55))
+            .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+            .until(() -> arm.elbowCurrentAngle() < 60)
+            .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)
+            .alongWith(new squeezeClaw(claw)))
         );
 
 
 
-        zero.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+        zero.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
             .until(() -> arm.elbowCurrentAngle() < (60))
             .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))
             .until(() -> arm.isAtSetpoints())
@@ -445,7 +456,7 @@ public class RobotContainer {
         // control board picking up from human player shelf
         pickupPlayer.onTrue((new updateHoldPosition(() -> 115, () -> arm.getHoldElbow(), arm).repeatedly()
         .until(() -> arm.shoulderCurrentAngle() > (90)))
-        .andThen(new updateHoldPosition(() -> 133, () -> 175, arm)
+        .andThen(new updateHoldPosition(() -> 125, () -> 177, arm)
             .alongWith(new openClaw(claw).withTimeout(0.7))));
     
 
@@ -462,9 +473,13 @@ public class RobotContainer {
 
         backwardElbow.onTrue(new updateHoldPosition(() -> arm.getHoldShoulder(), () -> (arm.getHoldElbow() + 2), arm));
 
+        cubeCarry.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+        .until(() -> arm.elbowCurrentAngle() < 60)
+        .andThen(new updateHoldPosition(() -> 25, () -> 38, arm)));
 
-
-
+        cubeSqueeze.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+        .until(() -> arm.elbowCurrentAngle() < 60)
+        .andThen(new updateHoldPosition(() -> 25, () -> 60, arm)));
 
         // Conrol Board Grabber Buttons
         openClawBoard.whileTrue(new openClaw(claw));
@@ -898,7 +913,7 @@ public class RobotContainer {
 
         ////
 
-        (new squeezeClaw(claw).withTimeout(0.1))
+        (new closeClaw(claw).withTimeout(0.5))
         // new closeClaw(claw).withTimeout(0.5)
         
         .alongWith(new updateHoldPosition(() -> -6, () -> 45, arm))
@@ -936,10 +951,9 @@ public class RobotContainer {
  .andThen(new backAndForthCleanup(arm, claw)
 
  // move to next piece
-     .alongWith(new doTrajectory(s_Swerve, traj.rotate))))
+     .alongWith(new doTrajectory(s_Swerve, traj.rotate)))
 
-
- .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(158)))
+ 
 
  // pickup next piece
  .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
@@ -947,6 +961,7 @@ public class RobotContainer {
      // .withTimeout(0.1)
      .until(() -> arm.shoulderCurrentAngle() > (25))
      .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+ 
  .andThen(new squeezeClaw(claw).withTimeout(1.0))
 
  // Rotate back, initalize the camera, and bring arm back to carry
@@ -958,21 +973,20 @@ public class RobotContainer {
  //         .until(() -> arm.elbowCurrentAngle() < (60))
  //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
 
- )
+
 
 // Either use above or below block. Use beloe for going to the april tag.
 
  .andThen( new InstantCommand(() -> lime.april_init())
     //  .alongWith(new zero(s_Swerve))
      .alongWith( 
-         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new closeClaw(claw)))
          .until(() -> arm.elbowCurrentAngle() < (60))
-         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))))
 
- // )
+ );
  
  
-//  )
 
 //  // zoom forward
 //  .andThen(((new InstantCommand(() -> 
@@ -984,59 +998,90 @@ public class RobotContainer {
      
 //      )).repeatedly()).withTimeout(0.9))
 
- );
+
 
  // .andThen(new zeroTag(s_Swerve, lime))
-
- 
- 
- 
- ;
 
 
 
  public Command twoferBlueCommand = 
 
  (
-     ((new InstantCommand(()-> s_Swerve.zeroGyro()))
+    new InstantCommand(()-> s_Swerve.zeroGyro())
+ 
+    // score first cone
+    .andThen(new backAndForthCone(s_Swerve, arm, claw))
+    
+   
+    // move to next piece
+        .andThen((new doTrajectory(s_Swerve, traj.humpRed))
+        .alongWith((new squeezeClaw(claw).withTimeout(0.1))
+        .andThen( new updateHoldPosition(() -> -6, () -> 45, arm).repeatedly())
+        .until(() -> arm.shoulderCurrentAngle()< (0))
+        .andThen( new updateHoldPosition(() -> -65, () -> 30, arm).repeatedly())
+        .until(() -> arm.shoulderCurrentAngle()< (-60))
+       ))
+       .andThen((new TeleopSwerve(
+           s_Swerve, 
+           () -> 0, 
+           () -> 0, 
+           () -> 0, 
+           () -> true,
+           () -> true               
+       )).withTimeout(.1)
+                   .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
+                   .until(() -> arm.elbowCurrentAngle() > 110)
+                   .andThen(new updateHoldPosition(() -> 5, () -> 250, arm))   
+                   .andThen(new openClaw(claw).withTimeout(1.2))
+                   )
+       .andThen(new squeezeClaw(claw).withTimeout(.75)
+               .andThen(new updateHoldPosition(() -> -60, () -> arm.getHoldElbow(), arm).repeatedly())
+               .until(() -> arm.shoulderCurrentAngle() < (-55))
+               .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+               .until(() -> arm.elbowCurrentAngle() < 60)
+               .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))
+               )
+   
+//      ((new InstantCommand(()-> s_Swerve.zeroGyro()))
      
-     // score first cone
-     .andThen(new backAndForthCone(s_Swerve, arm, claw))
-     .andThen(new backAndForthCleanup(arm, claw)
+//      // score first cone
+//      .andThen(new backAndForthCone(s_Swerve, arm, claw))
+     
+//      .andThen(new backAndForthCleanup(arm, claw)
 
-     // move to next piece
-         .alongWith(new doTrajectory(s_Swerve, traj.rotateBlue))))
+//      // move to next piece
+//          .alongWith(new doTrajectory(s_Swerve, traj.rotateBlue))))
 
 
-     .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(-158)))
+//      .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(-158)))
 
-     // pickup next piece
-     .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
-         .alongWith(new openClaw(claw)))
-         // .withTimeout(0.1)
-         .until(() -> arm.shoulderCurrentAngle() > (25))
-         .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
-     .andThen(new squeezeClaw(claw).withTimeout(1.0))
+//      // pickup next piece
+//      .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
+//          .alongWith(new openClaw(claw)))
+//          // .withTimeout(0.1)
+//          .until(() -> arm.shoulderCurrentAngle() > (25))
+//          .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+//      .andThen(new squeezeClaw(claw).withTimeout(1.0))
 
-     // Rotate back, initalize the camera, and bring arm back to carry
+//      // Rotate back, initalize the camera, and bring arm back to carry
  
      
-     // .andThen((new zero(s_Swerve))
-     //     .alongWith( 
-     //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
-     //         .until(() -> arm.elbowCurrentAngle() < (60))
-     //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+//      // .andThen((new zero(s_Swerve))
+//      //     .alongWith( 
+//      //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+//      //         .until(() -> arm.elbowCurrentAngle() < (60))
+//      //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
 
-     )
+//      )
 
- // Either use above or below block. Use beloe for going to the april tag.
+//  // Either use above or below block. Use beloe for going to the april tag.
 
-     .andThen( new InstantCommand(() -> lime.april_init())
-        //  .alongWith(new zero(s_Swerve))
-         .alongWith( 
-             ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
-             .until(() -> arm.elbowCurrentAngle() < (60))
-             .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+//      .andThen( new InstantCommand(() -> lime.april_init())
+//         //  .alongWith(new zero(s_Swerve))
+//          .alongWith( 
+//              ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+//              .until(() -> arm.elbowCurrentAngle() < (60))
+//              .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
 
      // )
      
@@ -1057,52 +1102,103 @@ public class RobotContainer {
 
 
  public Command humpRed = 
- (
- ((new InstantCommand(()-> s_Swerve.zeroGyro()))
+ new InstantCommand(()-> s_Swerve.zeroGyro())
  
  // score first cone
  .andThen(new backAndForthCone(s_Swerve, arm, claw))
- .andThen(new backAndForthCleanup(arm, claw)
+ 
 
  // move to next piece
-     .alongWith(new doTrajectory(s_Swerve, traj.humpRed))))
+     .andThen((new doTrajectory(s_Swerve, traj.humpRed))
+     .alongWith((new squeezeClaw(claw).withTimeout(0.1))
+     .andThen( new updateHoldPosition(() -> -6, () -> 45, arm).repeatedly())
+     .until(() -> arm.shoulderCurrentAngle()< (0))
+     .andThen( new updateHoldPosition(() -> -65, () -> 30, arm).repeatedly())
+     .until(() -> arm.shoulderCurrentAngle()< (-60))
+    ))
+    .andThen((new TeleopSwerve(
+        s_Swerve, 
+        () -> 0, 
+        () -> 0, 
+        () -> 0, 
+        () -> true,
+        () -> true               
+    )).withTimeout(.1)
+                .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
+                .until(() -> arm.elbowCurrentAngle() > 110)
+                .andThen(new updateHoldPosition(() -> 5, () -> 250, arm))   
+                .andThen(new openClaw(claw).withTimeout(1.2))
+                )
+    .andThen(new squeezeClaw(claw).withTimeout(.75)
+            .andThen(new updateHoldPosition(() -> -60, () -> arm.getHoldElbow(), arm).repeatedly())
+            .until(() -> arm.shoulderCurrentAngle() < (-55))
+            .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+            .until(() -> arm.elbowCurrentAngle() < 60)
+            .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))
+            )
+
+            //sams attempt at score the grabbed cube
+    //         .andThen (new zero(s_Swerve)
+    //         .alongWith(new InstantCommand(() -> lime.april_init())))
+    //         .andThen(new backAndForth(s_Swerve, arm, claw))
 
 
- .andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(-170)))
+    //  .andThen( 
 
- // pickup next piece
- .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
-     .alongWith(new openClaw(claw)))
-     // .withTimeout(0.1)
-     .until(() -> arm.shoulderCurrentAngle() > (25))
-     .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
- .andThen(new squeezeClaw(claw).withTimeout(1.0))
+    //     (new closeClaw(claw).withTimeout(0.5))
+        
+    //     .alongWith(new updateHoldPosition(() -> -6, () -> 45, arm))
+    
+    //         )
+              
+                
+                ;
+                
 
- // Rotate back, initalize the camera, and bring arm back to carry
+
+             
 
  
- // .andThen((new zero(s_Swerve))
- //     .alongWith( 
- //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
- //         .until(() -> arm.elbowCurrentAngle() < (60))
- //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
 
- )
 
-// Either use above or below block. Use beloe for going to the april tag.
 
- .andThen( new InstantCommand(() -> lime.april_init())
-    //  .alongWith(new zero(s_Swerve))
-     .alongWith( 
-         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
-         .until(() -> arm.elbowCurrentAngle() < (60))
-         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+//  //.andThen(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(-170)))
+// //old code
+// //  // pickup next piece
+// //  .andThen((new updateHoldPosition(() -> 45, () -> arm.elbowSetpoint, arm).repeatedly()
+// //      .alongWith(new openClaw(claw)))
+// //      // .withTimeout(0.1)
+// //      .until(() -> arm.shoulderCurrentAngle() > (25))
+// //      .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)))
+// //  .andThen(new squeezeClaw(claw).withTimeout(1.0))
 
+//  // Rotate back, initalize the camera, and bring arm back to carry
+
+ 
+//  // .andThen((new zero(s_Swerve))
+//  //     .alongWith( 
+//  //         ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+//  //         .until(() -> arm.elbowCurrentAngle() < (60))
+//  //         .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+ 
+
+// // Either use above or below block. Use beloe for going to the april tag.
+
+//  .andThen( new InstantCommand(() -> lime.april_init())
+//     //  .alongWith(new zero(s_Swerve))
+//      .alongWith( 
+//          ((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
+//          .until(() -> arm.elbowCurrentAngle() < (60))
+//          .andThen(new updateHoldPosition(() -> -6, () -> 45, arm))))
+
+//  )
+
+//    ;
  // )
  
  
- )
-
+ 
 //  // zoom forward
 //  .andThen(((new InstantCommand(() -> 
 
@@ -1114,10 +1210,6 @@ public class RobotContainer {
 //      )).repeatedly()).withTimeout(1.05))
 
  // .andThen(new zeroTag(s_Swerve, lime))
-
-
- ;
-
  public Command humpBlue = 
  (
  ((new InstantCommand(()-> s_Swerve.zeroGyro()))

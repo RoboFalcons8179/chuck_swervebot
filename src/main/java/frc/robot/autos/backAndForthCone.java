@@ -28,19 +28,14 @@ public class backAndForthCone extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-new updateHoldPosition(() -> -6, () -> 65, arm),
+(new updateHoldPosition(() -> -6, () -> 55, arm)).repeatedly().withTimeout(.6),
 
-new squeezeClaw(claw).withTimeout(0.55),//until(() -> claw.grabberMotor.getStatorCurrent() > 4),
-    
-//new doTrajectory(s_Swerve, traj.makeZ),
+(new squeezeClaw(claw).withTimeout(0.55)),
 
 // elbow is out if the way
 
-// new WaitCommand(4).until(() -> arm.isAtSetpoints()),
-
-new updateHoldPosition(() -> 125, () -> 45, arm).repeatedly().until(() -> arm.shoulderCurrentAngle() >  (60)), // shoulder poition is high enough for us to move the elbow
-
-//new WaitCommand(4).until(() -> arm.isAtSetpoints()),
+(new updateHoldPosition(() -> 125, () -> 45, arm).repeatedly())
+.until(() -> arm.shoulderCurrentAngle() >  (60)), // shoulder poition is high enough for us to move the elbow
 
 new updateHoldPosition(() -> 125, () -> 155, arm),
 

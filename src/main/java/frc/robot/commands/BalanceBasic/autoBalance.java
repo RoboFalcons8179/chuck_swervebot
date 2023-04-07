@@ -51,14 +51,14 @@ public class autoBalance {
          * CONFIG *
          **********/
         // Speed the robot drived while scoring/approaching station, default = 0.4
-        robotSpeedFast = 0.7;
+        robotSpeedFast = 0.75;
 
-        robotSpeedMedium = 0.535;
+        robotSpeedMedium = 0.6;//535;
 
         // Speed the robot drives while balancing itself on the charge station.
         // Should be roughly half the fast speed, to make the robot more accurate,
         // default = 0.2
-        robotSpeedSlow = 0.195;
+        robotSpeedSlow =0.185; //0.195;
 
         // Final correction speed
         robotSpeedCreep = 0.15;
@@ -71,7 +71,7 @@ public class autoBalance {
         // Angle where the robot can assume it is level on the charging station
         // Used for exiting the drive forward sequence as well as for auto balancing,
         // default = 6.0
-        levelDegree = 9.2; // from 8.8
+        levelDegree = 10.7; // from 9.1
 
         // Amount of time a sensor condition needs to be met before changing states in
         // seconds
@@ -163,7 +163,7 @@ public class autoBalance {
                 if (true) {
                     debounceCount++;
                 }
-                if (debounceCount > secondsToTicks(1.16)) { // <----mEDIUM SPEED TIMING
+                if (debounceCount > secondsToTicks(1.6)) { //1.16 <----mEDIUM SPEED TIMING
                     state = 2;
                     debounceCount = 0;
 
