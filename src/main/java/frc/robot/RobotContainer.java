@@ -288,7 +288,8 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> driver.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean(),
-                () -> turbo.getAsBoolean()                
+                () -> turbo.getAsBoolean(),
+                () -> driver_b.getAsBoolean()                
             )
         );
 
@@ -422,24 +423,25 @@ public class RobotContainer {
                 .andThen(new updateHoldPosition(() -> 45, () -> 110, arm)));
 
 
-        driver_b.onTrue((new updateHoldPosition(() -> -65, () -> 30, arm).repeatedly())
-                    .until(() -> arm.shoulderCurrentAngle()< (-50))
-                    .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
-                    .until(() -> arm.elbowCurrentAngle() > 110)
-                    .andThen(new updateHoldPosition(() -> 5, () -> 250, arm))
-                    .andThen(new openClaw(claw).withTimeout(1.2))                     
-                );
+
+        // driver_b.onTrue((new updateHoldPosition(() -> -65, () -> 30, arm).repeatedly())
+        //             .until(() -> arm.shoulderCurrentAngle()< (-50))
+        //             .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
+        //             .until(() -> arm.elbowCurrentAngle() > 110)
+        //             .andThen(new updateHoldPosition(() -> 5, () -> 250, arm))
+        //             .andThen(new openClaw(claw).withTimeout(1.2))                     
+        //         );
 
 
-        driver_b.onFalse(
-            (new squeezeClaw(claw).withTimeout(.75))
-            .andThen(new updateHoldPosition(() -> -60, () -> arm.getHoldElbow(), arm).repeatedly())
-            .until(() -> arm.shoulderCurrentAngle() < (-55))
-            .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
-            .until(() -> arm.elbowCurrentAngle() < 60)
-            .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)
-            .alongWith(new squeezeClaw(claw)))
-        );
+        // driver_b.onFalse(
+        //     (new squeezeClaw(claw).withTimeout(.75))
+        //     .andThen(new updateHoldPosition(() -> -60, () -> arm.getHoldElbow(), arm).repeatedly())
+        //     .until(() -> arm.shoulderCurrentAngle() < (-55))
+        //     .andThen(new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly())
+        //     .until(() -> arm.elbowCurrentAngle() < 60)
+        //     .andThen(new updateHoldPosition(() -> -6, () -> 45, arm)
+        //     .alongWith(new squeezeClaw(claw)))
+        // );
 
 
 
@@ -928,8 +930,9 @@ public class RobotContainer {
             () -> 0, 
             () -> 0, 
             () -> false,
-            () -> true                
-        )).withTimeout(3.2)
+            () -> true,
+            () -> false                
+        )).withTimeout(3)
         
     )//3.2
 
@@ -1027,7 +1030,8 @@ public class RobotContainer {
            () -> 0, 
            () -> 0, 
            () -> true,
-           () -> true               
+           () -> true,
+           () -> false               
        )).withTimeout(.1)
                    .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
                    .until(() -> arm.elbowCurrentAngle() > 110)
@@ -1122,7 +1126,8 @@ public class RobotContainer {
         () -> 0, 
         () -> 0, 
         () -> true,
-        () -> true               
+        () -> true,
+        () -> false               
     )).withTimeout(.1)
                 .andThen(new updateHoldPosition(() -> -65, () -> 120, arm).repeatedly())
                 .until(() -> arm.elbowCurrentAngle() > 110)

@@ -163,7 +163,7 @@ public class autoBalance {
                 if (true) {
                     debounceCount++;
                 }
-                if (debounceCount > secondsToTicks(1.6)) { //1.16 <----mEDIUM SPEED TIMING
+                if (debounceCount > secondsToTicks(1.3)) { //1.16 <----mEDIUM SPEED TIMING
                     state = 2;
                     debounceCount = 0;
 

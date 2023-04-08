@@ -24,6 +24,7 @@ public class TeleopSwerve extends CommandBase {
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
     private BooleanSupplier turbo;
+    private BooleanSupplier slowSpeed;
 
     // Troubleshooting
     private boolean robotCent;
@@ -35,7 +36,7 @@ public class TeleopSwerve extends CommandBase {
     public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, 
         DoubleSupplier strafeSup, DoubleSupplier rotationSup,
         BooleanSupplier robotCentricSup,
-        BooleanSupplier turbo
+        BooleanSupplier turbo, BooleanSupplier slowSpeed
         ) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
@@ -44,6 +45,7 @@ public class TeleopSwerve extends CommandBase {
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
         this.robotCentricSup = robotCentricSup;
+        this.slowSpeed = slowSpeed;
         robotCent = false;
         
 
@@ -85,6 +87,9 @@ public class TeleopSwerve extends CommandBase {
             // translationVal = 1.5 * translationVal;
             // strafeVal = 1.5 * strafeVal;
             
+         } // and a brake
+         else if(slowSpeed.getAsBoolean()) {
+            mag = mag * 0.65;
          }
         // Toggling Field Relitive
             // IF the last button does not equal this button, and the last mode was false
