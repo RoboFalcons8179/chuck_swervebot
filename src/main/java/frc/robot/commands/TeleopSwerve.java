@@ -87,13 +87,20 @@ public class TeleopSwerve extends CommandBase {
             // translationVal = 1.5 * translationVal;
             // strafeVal = 1.5 * strafeVal;
             
-         } // and a brake
+         } 
+        
+         // and a brake
          else if(slowSpeed.getAsBoolean()) {
             mag = mag * 0.65;
          }
-        // Toggling Field Relitive
+        
+        
+         // Toggling Field Relitive
             // IF the last button does not equal this button, and the last mode was false
             // aka when the button is pressed, do this
+
+            // this is overridden by sam for competition to be always on. We can re-enable it when
+            // we are done with competition.
 
         if(robotCentricSup.getAsBoolean() != robotCenticSupLast && robotCenticSupLast == false) {
 
