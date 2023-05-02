@@ -2,6 +2,8 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/ArmControl": "Subsystem",
+      "/SmartDashboard/Grabber": "Subsystem",
       "/SmartDashboard/Scheduler": "Scheduler",
       "/SmartDashboard/Swerve": "Subsystem",
       "/SmartDashboard/pVision": "Subsystem"

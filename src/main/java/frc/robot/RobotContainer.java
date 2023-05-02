@@ -101,6 +101,7 @@ public class RobotContainer {
     //private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
     private final JoystickButton driver_x = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton driver_b = new JoystickButton(driver, XboxController.Button.kB.value);
+    // private final JoystickButton leftDpad = new JoystickButton(driver, getRawAxis(0));
     
     
     private final JoystickButton driver_start = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
@@ -109,6 +110,7 @@ public class RobotContainer {
     /* ARM BUTTONS/Triggers - Testing */
     private final JoystickButton driver_rb = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
 
+    private final POVButton povUp = new POVButton(driver, 0);
     private final POVButton povLeft = new POVButton(driver, 270);
     private final POVButton povRight = new POVButton(driver, 90);
 
@@ -159,68 +161,6 @@ public class RobotContainer {
 
     private final Trigger driver_LT = new Trigger(driver_leftTriggerSupplier);
 
-
-    //     // This part makes it work with the command archetecture.
-
-
-
-    // private final Trigger approachRight = new Trigger(approachRightSupplier);
-
-
-    // private final BooleanSupplier approachLeftSupplier = new BooleanSupplier() {
-
-    //     @Override
-    //     public boolean getAsBoolean() {
-
-    //         if(driver.getPOV() < 316 && driver.getPOV() > 271)
-    //             return true;
-    //         else
-    //             return false;
-    //     }
-        
-    // };
-
-    // private final Trigger approachLeft = new Trigger(approachLeftSupplier);
-
-
-
-    // private final BooleanSupplier isShoudlerAdjustUp = new BooleanSupplier() {
-    //     // This part makes the thing that passes up the true false
-
-    //     @Override
-    //     public boolean getAsBoolean() {
-
-    //         if(panel.getRawAxis(panelY) == -1)
-    //             return true;
-    //         else
-    //             return false;
-    //     }
-        
-    // };
-
-    // private final Trigger shoulderAdjUp = new Trigger(isShoudlerAdjustUp);
-    //     // This part makes it work with the command archetecture.
-
-
-    // private final BooleanSupplier isShoulderAdjustDown = new BooleanSupplier() {
-
-    //     @Override
-    //     public boolean getAsBoolean() {
-
-    //         if(panel.getRawAxis(panelY) == 1)
-    //             return true;
-    //         else
-    //             return false;
-    //     }
-        
-    // };
-
-    // private final Trigger shoulderAdjDown = new Trigger(isShoulderAdjustDown);
-
-
-    //private final Joystick manualShoulder = new JoystickButton(panel, rotationAxis);
-    
-    // private final JoystickButton test = new JoystickButton(driver, XboxController.Button.kB.value);
     // Control Board Stuff//
     private final JoystickButton forwardShoulder = new JoystickButton(board, 1);
     private final JoystickButton backwardShoulder = new JoystickButton(board, 2);
@@ -244,23 +184,6 @@ public class RobotContainer {
     private final JoystickButton cubeCarry = new JoystickButton(panel, 4);
     private final JoystickButton cubeSqueeze = new JoystickButton(panel, 6);
     
-
-
-
-    // When we get a new switch change button number to what the switch is//
-    //private final JoystickButton grabForwardButton2 = new JoystickButton(panel, 0);
-
-    
-    // Stick buttons
-    // private final JoystickButton LeftSPS = new JoystickButton(stick, 9);
-    // private final JoystickButton LeftS = new JoystickButton(stick, 11);
-    // private final JoystickButton CenterSP = new JoystickButton(stick, 12);
-    // private final JoystickButton CenterSB = new JoystickButton(stick, 10);
-    //private final JoystickButton RightSPS = new JoystickButton(stick, 10);
-    //private final JoystickButton CenterSB = new JoystickButton(stick, 9);
-
-    // Switch buttons
-
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final Grabber claw = new Grabber();
@@ -384,7 +307,6 @@ public class RobotContainer {
 
         // counterAccel.onTrue(new autoBalanceFromInternet(s_Swerve).withTimeout(20));
 
-
         // driver go to carry command
         driver_rb.onTrue((new updateHoldPosition(() ->  arm.getHoldShoulder(), () -> 45, arm).repeatedly().alongWith(new squeezeClaw(claw)))
         .until(() -> arm.elbowCurrentAngle() < (60))
@@ -488,6 +410,7 @@ public class RobotContainer {
 
         squeezeClawBoard.onTrue(new squeezeClaw(claw));
 
+        povUp.debounce(0.04).whileTrue(new frontUnTip());
 
         // Auto driving up to tag stuff
         driver_select.debounce(0.04).whileTrue(
@@ -512,30 +435,30 @@ public class RobotContainer {
 
 
         
-        povLeft.debounce(0.04).whileTrue(
-            // new InstantCommand(() -> System.out.println(driver.getPOV(pov))));
+        // povLeft.debounce(0.04).whileTrue(
+        //     // new InstantCommand(() -> System.out.println(driver.getPOV(pov))));
 
-        (new 
-        InstantCommand(() -> lime.april_init())
-            .andThen(new WaitCommand(0.5)))
-            .alongWith(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(180)))
-            .andThen(new zeroTagHuman(s_Swerve, lime, 24.0)));
+        // (new 
+        // InstantCommand(() -> lime.april_init())
+        //     .andThen(new WaitCommand(0.5)))
+        //     .alongWith(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(180)))
+        //     .andThen(new zeroTagHuman(s_Swerve, lime, 24.0)));
 
-        povLeft.onFalse(new 
-            InstantCommand(() -> lime.goToDriverCam()));
+        // povLeft.onFalse(new 
+        //     InstantCommand(() -> lime.goToDriverCam()));
 
 
-        povRight.debounce(0.04).whileTrue(
-                // new InstantCommand(() -> System.out.println(driver.getPOV(pov))));
+        // povRight.debounce(0.04).whileTrue(
+        //         // new InstantCommand(() -> System.out.println(driver.getPOV(pov))));
     
-            (new 
-            InstantCommand(() -> lime.april_init())
-                .andThen(new WaitCommand(0.5)))
-                .alongWith(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(180)))
-                .andThen(new zeroTagHuman(s_Swerve, lime, -24.0)));
+        //     (new 
+        //     InstantCommand(() -> lime.april_init())
+        //         .andThen(new WaitCommand(0.5)))
+        //         .alongWith(new zeroTarget(s_Swerve, Rotation2d.fromDegrees(180)))
+        //         .andThen(new zeroTagHuman(s_Swerve, lime, -24.0)));
     
-        povRight.onFalse(new 
-                InstantCommand(() -> lime.goToDriverCam()));
+        // povRight.onFalse(new 
+        //         InstantCommand(() -> lime.goToDriverCam()));
 
 
 
