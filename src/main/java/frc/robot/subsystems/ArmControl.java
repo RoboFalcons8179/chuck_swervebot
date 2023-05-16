@@ -262,6 +262,21 @@ public class ArmControl extends SubsystemBase {
       
   }
 
+  public void setMaxOutput(double percentOutput) {
+    percentOutput = Math.min(Math.max(0, percentOutput), 1);
+    elbowMotorLeft.configPeakOutputForward(percentOutput);
+  }
+
+  public void resetMaxOutput() {
+    elbowMotorLeft.configPeakOutputForward(0.4);
+    elbowMotorLeft.configPeakOutputReverse(-1);
+  }
+
+  public void elbowOverride(double percentOutput) {
+    
+    elbowMotorLeft.set(percentOutput);
+  }
+
   
   public static double elbowAngle2encoder(double degrees) {
     // mapping our desired anglular input to the right angular input.

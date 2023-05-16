@@ -111,8 +111,9 @@ public class RobotContainer {
     private final JoystickButton driver_rb = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
 
     private final POVButton povUp = new POVButton(driver, 0);
-    private final POVButton povLeft = new POVButton(driver, 270);
     private final POVButton povRight = new POVButton(driver, 90);
+    private final POVButton povDown = new POVButton(driver, 180);
+    private final POVButton povLeft = new POVButton(driver, 270);
 
     /* Arm Axes - COMPERTITION */
 
@@ -410,7 +411,8 @@ public class RobotContainer {
 
         squeezeClawBoard.onTrue(new squeezeClaw(claw));
 
-        povUp.debounce(0.04).whileTrue(new frontUnTip());
+        povUp.debounce(0.04).whileTrue(new frontUnTip(arm).until(() -> (arm.elbowCurrentAngle() >= 310)));
+        povDown.debounce(0.04).whileTrue(new backUnTip(arm).until(() -> (arm.elbowCurrentAngle() <= 50)));
 
         // Auto driving up to tag stuff
         driver_select.debounce(0.04).whileTrue(

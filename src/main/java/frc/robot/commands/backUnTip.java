@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmControl;
 
 //what is this for?
-public class frontUnTip extends CommandBase{
+public class backUnTip extends CommandBase{
     private ArmControl arm;
 
-    public frontUnTip(ArmControl arm) {
+    public backUnTip(ArmControl arm) {
       this.arm = arm;
     }
 
@@ -21,7 +21,7 @@ public class frontUnTip extends CommandBase{
     public void execute() {
         System.out.println("It did a thing");
         arm.setMaxOutput(1);
-        arm.elbowOverride(1);
+        arm.elbowOverride(-1);
     }
     
 
