@@ -88,34 +88,50 @@ public class RobotContainer {
 
 
     /* Driver Buttons and Triggers - RESERVED FOR COMPETITION*/
+    // Y
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value); // reserved for swerve
-        //Y
-
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value); // reserved for swerve
-        // A
     
-    private final JoystickButton turbo = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-        // leftBumper
+    // A
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value); // reserved for swerve
+        
+    // LeftBumper
+    private final JoystickButton turbo = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);   
 
     /* Extra Driver Remote buttons for testing */
     //private final JoystickButton counterAccel = new JoystickButton(driver, XboxController.Button.kBack.value); // autobalance
+
+    // X
     private final JoystickButton driver_x = new JoystickButton(driver, XboxController.Button.kX.value);
+
+    // B
     private final JoystickButton driver_b = new JoystickButton(driver, XboxController.Button.kB.value);
     // private final JoystickButton leftDpad = new JoystickButton(driver, getRawAxis(0));
     
-    
+    // Start/Menu (Right Side)
     private final JoystickButton driver_start = new JoystickButton(driver, XboxController.Button.kStart.value); // reserved for swerve
+
+    // Select/View (Left Side)
     private final JoystickButton driver_select = new JoystickButton(driver, XboxController.Button.kBack.value);
 
     /* ARM BUTTONS/Triggers - Testing */
+
+    // What I believe to be the right bumper
     private final JoystickButton driver_rb = new JoystickButton(driver, XboxController.Button.kRightBumper.value); // testing for arm
 
-    private final POVButton povUp = new POVButton(driver, 0);
-    private final POVButton povRight = new POVButton(driver, 90);
-    private final POVButton povDown = new POVButton(driver, 180);
-    private final POVButton povLeft = new POVButton(driver, 270);
+    // Dpad Up
+    private final POVButton povUp = new POVButton(driver, 0); // self right front
 
-    /* Arm Axes - COMPERTITION */
+    // Dpad Down
+    private final POVButton povDown = new POVButton(driver, 180); // self right back
+    
+    // Dpad Left
+    private final POVButton povLeft = new POVButton(driver, 270); // tbd
+
+    // Dpad Right
+    private final POVButton povRight = new POVButton(driver, 90); // tbd
+
+
+    /* Arm Axis - COMPERTITION */
 
     /* ARM Buttons/Triggers - COMPETITION */
     
@@ -163,6 +179,9 @@ public class RobotContainer {
     private final Trigger driver_LT = new Trigger(driver_leftTriggerSupplier);
 
     // Control Board Stuff//
+
+    // From Mason: Will add meaning when I can see control board
+
     private final JoystickButton forwardShoulder = new JoystickButton(board, 1);
     private final JoystickButton backwardShoulder = new JoystickButton(board, 2);
     private final JoystickButton forwardElbow = new JoystickButton(board, 3);
@@ -633,7 +652,7 @@ public class RobotContainer {
         return basicBalance;
 
 
-        // // IMPORTANT CODE FOR AUTOBALANCE - back up and autobalance.
+        //IMPORTANT CODE FOR AUTOBALANCE - back up and autobalance.
         // return
         // // Robot Initalization
         // new InstantCommand(()-> s_Swerve.zeroGyro())
@@ -771,27 +790,6 @@ public class RobotContainer {
     () -> goSpeed.getAsBoolean()                
 )).withTimeout(2);
     */
-          // return new doPathTrajectory(s_Swerve,compMiddleBlue);
-        //centerBlue 
-    //.andThen(new WaitCommand(0.75)).andThen(new doPathTrajectory(s_Swerve, compMiddleBlue));
-
-        //center Red
-      //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compMiddleRed));
-
-        //right blue 
-        //return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compRightBlue));
-
-        //right red
-      // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compRightRed));
-        
-       //left blue
-      // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compLeftBlue));
-
-       //left red
-     // return new backAndForth(s_Swerve, arm, claw).andThen(new doPathTrajectory(s_Swerve, compLeftRed));
-     
-
-
 
         /*if (test.getAsBoolean() == true){
            return new doPathTrajectory(s_Swerve, CenterS);

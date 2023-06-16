@@ -46,7 +46,7 @@ public class TeleopSwerve extends CommandBase {
         this.rotationSup = rotationSup;
         this.robotCentricSup = robotCentricSup;
         this.slowSpeed = slowSpeed;
-        robotCent = false;
+        robotCent = true;
         
 
     }
@@ -105,7 +105,6 @@ public class TeleopSwerve extends CommandBase {
         if(robotCentricSup.getAsBoolean() != robotCenticSupLast && robotCenticSupLast == false) {
 
             robotCent = !robotCent;
-
         }
 
         robotCenticSupLast = robotCentricSup.getAsBoolean();

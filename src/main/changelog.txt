@@ -1,5 +1,14 @@
 
-https://prod.liveshare.vsengsaas.visualstudio.com/join?9FDC9E0A6D8AF0D8A14E583F7184C6B69902
+6/16/23
+
+    Labled Some Buttons
+    Hopefully Reenabled Robot Centric (sorry Sam)
+
+    Cleaned up some of my broken code stored in comments
+
+    Possibly add a comments file just for giant chunks of commented code
+
+    Plan to do more today or this weekend
 
 3/15/23
 
